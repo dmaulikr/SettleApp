@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6206.9" systemVersion="14A343f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="QLM-To-UbB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A361c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="XQE-CG-mtX">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
+        <deployment defaultVersion="1808" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <scenes>
         <!--SettleApp-->
@@ -20,7 +21,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="401"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="hWD-QM-aTH">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell1" id="hWD-QM-aTH">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hWD-QM-aTH" id="CLy-jl-FBm">
@@ -73,8 +74,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="SettleApp" id="ac3-t3-MEp">
-                        <barButtonItem key="backBarButtonItem" title="Tillbaka" id="jdm-bN-r2d"/>
-                        <barButtonItem key="leftBarButtonItem" image="menu-icon" style="plain" id="Hii-jH-HU9">
+                        <barButtonItem key="backBarButtonItem" title=" " id="jdm-bN-r2d"/>
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="menu-icon" id="Hii-jH-HU9">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <attributedString key="userComments">
                                 <fragment content="settingsBarButton">
@@ -150,8 +151,8 @@
                 <navigationController title="SettleApp" automaticallyAdjustsScrollViewInsets="NO" id="QLM-To-UbB" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="JlZ-v6-29v">
-                        <barButtonItem key="backBarButtonItem" title="Tillbaka" id="FnT-mY-hKH"/>
-                        <barButtonItem key="leftBarButtonItem" image="menu-icon" style="plain" id="76F-S0-lDb">
+                        <barButtonItem key="backBarButtonItem" title=" " id="FnT-mY-hKH"/>
+                        <barButtonItem key="leftBarButtonItem" image="menu-icon" id="76F-S0-lDb">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <attributedString key="userComments">
                                 <fragment content="settingsBarButton">
@@ -181,17 +182,99 @@
             </objects>
             <point key="canvasLocation" x="226" y="201"/>
         </scene>
+        <!--Login page-->
+        <scene sceneID="gPf-Fe-7XS">
+            <objects>
+                <viewController title="Login page" id="XQE-CG-mtX" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Kdm-SH-08N"/>
+                        <viewControllerLayoutGuide type="bottom" id="0ac-Un-CaO"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="tBM-Ka-I53">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="login-page-bg.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="kjj-e3-Fkp">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="569"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="aUA-dj-Pnu" appends="YES" id="l4u-Gn-JiX"/>
+                                </connections>
+                            </imageView>
+                            <button opaque="NO" alpha="0.89999997615814209" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GFV-Bj-Nhr">
+                                <rect key="frame" x="16" y="240" width="136" height="43"/>
+                                <color key="backgroundColor" red="0.3925283551" green="0.68470472100000002" blue="0.57790225740000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Registrera dig">
+                                    <color key="titleShadowColor" red="0.36078432199999999" green="0.6549019814" blue="0.5411764979" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" alpha="0.89999997615814209" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NgM-Te-w22">
+                                <rect key="frame" x="164" y="240" width="140" height="43"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Logga in">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="QLM-To-UbB" kind="modal" identifier="login-success" id="YK1-XP-Iy6"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="SettleApp.png" translatesAutoresizingMaskIntoConstraints="NO" id="b20-hK-OEU">
+                                <rect key="frame" x="94" y="279" width="133" height="71"/>
+                            </imageView>
+                            <textField clipsSubviews="YES" alpha="0.80000001192092896" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" usesAttributedText="YES" allowsEditingTextAttributes="YES" placeholder="Användarnamn" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="uMi-gM-S1P">
+                                <rect key="frame" x="16" y="129" width="288" height="41"/>
+                                <color key="backgroundColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
+                                <color key="tintColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="Användarnamn">
+                                        <attributes>
+                                            <font key="NSFont" metaFont="smallSystem"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardType="emailAddress" keyboardAppearance="alert" returnKeyType="next"/>
+                            </textField>
+                            <textField clipsSubviews="YES" alpha="0.80000001192092896" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" usesAttributedText="YES" allowsEditingTextAttributes="YES" placeholder="Lösenord" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="eKi-Fb-osk">
+                                <rect key="frame" x="16" y="178" width="288" height="41"/>
+                                <color key="backgroundColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
+                                <color key="tintColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="Lösenord">
+                                        <attributes>
+                                            <font key="NSFont" metaFont="smallSystem"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardAppearance="alert" returnKeyType="go"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                    </view>
+                    <navigationItem key="navigationItem" id="gZo-Lw-rh8"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                </viewController>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="aUA-dj-Pnu">
+                    <connections>
+                        <outlet property="delegate" destination="NgM-Te-w22" id="ahU-Gp-431"/>
+                    </connections>
+                </panGestureRecognizer>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="doM-mx-m3c" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="517" y="-470"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="SettleApp.png" width="480" height="80"/>
+        <image name="login-page-bg.jpg" width="640" height="1136"/>
         <image name="menu-icon" width="28" height="21"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4">
-            <size key="portraitSize" width="320" height="568"/>
-            <size key="landscapeSize" width="568" height="320"/>
-        </simulatedScreenMetrics>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>
