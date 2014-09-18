@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <scenes>
-        <!--SettleApp-->
+        <!--View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
                 <viewController id="vXZ-lx-hvc" customClass="ViewController" sceneMemberID="viewController">
@@ -28,7 +28,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" indentationLevel="3" indentationWidth="10" textLabel="1vC-8D-vtB" detailTextLabel="uHq-oQ-0gv" style="IBUITableViewCellStyleSubtitle" id="JuT-kL-OHx">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" indentationLevel="3" indentationWidth="10" reuseIdentifier="cell2" textLabel="1vC-8D-vtB" detailTextLabel="uHq-oQ-0gv" style="IBUITableViewCellStyleSubtitle" id="JuT-kL-OHx">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JuT-kL-OHx" id="p76-Fp-LDb">
@@ -54,7 +54,7 @@
                             <tabBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LI4-dx-UYs">
                                 <rect key="frame" x="0.0" y="455" width="320" height="49"/>
                                 <items>
-                                    <tabBarItem systemItem="contacts" id="g5b-kJ-1JZ"/>
+                                    <tabBarItem badgeValue="12" systemItem="contacts" id="g5b-kJ-1JZ"/>
                                 </items>
                                 <color key="tintColor" red="0.19511706600000001" green="0.66666666669999997" blue="0.52896063739999999" alpha="1" colorSpace="calibratedRGB"/>
                             </tabBar>
@@ -73,9 +73,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="SettleApp" id="ac3-t3-MEp">
+                    <navigationItem key="navigationItem" id="ac3-t3-MEp">
                         <barButtonItem key="backBarButtonItem" title=" " id="jdm-bN-r2d"/>
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="menu-icon" id="Hii-jH-HU9">
+                        <barButtonItem key="leftBarButtonItem" image="menu-icon" id="Hii-jH-HU9">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <attributedString key="userComments">
                                 <fragment content="settingsBarButton">
@@ -85,6 +85,9 @@
                                     </attributes>
                                 </fragment>
                             </attributedString>
+                            <connections>
+                                <segue destination="XQE-CG-mtX" kind="modal" id="7wx-Uh-1Gy"/>
+                            </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="tWQ-Jb-gP7">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
