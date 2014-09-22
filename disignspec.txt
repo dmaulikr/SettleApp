@@ -1,0 +1,15 @@
+UI-control 
+—
+Har han om allt det grafiska som syns för användaren. Det är t.ex. knappar, bilder och andra synliga ting. Den har hand om när användaren matar in någonting i appen, t.ex. namn, lösenord och skulder. Den skickar information vidare till User. 
+
+User
+—
+Tar emot information från UI-control. Innehåller funktioner som uträttar det UI-control ber om. Om informationen rör databasen så skickas den vidare till SQL-control som returnerar den önskade informationen. User har hand om alla beräkningar som rör skulder. 
+
+SQL-control
+—
+De enda uppgifter den ska göra är att läsa samt skriva till databasen, den kommer alltså samarbeta med php-skriptet.
+
+PHP-script
+— 
+Används som en mellanhand för att appen skall kunna synkronisera med MySQL-databasen på ett smidigt sätt genom att det pratar med SQL-control klassen som skickar begäran till scriptet. PHP-scriptet innehåller bland annat inloggningsuppgifterna till databasen.
