@@ -20,7 +20,7 @@
     [NSURLConnection connectionWithRequest:urlRequest delegate:self];
 }
 
-#programa mark NSURLConnectionDataProtocol Methods
+#pragma mark NSURLConnectionDataProtocol Methods
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
@@ -50,7 +50,7 @@
         
         // Create a new location object and set its props to JsonElement properties
         User *newUser = [[User alloc] init];
-        newUser.id = jsonElement[@"ID"];
+     //   newUser.id = jsonElement[@"Id"];
         newUser.username = jsonElement[@"Username"];
         newUser.name = jsonElement[@"Name"];
         newUser.surname = jsonElement[@"Surname"];
@@ -58,7 +58,7 @@
         newUser.Password = jsonElement[@"Password"];
         
         // Add this question to the users array
-        [_data addObject:newUser];
+        [_users addObject:newUser];
     }
     
     // Ready to notify delegate that data is ready and pass back items

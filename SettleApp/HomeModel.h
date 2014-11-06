@@ -8,7 +8,7 @@
 
 @interface HomeModel : NSObject <NSURLConnectionDataDelegate>
 
-@property (nonatomic, weak) id<HomeModelProtocol> deligate;
+@property (nonatomic, weak) id<HomeModelProtocol> delegate;
 
 - (void)downloadItems;
 
