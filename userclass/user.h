@@ -2,6 +2,7 @@
 #define USER_CLASS
 #include <vector>
 #include <memory>
+//#include <iterator>
 
 using namespace std;
 
@@ -11,8 +12,12 @@ using namespace std;
 
 class User{
 public:
-  User(const string & _username,const string & _name,const string & _surname,const int & _id,const vector<User> & _debts = {} ): username_{_username}, name_{_name}, surname_{_surname}, id_{_id}, debts{_debts}{};
+  User(const string & _username,const string & _name,const string & _surname,
+  const int & _id/*,const vector<shared_ptr<User> > & _debts = {{}}*/ ):
+  username_{_username}, name_{_name}, surname_{_surname}, id_{_id}/*, debts{std::make_move_iterator(shared_ptr<User>)}*/{};
+
   ~User() = default;
+
   string name() const {return name_;}
   string surname() const {return surname_;}
   string username() const {return username_;}
@@ -25,7 +30,7 @@ private:
   string surname_;
   int id_;
 protected:
-  vector<User> debts;
+  vector<shared_ptr<User> > debts;
 };
 
 
@@ -52,7 +57,11 @@ bool Contact::change_debt(const string & _username, const double & _debt){
 
 class Self: public User{
 public:
-  Self(const string & _username,const string & _name,const string & _surname,const int & _id,const string & _email,const  vector<User> & _debts = {} ):User(_username,_name,_surname,_id), email_{_email}, total_debt{0}/*, sql{SQL_Control()}*/{}
+  Self(const string & _username,const string & _name,
+  const string & _surname,const int & _id,const string & _email
+  /*,const  vector<User> & _debts = {}*/ ):
+  User(_username,_name,_surname,_id), email_{_email}, total_debt{0} /*, update_list{std::make_move_iterator(shared_ptr<User>)}*//*, sql{SQL_Control()}*/{
+  }
   ~Self() = default;
   
   string email() const {return email_;}
@@ -65,7 +74,7 @@ public:
 private:
   string email_;
   double total_debt;
-  vector<User> update_list;
+  vector<shared_ptr<User> > update_list;
   //SQL_Control sql;
 };
 
@@ -85,7 +94,7 @@ bool Self::update(){
   */
   
   for(auto & user: update_list){
-    if(user.name() == "") //if(!sql.update(user) return false;
+    if(user->name() == "") //if(!sql.update(user) return false;
       return false;
   }
   //return sql.update(*this);
@@ -106,11 +115,10 @@ bool Self::update(){
   
   for(auto & user: debts){
     
-    shared_ptr<User> usr = make_shared<User>(user);
-    shared_ptr<Contact> cont = std::dynamic_pointer_cast<Contact>(usr);
+    shared_ptr<Contact> cont = std::dynamic_pointer_cast<Contact>(user);
     if(cont){
-      if(user.username() == _username){
-        user.change_debt("", debt);
+      if(user->username() == _username){
+        user->change_debt("", debt);
         update_list.push_back(user);
       }
     }else{
@@ -121,14 +129,14 @@ bool Self::update(){
 }
 
 
-
+/*
 class Not_Complete: public User{
 public:
   
 private:
   double debt;
 };
-
+*/
 #endif
 
 
