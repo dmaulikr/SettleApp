@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-
+#import "User.h"
 
 @interface ViewController ()
 {
@@ -36,7 +36,7 @@
     _homeModel = [[HomeModel alloc] init];
     
     // Set this view controller object as the delegate for the home model object
-    _homeModel.deligate = self;
+    _homeModel.delegate = self;
     
     // Call the download items method of the home model object
     [_homeModel downloadItems];
@@ -91,11 +91,12 @@
     NSString *cellIdentifier = @"BasicCell";
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
-    // Get the location to be shown
+    // Get the user to be shown
     User *item = _feedItems[indexPath.row];
-    
     // Get references to labels of cell
-    myCell.textLabel.text = item.name;
+    NSString *fullName = [NSString stringWithFormat:@"%@ %@", item.name, item.surname];
+    myCell.textLabel.text = fullName;
+
     
     return myCell;
 }
