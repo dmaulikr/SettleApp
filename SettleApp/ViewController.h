@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HomeModel.h"
+@interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, HomeModelProtocol>
 
-@interface ViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UITableView *listTableView;
 
 @end
