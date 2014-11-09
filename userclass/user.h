@@ -12,9 +12,10 @@ using namespace std;
 
 class User{
 public:
-  User(const string & _username,const string & _name,const string & _surname,
-  const int & _id/*,const vector<shared_ptr<User> > & _debts = {{}}*/ ):
-  username_{_username}, name_{_name}, surname_{_surname}, id_{_id}/*, debts{std::make_move_iterator(shared_ptr<User>)}*/{};
+  User(const string & _username,const string & _name,const string & _surname
+  ,const int & _id/*,const vector<shared_ptr<User> > & _debts = {{}}*/ ):
+  username_{_username}, name_{_name}, surname_{_surname}, id_{_id},
+  debts{std::vector<shared_ptr<User> >()}{};
 
   ~User() = default;
 
@@ -43,14 +44,22 @@ shared_ptr<vector<User> > User::get_debts() const{
 
 class Contact: public User{
 public:
-  
+  Contact(const string & _username,const string & _name,
+  const string & _surname,const int & _id,const double & _debt
+  /*,const  vector<User> & _debts = {}*/ ):
+  User(_username,_name,_surname,_id), debt_{_debt} /*, update_list{std::make_move_iterator(shared_ptr<User>)}*//*, sql{SQL_Control()}*/{
+  }
+
+  ~Contact()=default;
+
+  double debt(){return debt_;}
   virtual bool change_debt(const string & _username, const double & _debt) final;
 private:
-  double debt;
+  double debt_;
 };
 
 bool Contact::change_debt(const string & _username, const double & _debt){
-  debt += _debt;
+  debt_ += _debt;
   return true;
 }
 
@@ -60,7 +69,8 @@ public:
   Self(const string & _username,const string & _name,
   const string & _surname,const int & _id,const string & _email
   /*,const  vector<User> & _debts = {}*/ ):
-  User(_username,_name,_surname,_id), email_{_email}, total_debt{0} /*, update_list{std::make_move_iterator(shared_ptr<User>)}*//*, sql{SQL_Control()}*/{
+  User(_username,_name,_surname,_id), email_{_email}, total_debt{0},
+  update_list{std::vector<shared_ptr<User> >()} /*, update_list{std::make_move_iterator(shared_ptr<User>)}*//*, sql{SQL_Control()}*/{
   }
   ~Self() = default;
   
@@ -84,7 +94,13 @@ bool Self::refresh(){
   ”SQL_control” att hämta information om skulderna och uppdaterar total_debt, sedan returnerar
   den true. Om ingen kontakt kunde nås med databasen returneras false.
   */
-  
+  total_debt = 0;
+  for(auto& user: debts){
+    shared_ptr<Contact> cont = std::dynamic_pointer_cast<Contact>(user);
+    if(cont){
+      total_debt+= cont->debt();
+    }
+  }
 }
 
 bool Self::update(){
@@ -117,8 +133,8 @@ bool Self::update(){
     
     shared_ptr<Contact> cont = std::dynamic_pointer_cast<Contact>(user);
     if(cont){
-      if(user->username() == _username){
-        user->change_debt("", debt);
+      if(cont->username() == _username){
+        cont->change_debt("", debt);
         update_list.push_back(user);
       }
     }else{
