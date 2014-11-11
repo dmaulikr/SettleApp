@@ -9,21 +9,27 @@ using namespace std;
 //Måste definera SQL_Control eftersom att de beror på varandra
 //class SQL_Control;
 //Måste göras i SQL_Control också, fast för User. så, "class User;" alltså.
-
+class User;
+class Contact;
+class Self;
 class User{
 public:
   User(const string & _username,const string & _name,const string & _surname
-  ,const int & _id/*,const vector<shared_ptr<User> > & _debts = {{}}*/ ):
+  ,const int & _id ):
   username_{_username}, name_{_name}, surname_{_surname}, id_{_id},
-  debts{std::vector<shared_ptr<User> >()}{};
+  debts{std::vector<std::shared_ptr<User> >()}{};
 
-  ~User() = default;
+  virtual ~User() = default;
 
   string name() const {return name_;}
   string surname() const {return surname_;}
   string username() const {return username_;}
-  shared_ptr<vector<User> > get_debts() const;
+  shared_ptr<vector<shared_ptr<User> > >get_debts() const;
+  
+  //void push_back(shared_ptr<User> const & user);
+  
   virtual bool change_debt (const string & _username, const double & debt) = 0;
+  //virtual shared_ptr<User> clone()const = 0;
   
 private:
   string username_; 
@@ -33,11 +39,19 @@ private:
 protected:
   vector<shared_ptr<User> > debts;
 };
+/*
+void User::push_back(shared_ptr<User> const & user){
 
-
-shared_ptr<vector<User> > User::get_debts() const{
+    auto tmp = user;
+    shared_ptr<Contact> cont = dynamic_pointer_cast<Contact>(tmp);
+    if(cont)
+      debts.push_back(make_shared<User>(cont));
+}
+*/
+shared_ptr<vector<shared_ptr<User> > >User::get_debts() const{
   
-  shared_ptr<vector<User> > tmp = make_shared<vector<User> >(debts);
+  shared_ptr<vector<shared_ptr<User> > >tmp =
+  make_shared<vector<shared_ptr<User> > >(debts);
   return tmp;
 }
 
@@ -45,15 +59,15 @@ shared_ptr<vector<User> > User::get_debts() const{
 class Contact: public User{
 public:
   Contact(const string & _username,const string & _name,
-  const string & _surname,const int & _id,const double & _debt
-  /*,const  vector<User> & _debts = {}*/ ):
-  User(_username,_name,_surname,_id), debt_{_debt} /*, update_list{std::make_move_iterator(shared_ptr<User>)}*//*, sql{SQL_Control()}*/{
+  const string & _surname,const int & _id,const double & _debt):
+  User(_username,_name,_surname,_id), debt_{_debt}{
   }
 
-  ~Contact()=default;
+  virtual ~Contact()=default;
 
   double debt(){return debt_;}
   virtual bool change_debt(const string & _username, const double & _debt) final;
+  //virtual shared_ptr<User> clone() const { return shared_ptr<Contact> (this); }
 private:
   double debt_;
 };
@@ -67,19 +81,21 @@ bool Contact::change_debt(const string & _username, const double & _debt){
 class Self: public User{
 public:
   Self(const string & _username,const string & _name,
-  const string & _surname,const int & _id,const string & _email
-  /*,const  vector<User> & _debts = {}*/ ):
+  const string & _surname,const int & _id,const string & _email):
   User(_username,_name,_surname,_id), email_{_email}, total_debt{0},
-  update_list{std::vector<shared_ptr<User> >()} /*, update_list{std::make_move_iterator(shared_ptr<User>)}*//*, sql{SQL_Control()}*/{
+  update_list{std::vector<std::shared_ptr<User> >()}{
   }
-  ~Self() = default;
+  virtual ~Self() = default;
   
   string email() const {return email_;}
   double total() const {return total_debt;}
 
   bool refresh();
   bool update();
+
   virtual bool change_debt(const string & _username, const double & debt) final;
+  //virtual shared_ptr<User> clone() const { return shared_ptr<Self> (*this); }
+
   
 private:
   string email_;
