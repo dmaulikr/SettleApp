@@ -26,7 +26,7 @@ public:
   string username() const {return username_;}
   shared_ptr<vector<shared_ptr<User> > >get_debts() const;
   
-  //void push_back(shared_ptr<User> const & user);
+  void push_back(shared_ptr<User> const & user);
   
   virtual bool change_debt (const string & _username, const double & debt) = 0;
   //virtual shared_ptr<User> clone()const = 0;
@@ -39,15 +39,11 @@ private:
 protected:
   vector<shared_ptr<User> > debts;
 };
-/*
-void User::push_back(shared_ptr<User> const & user){
 
-    auto tmp = user;
-    shared_ptr<Contact> cont = dynamic_pointer_cast<Contact>(tmp);
-    if(cont)
-      debts.push_back(make_shared<User>(cont));
+void User::push_back(shared_ptr<User> const & user){
+      debts.push_back(std::move(user));
 }
-*/
+
 shared_ptr<vector<shared_ptr<User> > >User::get_debts() const{
   
   shared_ptr<vector<shared_ptr<User> > >tmp =
