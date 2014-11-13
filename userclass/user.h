@@ -26,6 +26,7 @@ public:
   string username() const {return username_;}
   shared_ptr<vector<shared_ptr<User> > >get_debts() const;
   
+  void insert_end(const vector<shared_ptr<User> > & new_debts);
   void push_back(shared_ptr<User> const & user);
   
   virtual bool change_debt (const string & _username, const double & debt) = 0;
@@ -39,6 +40,10 @@ private:
 protected:
   vector<shared_ptr<User> > debts;
 };
+
+void User::insert_end(vector<shared_ptr<User> >  const & new_debts){
+  debts.insert(debts.end(), new_debts.begin(), new_debts.end());
+}
 
 void User::push_back(shared_ptr<User> const & user){
       debts.push_back(std::move(user));
