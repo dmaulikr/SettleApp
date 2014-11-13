@@ -162,14 +162,48 @@ bool Self::update(){
 }
 
 
-/*
+
 class Not_Complete: public User{
 public:
+  Not_Complete() = default;
+  Not_Complete(const string & _name, const string & _surname, const double &
+  _debt):User(_name, _name, _surname, -1), debt_{_debt}{}
+  ~Not_Complete()= default;
   
+  virtual bool change_debt(const string & str, const double & _debt) final;
+  shared_ptr<User> login(const string & _username,const string & passw);
+  shared_ptr<User> create(const string & _username, const string & _name, const
+  string & surname, const string & email);
 private:
-  double debt;
+  double debt_;
 };
-*/
+
+bool Not_Complete::change_debt(const string & str, const double & _debt){
+  debt_ += _debt;
+  return true;
+}
+
+
+shared_ptr<User> Not_Complete::login(const string & _username,const string & passw){
+  /*Från designspecifikation:
+  Login kommer att ta två strängar som parametrar och returnerar en ”User”. Dessa skall vara
+  användarnamnet och dess lösenord. Om de båda stämmer överens med databasen returneras
+  en ”Self” från ”SQL_control”, annars returneras en ”Not_complete”. 
+  */
+  return make_shared<Not_Complete>("notC", "notC",-1);
+  
+}
+shared_ptr<User> Not_Complete::create(const string & _username, const string & _name, const
+  string & surname, const string & email){
+  /*Från designspecifikation:
+  Create tar en parameter för varje fält i databasen(inte id) och returnerar en ”User”. Om
+  användarnamnet eller email-adressen inte redan används i databasen kommer ”SQL_control” bes
+  att skapa en ny användare och en ”Self” returneras. Annars returneras en ”Not_complete”.
+  */
+  return make_shared<Not_Complete>("notC", "notC",-1);
+  
+}
+
 #endif
 
 
