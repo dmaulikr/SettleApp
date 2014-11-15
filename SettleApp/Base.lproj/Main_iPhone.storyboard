@@ -170,7 +170,7 @@
         <!--Login page-->
         <scene sceneID="gPf-Fe-7XS">
             <objects>
-                <viewController title="Login page" id="XQE-CG-mtX" sceneMemberID="viewController">
+                <viewController title="Login page" id="XQE-CG-mtX" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Kdm-SH-08N"/>
                         <viewControllerLayoutGuide type="bottom" id="0ac-Un-CaO"/>
@@ -256,7 +256,7 @@
         <!--Register user-->
         <scene sceneID="hPW-rK-bIV">
             <objects>
-                <viewController title="Login page" id="Oqi-YL-e7d" userLabel="Register user" sceneMemberID="viewController">
+                <viewController title="Login page" id="Oqi-YL-e7d" userLabel="Register user" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="g8l-o1-745"/>
                         <viewControllerLayoutGuide type="bottom" id="igd-Qr-ikJ"/>
@@ -379,12 +379,6 @@
                                 </attributedString>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardAppearance="alert" returnKeyType="go"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V5W-X7-A2A">
-                                <rect key="frame" x="178" y="490" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
