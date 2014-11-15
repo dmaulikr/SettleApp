@@ -27,8 +27,6 @@
 		33B4C98A19BE38700000E64F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33B4C96919BE386F0000E64F /* UIKit.framework */; };
 		33B4C99219BE38700000E64F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 33B4C99019BE38700000E64F /* InfoPlist.strings */; };
 		33B4C99419BE38700000E64F /* SettleAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 33B4C99319BE38700000E64F /* SettleAppTests.m */; };
-		33F481AA1A0B96AD00A27CCD /* HomeModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 33F481A91A0B96AD00A27CCD /* HomeModel.h */; };
-		33F481AC1A0B96FA00A27CCD /* User.h in Sources */ = {isa = PBXBuildFile; fileRef = 33F481AB1A0B96FA00A27CCD /* User.h */; };
 		33F481AE1A0BA5DA00A27CCD /* HomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F481AD1A0BA5DA00A27CCD /* HomeModel.m */; };
 		33F481B01A0BA5F500A27CCD /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F481AF1A0BA5F500A27CCD /* User.m */; };
 		33F7E64A19BE562000DA241D /* SettleApp.png in Resources */ = {isa = PBXBuildFile; fileRef = 33F7E64919BE562000DA241D /* SettleApp.png */; };
@@ -292,9 +290,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				33F481AC1A0B96FA00A27CCD /* User.h in Sources */,
 				33F481B01A0BA5F500A27CCD /* User.m in Sources */,
-				33F481AA1A0B96AD00A27CCD /* HomeModel.h in Sources */,
 				33F481AE1A0BA5DA00A27CCD /* HomeModel.m in Sources */,
 				33B4C97F19BE386F0000E64F /* ViewController.m in Sources */,
 				33B4C97619BE386F0000E64F /* AppDelegate.m in Sources */,
