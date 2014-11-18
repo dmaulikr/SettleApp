@@ -5,19 +5,19 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Main Window-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="ViewController" sceneMemberID="viewController">
+                <viewController title="Main Window" id="vXZ-lx-hvc" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
-                        <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
+                        <viewControllerLayoutGuide type="top" id="cdi-KO-ufY"/>
+                        <viewControllerLayoutGuide type="bottom" id="nME-6f-rcM"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="bhs-k3-b2I">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="bhs-k3-b2I">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="401"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -30,27 +30,44 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <tabBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LI4-dx-UYs">
+                            <tabBar contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LI4-dx-UYs">
                                 <rect key="frame" x="0.0" y="455" width="320" height="49"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="49" id="25W-KT-6ef"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="49" id="VHi-9C-L9H"/>
+                                </constraints>
                                 <items>
                                     <tabBarItem badgeValue="12" systemItem="contacts" id="g5b-kJ-1JZ"/>
                                 </items>
                                 <color key="tintColor" red="0.19511706600000001" green="0.66666666669999997" blue="0.52896063739999999" alpha="1" colorSpace="calibratedRGB"/>
                             </tabBar>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Totalt" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qxk-4i-hGb">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Totalt" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qxk-4i-hGb">
                                 <rect key="frame" x="16" y="409" width="66" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="38" id="nyq-KE-4e7"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="right" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="500 kr" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0kf-hl-byh">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="right" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="500 kr" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0kf-hl-byh">
                                 <rect key="frame" x="238" y="409" width="66" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="38" id="eFZ-kh-AAc"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <color key="textColor" red="0.19511706600000001" green="0.66666666669999997" blue="0.52896063739999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="nME-6f-rcM" firstAttribute="top" secondItem="LI4-dx-UYs" secondAttribute="bottom" id="Mjg-7W-hoh"/>
+                            <constraint firstItem="LI4-dx-UYs" firstAttribute="top" secondItem="0kf-hl-byh" secondAttribute="bottom" id="PIa-90-rrf"/>
+                            <constraint firstAttribute="width" secondItem="bhs-k3-b2I" secondAttribute="width" id="h5F-Jw-AyZ"/>
+                            <constraint firstAttribute="height" secondItem="bhs-k3-b2I" secondAttribute="height" id="t18-2D-LLX"/>
+                            <constraint firstItem="LI4-dx-UYs" firstAttribute="width" secondItem="kh9-bI-dsS" secondAttribute="width" id="zXN-Uf-TXy"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ac3-t3-MEp">
                         <barButtonItem key="backBarButtonItem" title=" " id="jdm-bN-r2d"/>
@@ -90,8 +107,8 @@
             <objects>
                 <viewController id="mVJ-Qk-spi" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="fZC-C0-nyq"/>
-                        <viewControllerLayoutGuide type="bottom" id="8gf-gv-o9O"/>
+                        <viewControllerLayoutGuide type="top" id="dxT-DH-quZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="XRk-gn-ke7"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="yuE-Oo-XZd">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
@@ -172,8 +189,8 @@
             <objects>
                 <viewController title="Login page" id="XQE-CG-mtX" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Kdm-SH-08N"/>
-                        <viewControllerLayoutGuide type="bottom" id="0ac-Un-CaO"/>
+                        <viewControllerLayoutGuide type="top" id="5PP-9t-jje"/>
+                        <viewControllerLayoutGuide type="bottom" id="3Lq-6t-vWT"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="tBM-Ka-I53">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -187,27 +204,27 @@
                                 </connections>
                             </imageView>
                             <button opaque="NO" alpha="0.89999997615814209" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GFV-Bj-Nhr">
-                                <rect key="frame" x="16" y="240" width="136" height="43"/>
+                                <rect key="frame" x="16" y="239" width="136" height="43"/>
                                 <color key="backgroundColor" red="0.3925283551" green="0.68470472100000002" blue="0.57790225740000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Registrera dig">
                                     <color key="titleShadowColor" red="0.36078432199999999" green="0.6549019814" blue="0.5411764979" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="Oqi-YL-e7d" kind="modal" modalTransitionStyle="flipHorizontal" animates="NO" id="Ne3-7c-AVs"/>
+                                    <segue destination="Oqi-YL-e7d" kind="modal" modalTransitionStyle="flipHorizontal" id="Ne3-7c-AVs"/>
                                 </connections>
                             </button>
                             <button opaque="NO" alpha="0.89999997615814209" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NgM-Te-w22">
-                                <rect key="frame" x="164" y="240" width="140" height="43"/>
+                                <rect key="frame" x="164" y="239" width="140" height="43"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <state key="normal" title="Logga in">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="QLM-To-UbB" kind="modal" identifier="login-success" id="YK1-XP-Iy6"/>
+                                    <action selector="loginAction:" destination="XQE-CG-mtX" eventType="touchDown" id="pWS-y1-Ywd"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="SettleApp.png" translatesAutoresizingMaskIntoConstraints="NO" id="b20-hK-OEU">
-                                <rect key="frame" x="94" y="279" width="133" height="71"/>
+                                <rect key="frame" x="94" y="273" width="133" height="71"/>
                             </imageView>
                             <textField clipsSubviews="YES" alpha="0.80000001192092896" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" usesAttributedText="YES" allowsEditingTextAttributes="YES" placeholder="Användarnamn" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="uMi-gM-S1P">
                                 <rect key="frame" x="16" y="129" width="288" height="41"/>
@@ -237,12 +254,27 @@
                                 </attributedString>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardAppearance="alert" returnKeyType="go"/>
                             </textField>
+                            <button opaque="NO" alpha="0.89999997615814209" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dyt-QV-BBz">
+                                <rect key="frame" x="16" y="339" width="288" height="43"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="IM THE BOSS">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="QLM-To-UbB" kind="modal" animates="NO" id="zdk-Jd-jdK"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                     </view>
                     <navigationItem key="navigationItem" id="gZo-Lw-rh8"/>
                     <nil key="simulatedTopBarMetrics"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
+                    <connections>
+                        <outlet property="passwordTextField" destination="eKi-Fb-osk" id="KaJ-d0-Q1c"/>
+                        <outlet property="userNameTextField" destination="uMi-gM-S1P" id="jX5-Ds-tlZ"/>
+                    </connections>
                 </viewController>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="aUA-dj-Pnu">
                     <connections>
@@ -256,16 +288,10 @@
         <!--Register user-->
         <scene sceneID="hPW-rK-bIV">
             <objects>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="i6m-N1-bew">
-                    <connections>
-                        <outlet property="delegate" destination="og5-ui-RcE" id="dOE-vc-A5P"/>
-                    </connections>
-                </panGestureRecognizer>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gDI-Ot-3ID" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController title="Login page" id="Oqi-YL-e7d" userLabel="Register user" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="g8l-o1-745"/>
-                        <viewControllerLayoutGuide type="bottom" id="igd-Qr-ikJ"/>
+                        <viewControllerLayoutGuide type="top" id="wXP-97-6OX"/>
+                        <viewControllerLayoutGuide type="bottom" id="8V0-Rq-nPk"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="q8U-68-UL8">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -279,17 +305,17 @@
                                 </connections>
                             </imageView>
                             <button opaque="NO" alpha="0.89999997615814209" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q4I-e1-Vh7">
-                                <rect key="frame" x="168" y="375" width="136" height="43"/>
+                                <rect key="frame" x="168" y="389" width="136" height="43"/>
                                 <color key="backgroundColor" red="0.3925283551" green="0.68470472100000002" blue="0.57790225740000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Registrera dig">
                                     <color key="titleShadowColor" red="0.36078432199999999" green="0.6549019814" blue="0.5411764979" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="insert:" destination="gDI-Ot-3ID" eventType="touchUpInside" id="EL2-Z1-srI"/>
+                                    <action selector="insert:" destination="gDI-Ot-3ID" eventType="touchUpInside" id="aSp-IB-Ry0"/>
                                 </connections>
                             </button>
                             <button opaque="NO" alpha="0.89999997615814209" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="og5-ui-RcE">
-                                <rect key="frame" x="16" y="375" width="140" height="43"/>
+                                <rect key="frame" x="16" y="389" width="140" height="43"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <state key="normal" title="Tillbaka">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -299,24 +325,10 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="SettleApp.png" translatesAutoresizingMaskIntoConstraints="NO" id="sVQ-tE-7Kz">
-                                <rect key="frame" x="94" y="411" width="133" height="71"/>
+                                <rect key="frame" x="94" y="423" width="133" height="71"/>
                             </imageView>
-                            <textField clipsSubviews="YES" alpha="0.80000001192092896" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" usesAttributedText="YES" allowsEditingTextAttributes="YES" placeholder="Användarnamn" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="N48-Gc-6Sz">
-                                <rect key="frame" x="16" y="109" width="288" height="41"/>
-                                <color key="backgroundColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
-                                <color key="tintColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
-                                <attributedString key="attributedText">
-                                    <fragment content="E-postadress">
-                                        <attributes>
-                                            <font key="NSFont" metaFont="smallSystem"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardType="emailAddress" keyboardAppearance="alert" returnKeyType="next"/>
-                            </textField>
                             <textField clipsSubviews="YES" alpha="0.80000001192092896" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" usesAttributedText="YES" allowsEditingTextAttributes="YES" placeholder="Användarnamn" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Low-br-Jj1">
-                                <rect key="frame" x="16" y="65" width="288" height="41"/>
+                                <rect key="frame" x="16" y="74" width="288" height="41"/>
                                 <color key="backgroundColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
                                 <color key="tintColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
                                 <attributedString key="attributedText">
@@ -327,10 +339,10 @@
                                         </attributes>
                                     </fragment>
                                 </attributedString>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardType="emailAddress" keyboardAppearance="alert" returnKeyType="next"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardAppearance="alert" returnKeyType="next"/>
                             </textField>
                             <textField clipsSubviews="YES" alpha="0.80000001192092896" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" usesAttributedText="YES" allowsEditingTextAttributes="YES" placeholder="Lösenord" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="K4d-kQ-Nn0">
-                                <rect key="frame" x="16" y="268" width="288" height="41"/>
+                                <rect key="frame" x="16" y="283" width="288" height="41"/>
                                 <color key="backgroundColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
                                 <color key="tintColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
                                 <attributedString key="attributedText">
@@ -341,10 +353,10 @@
                                         </attributes>
                                     </fragment>
                                 </attributedString>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardAppearance="alert" returnKeyType="go"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardAppearance="alert" returnKeyType="next"/>
                             </textField>
-                            <textField clipsSubviews="YES" alpha="0.80000001192092896" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" usesAttributedText="YES" allowsEditingTextAttributes="YES" placeholder="Användarnamn" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="6N0-Ah-kyl">
-                                <rect key="frame" x="16" y="180" width="288" height="41"/>
+                            <textField clipsSubviews="YES" alpha="0.80000001192092896" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" usesAttributedText="YES" allowsEditingTextAttributes="YES" placeholder="Förnamn" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="6N0-Ah-kyl">
+                                <rect key="frame" x="16" y="193" width="288" height="41"/>
                                 <color key="backgroundColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
                                 <color key="tintColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
                                 <attributedString key="attributedText">
@@ -355,10 +367,10 @@
                                         </attributes>
                                     </fragment>
                                 </attributedString>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardType="emailAddress" keyboardAppearance="alert" returnKeyType="next"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardAppearance="alert" returnKeyType="next"/>
                             </textField>
-                            <textField clipsSubviews="YES" alpha="0.80000001192092896" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" usesAttributedText="YES" allowsEditingTextAttributes="YES" placeholder="Lösenord" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="4PW-jq-XJL">
-                                <rect key="frame" x="16" y="224" width="288" height="41"/>
+                            <textField clipsSubviews="YES" alpha="0.80000001192092896" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" usesAttributedText="YES" allowsEditingTextAttributes="YES" placeholder="Efternamn" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="4PW-jq-XJL">
+                                <rect key="frame" x="16" y="238" width="288" height="41"/>
                                 <color key="backgroundColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
                                 <color key="tintColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
                                 <attributedString key="attributedText">
@@ -369,10 +381,10 @@
                                         </attributes>
                                     </fragment>
                                 </attributedString>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardAppearance="alert" returnKeyType="go"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardAppearance="alert" returnKeyType="next"/>
                             </textField>
-                            <textField clipsSubviews="YES" alpha="0.80000001192092896" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" usesAttributedText="YES" allowsEditingTextAttributes="YES" placeholder="Lösenord" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="CEd-i1-buR">
-                                <rect key="frame" x="16" y="312" width="288" height="41"/>
+                            <textField clipsSubviews="YES" alpha="0.80000001192092896" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" usesAttributedText="YES" allowsEditingTextAttributes="YES" placeholder="Bekräfta lösenord" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="CEd-i1-buR">
+                                <rect key="frame" x="16" y="328" width="288" height="41"/>
                                 <color key="backgroundColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
                                 <color key="tintColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
                                 <attributedString key="attributedText">
@@ -385,17 +397,42 @@
                                 </attributedString>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardAppearance="alert" returnKeyType="go"/>
                             </textField>
+                            <textField clipsSubviews="YES" alpha="0.80000001192092896" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" usesAttributedText="YES" allowsEditingTextAttributes="YES" placeholder="E-postadress" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="N48-Gc-6Sz">
+                                <rect key="frame" x="16" y="123" width="288" height="41"/>
+                                <color key="backgroundColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
+                                <color key="tintColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="E-postadress">
+                                        <attributes>
+                                            <font key="NSFont" metaFont="smallSystem"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <textInputTraits key="textInputTraits" keyboardType="emailAddress" keyboardAppearance="alert" returnKeyType="next"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                     </view>
                     <navigationItem key="navigationItem" id="o9G-MV-pBm"/>
                     <nil key="simulatedTopBarMetrics"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
-                        <outlet property="txtPassword" destination="K4d-kQ-Nn0" id="Rkb-wj-wlJ"/>
-                        <outlet property="txtUsername" destination="Low-br-Jj1" id="79p-ax-1Te"/>
+                        <outlet property="txtConfirmpassword" destination="CEd-i1-buR" id="d73-Be-nM7"/>
+                        <outlet property="txtEmail" destination="N48-Gc-6Sz" id="z6e-Iu-X34"/>
+                        <outlet property="txtName" destination="6N0-Ah-kyl" id="Swg-sx-SIw"/>
+                        <outlet property="txtPassword" destination="K4d-kQ-Nn0" id="4VX-Vr-ZxV"/>
+                        <outlet property="txtSurname" destination="4PW-jq-XJL" id="Arv-4n-T43"/>
+                        <outlet property="txtUsername" destination="Low-br-Jj1" id="d1C-Ti-t3I"/>
                     </connections>
                 </viewController>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="i6m-N1-bew">
+                    <connections>
+                        <outlet property="delegate" destination="og5-ui-RcE" id="dOE-vc-A5P"/>
+                    </connections>
+                </panGestureRecognizer>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gDI-Ot-3ID" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="925" y="-470"/>
         </scene>
@@ -411,7 +448,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="IAu-NC-v3w"/>
+        <segue reference="7wx-Uh-1Gy"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

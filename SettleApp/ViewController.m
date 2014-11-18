@@ -9,12 +9,19 @@
 #import "ViewController.h"
 #import "User.h"
 #import "HomeModel.h"
+#import "AppDelegate.h"
 
 @interface ViewController ()
 {
     HomeModel *_homeModel;
     NSArray *_feedItems;
     __weak IBOutlet UITextField *_txtUsername;
+    __weak IBOutlet UITextField *_txtEmail;
+    __weak IBOutlet UITextField *_txtName;
+    __weak IBOutlet UITextField *_txtSurname;
+    __weak IBOutlet UITextField *_txtPassword;
+    __weak IBOutlet UITextField *_txtConfirmpassword;
+
 }
 @end
 
@@ -24,6 +31,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+
     
     // Use the HomeModel to view cells **
     
@@ -113,8 +122,7 @@
 - (IBAction)insert:(id)sender
 {
     // create string contains url address for php file, the file name is phpFile.php, it receives parameter :name
-    NSString *strURL = [NSString stringWithFormat:@"http://demo.lundgrendesign.se/settleapp/db.php?username=%@&password=%@",_txtUsername.text, _txtPassword.text];
-
+    NSString *strURL = [NSString stringWithFormat:@"http://demo.lundgrendesign.se/settleapp/db.php?username=%@&email=%@&name=%@&surname=%@&password=%@",_txtUsername.text, _txtEmail.text, _txtName.text, _txtSurname.text, _txtPassword.text];
     
     // to execute php code
     NSData *dataURL = [NSData dataWithContentsOfURL:[NSURL URLWithString:strURL]];
@@ -126,93 +134,49 @@
 }
 
 
-
 // Login/Register User
-
-- (IBAction)login:(id)sender {
+- (IBAction)loginAction:(id)sender{
+    if ([_userNameTextField.text isEqualToString:@""] || [_passwordTextField.text isEqualToString:@""]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"alert" message:@"Please Fill all the field" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    // i will use a code from connect to DB tutorial
+    NSString *strURL = [NSString stringWithFormat:@"http://demo.lundgrendesign.se/settleapp/db.php?userName=%@&password=%@",_userNameTextField.text, _passwordTextField.text];
     
-    NSInteger success = 0;
-    @try {
+    // to execute php code
+    NSData *dataURL = [NSData dataWithContentsOfURL:[NSURL URLWithString:strURL]];
+    
+    // to receive the returend value
+    NSString *strResult = [[NSString alloc] initWithData:dataURL encoding:NSUTF8StringEncoding];
+    
+    if ([strResult isEqualToString:@"1"])
+    {
+        // i need to get the control for main navigation controller
+        //    AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
         
-        if([[self.txtUsername text] isEqualToString:@""] || [[self.txtPassword text] isEqualToString:@""] ) {
-            
-            [self alertStatus:@"Please enter Email and Password" :@"Sign in Failed!" :0];
-            
-        } else {
-            NSString *post =[[NSString alloc] initWithFormat:@"username=%@&password=%@",[self.txtUsername text],[self.txtPassword text]];
-            NSLog(@"PostData: %@",post);
-            
-            NSURL *url=[NSURL URLWithString:@"http://demo.lundgrendesign.se/settleapp/db.php"];
-            
-            NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-            
-            NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
-            
-            NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-            [request setURL:url];
-            [request setHTTPMethod:@"POST"];
-            [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-            [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-            [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-            [request setHTTPBody:postData];
-            
-            //[NSURLRequest setAllowsAnyHTTPSCertificate:YES forHost:[url host]];
-            
-            NSError *error = [[NSError alloc] init];
-            NSHTTPURLResponse *response = nil;
-            NSData *urlData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-            
-            NSLog(@"Response code: %ld", (long)[response statusCode]);
-            
-            if ([response statusCode] >= 200 && [response statusCode] < 300)
-            {
-                NSString *responseData = [[NSString alloc]initWithData:urlData encoding:NSUTF8StringEncoding];
-                NSLog(@"Response ==> %@", responseData);
-                
-                NSError *error = nil;
-                NSDictionary *jsonData = [NSJSONSerialization
-                                          JSONObjectWithData:urlData
-                                          options:NSJSONReadingMutableContainers
-                                          error:&error];
-                
-                success = [jsonData[@"success"] integerValue];
-                NSLog(@"Success: %ld",(long)success);
-                
-                if(success == 1)
-                {
-                    NSLog(@"Login SUCCESS");
-                } else {
-                    
-                    NSString *error_msg = (NSString *) jsonData[@"error_message"];
-                    [self alertStatus:error_msg :@"Sign in Failed!" :0];
-                }
-                
-            } else {
-                //if (error) NSLog(@"Error: %@", error);
-                [self alertStatus:@"Connection Failed" :@"Sign in Failed!" :0];
-            }
-        }
-    }
-    @catch (NSException * e) {
-        NSLog(@"Exception: %@", e);
-        [self alertStatus:@"Sign in Failed." :@"Error!" :0];
-    }
-    if (success) {
-        [self performSegueWithIdentifier:@"login_success" sender:self];
+        // create object from app main view to push it
+        //    appMainView = [[AppMainView alloc] initWithNibName:@"AppMainView" bundle:nil];
+        //   [UINavigationController pushViewController:SettleApp animated:YES];
+    }else
+    {
+        // invalid information
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"alert" message:@"Invalide Information" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+        
     }
 }
 
-- (void) alertStatus:(NSString *)msg :(NSString *)title :(int) tag
+- (void)viewDidUnload
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
-                                                        message:msg
-                                                       delegate:self
-                                              cancelButtonTitle:@"Ok"
-                                              otherButtonTitles:nil, nil];
-    alertView.tag = tag;
-    [alertView show];
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+    self.arrayLogin = nil;
+    self.userNameTextField = nil;
+    self.passwordTextField = nil;
 }
-
 
 
 
