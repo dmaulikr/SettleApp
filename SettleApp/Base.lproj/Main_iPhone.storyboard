@@ -256,6 +256,12 @@
         <!--Register user-->
         <scene sceneID="hPW-rK-bIV">
             <objects>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="i6m-N1-bew">
+                    <connections>
+                        <outlet property="delegate" destination="og5-ui-RcE" id="dOE-vc-A5P"/>
+                    </connections>
+                </panGestureRecognizer>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gDI-Ot-3ID" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController title="Login page" id="Oqi-YL-e7d" userLabel="Register user" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="g8l-o1-745"/>
@@ -279,7 +285,7 @@
                                     <color key="titleShadowColor" red="0.36078432199999999" green="0.6549019814" blue="0.5411764979" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="insert:" destination="gDI-Ot-3ID" eventType="touchUpInside" id="EJr-xt-i7S"/>
+                                    <action selector="insert:" destination="gDI-Ot-3ID" eventType="touchUpInside" id="EL2-Z1-srI"/>
                                 </connections>
                             </button>
                             <button opaque="NO" alpha="0.89999997615814209" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="og5-ui-RcE">
@@ -385,13 +391,11 @@
                     </view>
                     <navigationItem key="navigationItem" id="o9G-MV-pBm"/>
                     <nil key="simulatedTopBarMetrics"/>
-                </viewController>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="i6m-N1-bew">
                     <connections>
-                        <outlet property="delegate" destination="og5-ui-RcE" id="dOE-vc-A5P"/>
+                        <outlet property="txtPassword" destination="K4d-kQ-Nn0" id="Rkb-wj-wlJ"/>
+                        <outlet property="txtUsername" destination="Low-br-Jj1" id="79p-ax-1Te"/>
                     </connections>
-                </panGestureRecognizer>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gDI-Ot-3ID" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </viewController>
             </objects>
             <point key="canvasLocation" x="925" y="-470"/>
         </scene>

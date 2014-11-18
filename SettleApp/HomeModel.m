@@ -1,5 +1,6 @@
 #import "HomeModel.h"
 #import "User.h"
+#import "ViewController.h"
 
 @interface HomeModel()
 {
@@ -13,7 +14,7 @@
 - (void)downloadItems
 {
     // Download json file
-    NSURL *jsonFileUrl = [NSURL URLWithString:@"http://demo.lundgrendesign.se/settleapp/db.php"];
+    NSURL *jsonFileUrl = [NSURL URLWithString:@"http://demo.lundgrendesign.se/settleapp/db.php?f=selectData"];
     // Create the event
     NSURLRequest *urlRequest = [[NSURLRequest alloc] initWithURL:jsonFileUrl];
     // Create the NSURLConnection
@@ -67,4 +68,5 @@
         [self.delegate itemsDownloaded:_users];
     }
 }
+
 @end

@@ -12,4 +12,13 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
 
+@property (weak, nonatomic) IBOutlet UITextField *txtUsername;
+@property (weak, nonatomic) IBOutlet UITextField *txtPassword;
+
+
+// create ibaction for insert button:
+- (IBAction)insert:(id)sender;
+
+
+
 @end
