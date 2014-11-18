@@ -30,7 +30,15 @@ int main(){
     shared_ptr<Contact> pt = dynamic_pointer_cast<Contact>(it);
     cout << pt->name() << " " << pt->surname() << " " << pt->debt() << endl;
   }
-  return 0;
+  self.change_debt("fafa",-5000);
+  self.refresh();
+  for(auto & ite : *self.get_debts()){
+    shared_ptr<Contact> ptr = dynamic_pointer_cast<Contact>(ite);
+    cout << ptr->name() << " " << ptr->surname() << " " << ptr->debt() << endl;
+  }
+  cout << self.name() << " "<< self.surname() << " "<< self.email() << " " <<
+  self.total() << endl;
+return 0;
 }
 
 
