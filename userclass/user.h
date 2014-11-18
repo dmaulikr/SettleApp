@@ -2,7 +2,6 @@
 #define USER_CLASS
 #include <vector>
 #include <memory>
-//#include <iterator>
 
 using namespace std;
 
@@ -12,7 +11,9 @@ using namespace std;
 class User;
 class Contact;
 class Self;
-class User{
+class Not_Complete;
+
+class User {
 public:
   User(const string & _username,const string & _name,const string & _surname
   ,const int & _id ):
@@ -30,7 +31,7 @@ public:
   void push_back(shared_ptr<User> const & user);
   
   virtual bool change_debt (const string & _username, const double & debt) = 0;
-  //virtual shared_ptr<User> clone()const = 0;
+  virtual shared_ptr<User> clone() = 0;
   
 private:
   string username_; 
@@ -57,7 +58,56 @@ shared_ptr<vector<shared_ptr<User> > >User::get_debts() const{
 }
 
 
-class Contact: public User{
+
+
+class Not_Complete: public User, public
+std::enable_shared_from_this<Not_Complete>{
+public:
+  Not_Complete() = default;
+  Not_Complete(const string & _name, const string & _surname, const double &
+  _debt):User(_name, _name, _surname, -1), debt_{_debt}{}
+  ~Not_Complete()= default;
+  
+  virtual bool change_debt(const string & str, const double & _debt) final;
+  virtual shared_ptr<User> clone() final;
+  shared_ptr<User> login(const string & _username,const string & passw);
+  shared_ptr<User> create(const string & _username, const string & _name, const
+  string & surname, const string & email);
+private:
+  double debt_;
+};
+
+bool Not_Complete::change_debt(const string & str, const double & _debt){
+  debt_ += _debt;
+  return true;
+}
+
+shared_ptr<User> Not_Complete::clone(){
+  return this->shared_from_this();
+}
+
+shared_ptr<User> Not_Complete::login(const string & _username,const string & passw){
+  /*Från designspecifikation:
+  Login kommer att ta två strängar som parametrar och returnerar en ”User”. Dessa skall vara
+  användarnamnet och dess lösenord. Om de båda stämmer överens med databasen returneras
+  en ”Self” från ”SQL_control”, annars returneras en ”Not_complete”. 
+  */
+  return make_shared<Not_Complete>("notC", "notC",-1);
+  
+}
+shared_ptr<User> Not_Complete::create(const string & _username, const string & _name, const
+  string & surname, const string & email){
+  /*Från designspecifikation:
+  Create tar en parameter för varje fält i databasen(inte id) och returnerar en ”User”. Om
+  användarnamnet eller email-adressen inte redan används i databasen kommer ”SQL_control” bes
+  att skapa en ny användare och en ”Self” returneras. Annars returneras en ”Not_complete”.
+  */
+  return make_shared<Not_Complete>("notC", "notC",-1);
+  
+}
+
+
+class Contact: public User, public std::enable_shared_from_this<Contact>{
 public:
   Contact(const string & _username,const string & _name,
   const string & _surname,const int & _id,const double & _debt):
@@ -68,18 +118,36 @@ public:
 
   double debt(){return debt_;}
   virtual bool change_debt(const string & _username, const double & _debt) final;
-  //virtual shared_ptr<User> clone() const { return shared_ptr<Contact> (this); }
+   virtual shared_ptr<User> clone() final;
 private:
   double debt_;
 };
+/*
+vector<shared_ptr<User> > Contact::get_common(shared_ptr<User> user){
+  for(auto & conts: debts){
+    shared_ptr<Self> slf = std::dynamic_pointer_cast<Self>(user);
+    shared_ptr<Contact> cont = std::dynamic_pointer_cast<Contact>(user);
+    if(cont){
 
+    }else if (slf){
+
+    }
+
+  }
+}
+*/
 bool Contact::change_debt(const string & _username, const double & _debt){
   debt_ += _debt;
   return true;
 }
 
+shared_ptr<User> Contact::clone(){
+  return this->shared_from_this();
+}
 
-class Self: public User{
+
+
+class Self: public User, public std::enable_shared_from_this<Self>{
 public:
   Self(const string & _username,const string & _name,
   const string & _surname,const int & _id,const string & _email):
@@ -95,7 +163,7 @@ public:
   bool update();
 
   virtual bool change_debt(const string & _username, const double & debt) final;
-  //virtual shared_ptr<User> clone() const { return shared_ptr<Self> (*this); }
+  virtual shared_ptr<User> clone() final;
 
   
 private:
@@ -104,6 +172,10 @@ private:
   vector<shared_ptr<User> > update_list;
   //SQL_Control sql;
 };
+
+shared_ptr<User> Self::clone(){
+  return this->shared_from_this();
+}
 
 bool Self::refresh(){
   /* Från designspecifikation:
@@ -118,6 +190,7 @@ bool Self::refresh(){
       total_debt+= cont->debt();
     }
   }
+  return true;
 }
 
 bool Self::update(){
@@ -145,64 +218,79 @@ bool Self::update(){
   kontakten läggs även till i update-listan. Update kallas och true returneras, i övriga fall returneras
   false.
   */
-  
-  for(auto & user: debts){
+    for(auto & user: debts){
     
     shared_ptr<Contact> cont = std::dynamic_pointer_cast<Contact>(user);
-    if(cont){
-      if(cont->username() == _username){
-        cont->change_debt("", debt);
-        update_list.push_back(user);
+    shared_ptr<Not_Complete> nc =
+    std::dynamic_pointer_cast<Not_Complete>(user);
+    if(nc){
+      if(nc->username() == _username){
+        return cont->change_debt("", debt);
+        //update_list.push_back(user); // not complete behöver inte uppdateras
       }
-    }else{
-      return false;
+    }
+    if(cont){
+      if(cont->username() == _username){ //kontakten vars skuld ska ändras
+        vector<shared_ptr<User> > common_debts{};
+
+        for(auto& cont_debt: *user->get_debts()){ //kontaktens kontakter
+          shared_ptr<Contact> cnt =
+          std::dynamic_pointer_cast<Contact>(cont_debt);//ska 
+          if(cnt){
+            for(auto& find_self: *cnt->get_debts()){ //om någon av dessa har
+            //skuld till användaren
+              shared_ptr<Contact> me =
+              std::dynamic_pointer_cast<Contact>(find_self);
+              if(me->username() == username()){
+                common_debts.push_back(cont_debt->clone());
+              }
+            }
+          }
+        } // Lös skulder mellan *this, cont och common_debts här:
+        
+        /*
+        * Se om både *this och cont har negativ/positiv skuld till
+          samma kontakt
+
+        * Om den skulden är större eller lika med den skuld som ska
+          läggas till, sätt hela skulden till denne kontakt
+
+        * Annars ska den skulden lösas och en ny kontakt ska letas efter
+
+        * upprepa tills inget är kvar av summan eller tills det inte finns
+          några kontakter kvar
+
+        * ändra cont:s skuld med det som är kvar av skulden
+        */
+        //cont->change_debt("", debt);
+        //update_list.push_back(user);
+        //return true;
+        if(common_debts.empty()){
+          return cont->change_debt("", debt);
+        }else{
+          for(auto & his_common: common_debts){
+            for(auto & my_common: debts){
+              shared_ptr<Contact> his_com =
+              std::dynamic_pointer_cast<Contact>(his_common);
+              shared_ptr<Contact> my_com =
+              std::dynamic_pointer_cast<Contact>(my_common);
+              
+              if(my_com->username() == his_com->username() && (
+                (my_com->debt()<0) && (his_com->debt() <0) || (my_com->debt()>0 &&
+                his_com->debt()>0) )){
+                //-----------------------------------
+                //hittat en där båda har positiv/negativ
+                
+              }
+            }
+          }
+        }
+      }
     }
   }
-  return true;
+  return false;
 }
 
-
-
-class Not_Complete: public User{
-public:
-  Not_Complete() = default;
-  Not_Complete(const string & _name, const string & _surname, const double &
-  _debt):User(_name, _name, _surname, -1), debt_{_debt}{}
-  ~Not_Complete()= default;
-  
-  virtual bool change_debt(const string & str, const double & _debt) final;
-  shared_ptr<User> login(const string & _username,const string & passw);
-  shared_ptr<User> create(const string & _username, const string & _name, const
-  string & surname, const string & email);
-private:
-  double debt_;
-};
-
-bool Not_Complete::change_debt(const string & str, const double & _debt){
-  debt_ += _debt;
-  return true;
-}
-
-
-shared_ptr<User> Not_Complete::login(const string & _username,const string & passw){
-  /*Från designspecifikation:
-  Login kommer att ta två strängar som parametrar och returnerar en ”User”. Dessa skall vara
-  användarnamnet och dess lösenord. Om de båda stämmer överens med databasen returneras
-  en ”Self” från ”SQL_control”, annars returneras en ”Not_complete”. 
-  */
-  return make_shared<Not_Complete>("notC", "notC",-1);
-  
-}
-shared_ptr<User> Not_Complete::create(const string & _username, const string & _name, const
-  string & surname, const string & email){
-  /*Från designspecifikation:
-  Create tar en parameter för varje fält i databasen(inte id) och returnerar en ”User”. Om
-  användarnamnet eller email-adressen inte redan används i databasen kommer ”SQL_control” bes
-  att skapa en ny användare och en ”Self” returneras. Annars returneras en ”Not_complete”.
-  */
-  return make_shared<Not_Complete>("notC", "notC",-1);
-  
-}
 
 #endif
 
