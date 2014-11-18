@@ -2,6 +2,7 @@
 #define USER_CLASS
 #include <vector>
 #include <memory>
+#include <cmath>
 
 using namespace std;
 
@@ -275,12 +276,32 @@ bool Self::update(){
               shared_ptr<Contact> my_com =
               std::dynamic_pointer_cast<Contact>(my_common);
               
-              if(my_com->username() == his_com->username() && (
-                (my_com->debt()<0) && (his_com->debt() <0) || (my_com->debt()>0 &&
-                his_com->debt()>0) )){
-                //-----------------------------------
-                //hittat en där båda har positiv/negativ
-                
+              if(my_com->username() == his_com->username()){
+              
+                if((my_com->debt()<0) && (his_com->debt() <0)){
+                  //hittat en där båda är skyldiga
+                  if(debt <0){// - på mina pengar
+                    if(debt >= his_com->debt(){//om mindre än hans totala skuld
+                    //då den är negativ
+                      his_com->change_debt("", abs(debt)); 
+                      my_com->change_debt("", debt);
+                    }else{//om mer än hans skuld -''-
+                      double rest{abs(debt) + his_com->debt() }; //hans är
+                      //negativ och är mindre än debt
+                      
+                    }
+                  }else{//       + på mina pengar
+                    
+                  }
+                  
+                }else if((my_com->debt()>0 && his_com->debt()>0) ){
+                  //hittat en där båda har positiv skuld
+                  if(debt <0){// - på mina pengar
+                  
+                  }else{//       + på mina pengar
+                    
+                  }
+                }
               }
             }
           }
