@@ -26,7 +26,10 @@ int main(){
 
   cout << self.name() << " "<< self.surname() << " "<< self.email() << " " <<
   self.total() << endl;
-
+  for(auto & it : *self.get_debts()){
+    shared_ptr<Contact> pt = dynamic_pointer_cast<Contact>(it);
+    cout << pt->name() << " " << pt->surname() << " " << pt->debt() << endl;
+  }
   return 0;
 }
 
