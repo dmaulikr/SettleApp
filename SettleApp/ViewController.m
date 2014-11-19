@@ -10,14 +10,11 @@
 #import "User.h"
 #import "HomeModel.h"
 #import "AppDelegate.h"
-#import "CustomTableCell.h"
 
 @interface ViewController ()
 {
     HomeModel *_homeModel;
     NSArray *_feedItems;
-
-
 }
 @end
 
@@ -54,7 +51,6 @@
     [_homeModel downloadItems];
     
     
-    
     // Set the Navigation Logo Image**
     UIImageView *logoImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 150, 25)];
     // if you need to resize the image to fit the UIImageView frame
@@ -66,7 +62,6 @@
     self.navigationItem.titleView = logoView;
     
 	// Do any additional setup after loading the view, typically from a nib.
-    
     
 }
 
@@ -99,8 +94,6 @@
 
 
 
-
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Retrieve cell
@@ -113,7 +106,6 @@
    
     NSString *fullName = [NSString stringWithFormat:@"%@ %@", item.name, item.surname];
     myCell.textLabel.text = fullName;
-    
     
     return myCell;
 }

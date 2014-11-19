@@ -12,6 +12,7 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
 
+
 // Register
 @property (weak, nonatomic) IBOutlet UITextField *txtUsername;
 @property (weak, nonatomic) IBOutlet UITextField *txtEmail;
@@ -19,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *txtName;
 @property (weak, nonatomic) IBOutlet UITextField *txtPassword;
 @property (weak, nonatomic) IBOutlet UITextField *txtConfirmpassword;
+
+
 
 // Login
 - (IBAction)loginAction:(id)sender;
