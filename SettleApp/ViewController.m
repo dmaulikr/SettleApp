@@ -10,17 +10,13 @@
 #import "User.h"
 #import "HomeModel.h"
 #import "AppDelegate.h"
+#import "CustomTableCell.h"
 
 @interface ViewController ()
 {
     HomeModel *_homeModel;
     NSArray *_feedItems;
-    __weak IBOutlet UITextField *_txtUsername;
-    __weak IBOutlet UITextField *_txtEmail;
-    __weak IBOutlet UITextField *_txtName;
-    __weak IBOutlet UITextField *_txtSurname;
-    __weak IBOutlet UITextField *_txtPassword;
-    __weak IBOutlet UITextField *_txtConfirmpassword;
+
 
 }
 @end
@@ -32,8 +28,13 @@
 {
     [super viewDidLoad];
     
+    // Initialize the refresh control.
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    //refreshControl.backgroundColor = [UIColor lightGrayColor];
+    //refreshControl.tintColor = [UIColor whiteColor];
+    [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    [self.listTableView addSubview:refreshControl];
 
-    
     // Use the HomeModel to view cells **
     
     // Set this view controller object as the delegate and data source for the table view
@@ -51,7 +52,6 @@
     
     // Call the download items method of the home model object
     [_homeModel downloadItems];
-    
     
     
     
@@ -96,6 +96,11 @@
     return _feedItems.count;
 }
 
+
+
+
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Retrieve cell
@@ -105,9 +110,10 @@
     // Get the user to be shown
     User *item = _feedItems[indexPath.row];
     // Get references to labels of cell
+   
     NSString *fullName = [NSString stringWithFormat:@"%@ %@", item.name, item.surname];
     myCell.textLabel.text = fullName;
-
+    
     
     return myCell;
 }
@@ -178,6 +184,54 @@
     self.passwordTextField = nil;
 }
 
+// If Empty table
 
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    // Return the number of sections.
+    if (1==1) {
+        
+        self.listTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        return 1;
+        
+    } else {
+        
+        // Display a message when the table is empty
+        UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+        
+        messageLabel.text = @"No data is currently available. Please pull down to refresh.";
+        messageLabel.textColor = [UIColor blackColor];
+        messageLabel.numberOfLines = 0;
+        messageLabel.textAlignment = NSTextAlignmentCenter;
+        messageLabel.font = [UIFont fontWithName:@"Palatino-Italic" size:20];
+        [messageLabel sizeToFit];
+        
+        self.listTableView.backgroundView = messageLabel;
+        self.listTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        
+    }
+    
+    return 0;
+}
+
+
+- (void)refresh:(UIRefreshControl *)refreshControl {
+    
+    // End the refreshing
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"MMM d, h:mm a"];
+    NSString *title = [NSString stringWithFormat:@"Last update: %@", [formatter stringFromDate:[NSDate date]]];
+    NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor]
+                                                                forKey:NSForegroundColorAttributeName];
+    NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attrsDictionary];
+  [self.listTableView reloadData]; // EGET SKIT FÖR ATT RELOADA
+    
+
+    
+    [refreshControl endRefreshing];
+}
 
 @end

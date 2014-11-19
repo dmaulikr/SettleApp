@@ -11,6 +11,7 @@
 		33622E1019CAE161006AA3AA /* login-page-bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 33622E0F19CAE161006AA3AA /* login-page-bg.jpg */; };
 		33622E1419CB420E006AA3AA /* SettleApp-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 33622E1319CB420E006AA3AA /* SettleApp-logo.png */; };
 		339919BD19BE793400E0DC65 /* SettleApp-1024px.png in Resources */ = {isa = PBXBuildFile; fileRef = 339919BC19BE793400E0DC65 /* SettleApp-1024px.png */; };
+		339AB19A1A1BDEC600F1E77A /* CustomTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 339AB1991A1BDEC600F1E77A /* CustomTableCell.m */; };
 		339E682919BE651A0090C7F2 /* menu-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 339E682819BE651A0090C7F2 /* menu-icon.png */; };
 		339E682B19BE67520090C7F2 /* menu-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 339E682A19BE67520090C7F2 /* menu-icon@2x.png */; };
 		33B4C96619BE386F0000E64F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33B4C96519BE386F0000E64F /* Foundation.framework */; };
@@ -46,6 +47,8 @@
 		33622E0F19CAE161006AA3AA /* login-page-bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "login-page-bg.jpg"; sourceTree = "<group>"; };
 		33622E1319CB420E006AA3AA /* SettleApp-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SettleApp-logo.png"; sourceTree = "<group>"; };
 		339919BC19BE793400E0DC65 /* SettleApp-1024px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SettleApp-1024px.png"; path = "Filer/SettleApp-1024px.png"; sourceTree = "<group>"; };
+		339AB1981A1BDEC600F1E77A /* CustomTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTableCell.h; sourceTree = "<group>"; };
+		339AB1991A1BDEC600F1E77A /* CustomTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTableCell.m; sourceTree = "<group>"; };
 		339E682819BE651A0090C7F2 /* menu-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "menu-icon.png"; path = "SettleApp/menu-icon.png"; sourceTree = "<group>"; };
 		339E682A19BE67520090C7F2 /* menu-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "menu-icon@2x.png"; path = "SettleApp/menu-icon@2x.png"; sourceTree = "<group>"; };
 		33B4C96219BE386F0000E64F /* SettleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SettleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,6 +140,8 @@
 			isa = PBXGroup;
 			children = (
 				33B4C97419BE386F0000E64F /* AppDelegate.h */,
+				339AB1981A1BDEC600F1E77A /* CustomTableCell.h */,
+				339AB1991A1BDEC600F1E77A /* CustomTableCell.m */,
 				33B4C97519BE386F0000E64F /* AppDelegate.m */,
 				335F56F919CB667D00E90B89 /* Main_iPhone.storyboard */,
 				33B4C97D19BE386F0000E64F /* ViewController.h */,
@@ -291,6 +296,7 @@
 				33B4C97F19BE386F0000E64F /* ViewController.m in Sources */,
 				33B4C97619BE386F0000E64F /* AppDelegate.m in Sources */,
 				33B4C97219BE386F0000E64F /* main.m in Sources */,
+				339AB19A1A1BDEC600F1E77A /* CustomTableCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
