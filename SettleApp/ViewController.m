@@ -25,6 +25,18 @@
 {
     [super viewDidLoad];
     
+    
+    // Login function
+    
+    // initalize array:
+    //_arrayLogin = [[NSArray alloc] initWithObjects:@"user name", @"password", nil];
+    // set the titel:
+    self.navigationItem.title= @"Best App";
+
+    
+    
+    
+    
     // Initialize the refresh control.
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     //refreshControl.backgroundColor = [UIColor lightGrayColor];
@@ -91,9 +103,6 @@
     return _feedItems.count;
 }
 
-
-
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Retrieve cell
@@ -115,12 +124,11 @@
     [self.view endEditing:YES];
 }
 
-
-// Insert to Database function
+// Insert to Database function ***************************
 - (IBAction)insert:(id)sender
 {
     // create string contains url address for php file, the file name is phpFile.php, it receives parameter :name
-    NSString *strURL = [NSString stringWithFormat:@"http://demo.lundgrendesign.se/settleapp/db.php?username=%@&email=%@&name=%@&surname=%@&password=%@",_txtUsername.text, _txtEmail.text, _txtName.text, _txtSurname.text, _txtPassword.text];
+    NSString *strURL = [NSString stringWithFormat:@"http://demo.lundgrendesign.se/settleapp/db.php?username=%@&email=%@&name=%@&surname=%@&password=%@", _txtUsername.text, _txtEmail.text, _txtName.text, _txtSurname.text, _txtPassword.text];
     
     // to execute php code
     NSData *dataURL = [NSData dataWithContentsOfURL:[NSURL URLWithString:strURL]];
@@ -132,7 +140,55 @@
 }
 
 
-// Login/Register User
+// Login/Register User ***************************
+
+
+- (void) loginAction{
+    if ([_userNameTextField.text isEqualToString:@""] || [_passwordTextField.text isEqualToString:@""]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"alert" message:@"Please Fill all the field" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    // i will use a code from connect to DB tutorial
+    NSString *strURL = [NSString stringWithFormat:@"http://demo.lundgrendesign.se/settleapp/db.php?userName=%@&password=%@",_userNameTextField.text, _passwordTextField.text];
+    
+    // to execute php code
+    NSData *dataURL = [NSData dataWithContentsOfURL:[NSURL URLWithString:strURL]];
+    
+    // to receive the returend value
+    NSString *strResult = [[NSString alloc] initWithData:dataURL encoding:NSUTF8StringEncoding];
+    
+    if ([strResult isEqualToString:@"1"])
+    {
+        // i need to get the control for main navigation controller
+        AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
+        [appDelegate.navigationController popToRootViewControllerAnimated:NO];
+        // create object from app main view to push it
+        //AppMainView *appMainView = [[AppMainView alloc] initWithNibName:@"AppMainView" bundle:nil];
+      //  [AppDelegate.navigationController pushViewController:appMainView animated:YES];
+    }else
+    {
+        // invalid information
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"alert" message:@"Invalide Information" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+        
+    }
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+    self.arrayLogin = nil;
+    self.userNameTextField = nil;
+    self.passwordTextField = nil;
+}
+
+
+/*
+
 - (IBAction)loginAction:(id)sender{
     if ([_userNameTextField.text isEqualToString:@""] || [_passwordTextField.text isEqualToString:@""]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"alert" message:@"Please Fill all the field" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
@@ -166,6 +222,8 @@
     }
 }
 
+
+/*
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -175,7 +233,7 @@
     self.userNameTextField = nil;
     self.passwordTextField = nil;
 }
-
+*/
 // If Empty table
 
 #pragma mark - Table view data source
