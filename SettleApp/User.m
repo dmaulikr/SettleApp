@@ -8,7 +8,7 @@
 
 #import "User.h"
 
-@implementation User
+@implementation Userc
 
 - (void)downloadItems
 {

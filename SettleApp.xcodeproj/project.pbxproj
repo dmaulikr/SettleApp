@@ -24,8 +24,8 @@
 		33B4C98A19BE38700000E64F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33B4C96919BE386F0000E64F /* UIKit.framework */; };
 		33B4C99219BE38700000E64F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 33B4C99019BE38700000E64F /* InfoPlist.strings */; };
 		33B4C99419BE38700000E64F /* SettleAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 33B4C99319BE38700000E64F /* SettleAppTests.m */; };
+		33EED2311A23567B0059183D /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 33EED2301A23567B0059183D /* User.m */; };
 		33F481AE1A0BA5DA00A27CCD /* HomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F481AD1A0BA5DA00A27CCD /* HomeModel.m */; };
-		33F481B01A0BA5F500A27CCD /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F481AF1A0BA5F500A27CCD /* User.m */; };
 		33F7E64A19BE562000DA241D /* SettleApp.png in Resources */ = {isa = PBXBuildFile; fileRef = 33F7E64919BE562000DA241D /* SettleApp.png */; };
 /* End PBXBuildFile section */
 
@@ -55,17 +55,18 @@
 		33B4C97419BE386F0000E64F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		33B4C97519BE386F0000E64F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		33B4C97D19BE386F0000E64F /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		33B4C97E19BE386F0000E64F /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		33B4C97E19BE386F0000E64F /* ViewController.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = ViewController.m; sourceTree = "<group>"; };
 		33B4C98019BE386F0000E64F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		33B4C98619BE38700000E64F /* SettleAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SettleAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		33B4C98719BE38700000E64F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		33B4C98F19BE38700000E64F /* SettleAppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SettleAppTests-Info.plist"; sourceTree = "<group>"; };
 		33B4C99119BE38700000E64F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		33B4C99319BE38700000E64F /* SettleAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettleAppTests.m; sourceTree = "<group>"; };
+		33EED2301A23567B0059183D /* User.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = User.m; sourceTree = "<group>"; };
+		33EED2321A2357F80059183D /* users.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; path = users.h; sourceTree = "<group>"; };
 		33F481A91A0B96AD00A27CCD /* HomeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeModel.h; sourceTree = "<group>"; };
 		33F481AB1A0B96FA00A27CCD /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
-		33F481AD1A0BA5DA00A27CCD /* HomeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeModel.m; sourceTree = "<group>"; };
-		33F481AF1A0BA5F500A27CCD /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		33F481AD1A0BA5DA00A27CCD /* HomeModel.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = HomeModel.m; sourceTree = "<group>"; };
 		33F7E64919BE562000DA241D /* SettleApp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SettleApp.png; path = SettleApp/SettleApp.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -139,8 +140,9 @@
 				33B4C96C19BE386F0000E64F /* Supporting Files */,
 				33F481A91A0B96AD00A27CCD /* HomeModel.h */,
 				33F481AB1A0B96FA00A27CCD /* User.h */,
+				33EED2321A2357F80059183D /* users.h */,
 				33F481AD1A0BA5DA00A27CCD /* HomeModel.m */,
-				33F481AF1A0BA5F500A27CCD /* User.m */,
+				33EED2301A23567B0059183D /* User.m */,
 			);
 			path = SettleApp;
 			sourceTree = "<group>";
@@ -278,8 +280,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				33F481B01A0BA5F500A27CCD /* User.m in Sources */,
 				33F481AE1A0BA5DA00A27CCD /* HomeModel.m in Sources */,
+				33EED2311A23567B0059183D /* User.m in Sources */,
 				33B4C97F19BE386F0000E64F /* ViewController.m in Sources */,
 				33B4C97619BE386F0000E64F /* AppDelegate.m in Sources */,
 				33B4C97219BE386F0000E64F /* main.m in Sources */,

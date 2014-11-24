@@ -11,6 +11,7 @@
 #import "HomeModel.h"
 #import "AppDelegate.h"
 
+
 @interface ViewController ()
 {
     HomeModel *_homeModel;
@@ -110,7 +111,7 @@
     UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     // Get the user to be shown
-    User *item = _feedItems[indexPath.row];
+    Userc *item = _feedItems[indexPath.row];
     // Get references to labels of cell
    
     NSString *fullName = [NSString stringWithFormat:@"%@ %@", item.name, item.surname];
@@ -142,7 +143,7 @@
 
 // Login/Register User ***************************
 
-
+/*
 - (void) loginAction{
     if ([_userNameTextField.text isEqualToString:@""] || [_passwordTextField.text isEqualToString:@""]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"alert" message:@"Please Fill all the field" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
@@ -187,7 +188,6 @@
 }
 
 
-/*
 
 - (IBAction)loginAction:(id)sender{
     if ([_userNameTextField.text isEqualToString:@""] || [_passwordTextField.text isEqualToString:@""]) {
@@ -223,7 +223,7 @@
 }
 
 
-/*
+
 - (void)viewDidUnload
 {
     [super viewDidUnload];

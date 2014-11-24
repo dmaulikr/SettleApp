@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface User : NSObject
+@interface Userc : NSObject
 
 @property (atomic) NSInteger *id;
 @property (nonatomic, strong) NSString *username;

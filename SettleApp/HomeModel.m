@@ -1,6 +1,7 @@
 #import "HomeModel.h"
 #import "User.h"
 #import "ViewController.h"
+#import "users.h"
 
 @interface HomeModel()
 {
@@ -48,9 +49,8 @@
     for (int i = 0; i < jsonArray.count; i++)
     {
         NSDictionary *jsonElement = jsonArray[i];
-        
         // Create a new location object and set its props to JsonElement properties
-        User *newUser = [[User alloc] init];
+        Userc *newUser = [[Userc alloc] init];
      //   newUser.id = jsonElement[@"Id"];
         newUser.username = jsonElement[@"Username"];
         newUser.name = jsonElement[@"Name"];
@@ -58,6 +58,8 @@
         newUser.email = jsonElement[@"Email"];
         newUser.Password = jsonElement[@"Password"];
         
+       
+
         // Add this question to the users array
         [_users addObject:newUser];
     }
