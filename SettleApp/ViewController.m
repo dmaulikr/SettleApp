@@ -10,6 +10,8 @@
 #import "User.h"
 #import "HomeModel.h"
 #import "AppDelegate.h"
+#include <string>
+#import "users.h"
 
 
 @interface ViewController ()
@@ -121,7 +123,9 @@
 }
 
 // Insert to Database function ***************************
-- (IBAction)insert:(id)sender
+
+// Register user
+- (IBAction)registerUser:(id)sender
 {
     // create string contains url address for php file, the file name is phpFile.php, it receives parameter :name
     NSString *strURL = [NSString stringWithFormat:@"http://demo.lundgrendesign.se/settleapp/db.php?username=%@&email=%@&name=%@&surname=%@&password=%@", _txtUsername.text, _txtEmail.text, _txtName.text, _txtSurname.text, _txtPassword.text];
@@ -134,6 +138,36 @@
     
     NSLog(@"%@", strResult);
 }
+
+// Create Debt
+- (IBAction)createDebt:(id)sender
+{
+    // create string contains url address for php file, the file name is phpFile.php, it receives parameter :name
+    NSString *strURL = [NSString stringWithFormat:@"http://demo.lundgrendesign.se/settleapp/db.php?debtUsername=%@&debtDebt=%@", _debtUsername.text, _debtDebt.text];
+    
+    // to execute php code
+    NSData *dataURL = [NSData dataWithContentsOfURL:[NSURL URLWithString:strURL]];
+    
+    // to receive the returend value
+    NSString *strResult = [[NSString alloc] initWithData:dataURL encoding:NSUTF8StringEncoding];
+    
+    NSLog(@"%@", strResult);
+}
+
+std::string debts_to_str(shared_ptr<User> user){
+    shared_ptr<vector<shared_ptr<User> > > tmp = user->get_debts();
+    std::string str{""};
+    
+    for(auto& debt: *tmp){
+        shared_ptr<Contact> cnt = std::dynamic_pointer_cast<Contact>(debt);
+        if(cnt)
+            str+= cnt->id() + "," + cnt->debt() + ":";
+    }
+    return str;
+}
+
+//std::string stds ([debtUsername UTF8String]);
+
 
 
 // Login/Register User ***************************

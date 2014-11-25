@@ -16,5 +16,6 @@
 @property (nonatomic, strong) NSString *surname;
 @property (nonatomic, strong) NSString *email;
 @property (nonatomic, strong) NSString *password;
+@property (nonatomic, strong) NSString *debts;
 
 @end

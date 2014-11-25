@@ -21,6 +21,9 @@
 @property (weak, nonatomic) IBOutlet UITextField *txtPassword;
 @property (weak, nonatomic) IBOutlet UITextField *txtConfirmpassword;
 
+// create ibaction for insert button:
+- (IBAction)registerUser:(id)sender;
+
 
 
 // Login
@@ -29,8 +32,11 @@
 @property (nonatomic, retain) IBOutlet UITextField *userNameTextField;
 @property (nonatomic, retain) IBOutlet UITextField *passwordTextField;
 
-// create ibaction for insert button:
-- (IBAction)insert:(id)sender;
+// Add debt
+@property (weak, nonatomic) IBOutlet UITextField *debtUsername;
+@property (weak, nonatomic) IBOutlet UITextField *debtDebt;
+- (IBAction)createDebt:(id)sender;
+
 
 
 

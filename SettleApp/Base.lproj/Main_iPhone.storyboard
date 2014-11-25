@@ -94,10 +94,10 @@
             </objects>
             <point key="canvasLocation" x="882" y="201"/>
         </scene>
-        <!--Lägg till en vän-->
+        <!--Lägg till ny skuld-->
         <scene sceneID="d0I-hf-ib6">
             <objects>
-                <viewController id="mVJ-Qk-spi" sceneMemberID="viewController">
+                <viewController id="mVJ-Qk-spi" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="dxT-DH-quZ"/>
                         <viewControllerLayoutGuide type="bottom" id="XRk-gn-ke7"/>
@@ -106,34 +106,43 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" highlighted="YES" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Förnamn" clearsOnBeginEditing="YES" minimumFontSize="19" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="UXR-eV-KbY">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" highlighted="YES" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Användarnamn" borderStyle="roundedRect" placeholder="Förnamn" clearsOnBeginEditing="YES" minimumFontSize="19" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="UXR-eV-KbY">
                                 <rect key="frame" x="16" y="72" width="288" height="30"/>
-                                <color key="textColor" red="0.19511706600000001" green="0.66666666669999997" blue="0.52896063739999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters" keyboardAppearance="light" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                                <color key="backgroundColor" red="0.3925283551" green="0.68470472100000002" blue="0.57790225740000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardAppearance="light" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Efternamn" clearsOnBeginEditing="YES" minimumFontSize="19" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="IFe-pg-dqG">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Summa" borderStyle="roundedRect" placeholder="Efternamn" clearsOnBeginEditing="YES" minimumFontSize="19" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="IFe-pg-dqG">
                                 <rect key="frame" x="16" y="117" width="288" height="30"/>
+                                <color key="backgroundColor" red="0.3925283551" green="0.68470472100000002" blue="0.57790225740000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="textColor" red="0.19511706600000001" green="0.66666666669999997" blue="0.52896063739999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardType="namePhonePad" keyboardAppearance="light" enablesReturnKeyAutomatically="YES"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardType="namePhonePad" keyboardAppearance="light" enablesReturnKeyAutomatically="YES"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YOE-U5-b7r">
-                                <rect key="frame" x="137" y="169" width="46" height="30"/>
+                                <rect key="frame" x="137" y="161" width="46" height="30"/>
                                 <state key="normal" title="Spara">
                                     <color key="titleColor" red="0.19511706600000001" green="0.66666666669999997" blue="0.52896063739999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="createDebt:" destination="mVJ-Qk-spi" eventType="touchUpInside" id="Y2D-Jo-Dlp"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Lägg till en vän" id="OOb-Zn-DwZ">
+                    <navigationItem key="navigationItem" title="Lägg till ny skuld" id="OOb-Zn-DwZ">
                         <barButtonItem key="backBarButtonItem" title="Tillbaka" id="7PS-KC-4ap"/>
                     </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="debtDebt" destination="IFe-pg-dqG" id="DLZ-cr-C59"/>
+                        <outlet property="debtUsername" destination="UXR-eV-KbY" id="GPh-zt-vGV"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4bf-rr-mcS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -303,7 +312,7 @@
                                     <color key="titleShadowColor" red="0.36078432199999999" green="0.6549019814" blue="0.5411764979" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="insert:" destination="gDI-Ot-3ID" eventType="touchUpInside" id="aSp-IB-Ry0"/>
+                                    <action selector="registerUser:" destination="Oqi-YL-e7d" eventType="touchUpInside" id="5H2-T4-p83"/>
                                 </connections>
                             </button>
                             <button opaque="NO" alpha="0.89999997615814209" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="og5-ui-RcE">
