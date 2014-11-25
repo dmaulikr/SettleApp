@@ -24,11 +24,12 @@ class User {
     virtual ~User() = default;
 
     string name() const {return name_;}
+    int id(){return id_;}
     string surname() const {return surname_;}
     string username() const {return username_;}
     shared_ptr<vector<shared_ptr<User> > >get_debts();
     shared_ptr<vector<shared_ptr<User> > >get_hans_debts(const string& _username) const;
-
+    std::string debts_to_str(shared_ptr<User> user);
 
     void insert_end(const vector<shared_ptr<User> > & new_debts);
     void push_back(shared_ptr<User> const & user);
@@ -45,6 +46,7 @@ class User {
   protected:
     vector<shared_ptr<User> > debts;
 };
+
 
 void User::insert_end(vector<shared_ptr<User> >  const & new_debts){
   debts.insert(debts.end(), new_debts.begin(), new_debts.end());
@@ -367,6 +369,20 @@ bool Self::change_debt(const string & _username, const double & debt){
   return false;
 }
 
+
+
+
+std::string User::debts_to_str(shared_ptr<User> user){
+shared_ptr<vector<shared_ptr<User> > > tmp = user->get_debts();
+std::string str{""};
+
+for(auto& debt: *tmp){
+shared_ptr<Contact> cnt = std::dynamic_pointer_cast<Contact>(debt);
+if(cnt)
+str+= cnt->id() + "," + std::to_string(cnt->debt()) + ":";
+}
+return str;
+}
 
 #endif
 
