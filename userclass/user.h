@@ -56,17 +56,17 @@ void User::push_back(shared_ptr<User> const & user){
 
 shared_ptr<vector<shared_ptr<User> > >User::get_debts(){
   //cout << "get_debts     " << username() << endl;
- // shared_ptr<vector<shared_ptr<User> > >tmp =
-//make_shared<vector<shared_ptr<User> > >(debts);
+  // shared_ptr<vector<shared_ptr<User> > >tmp =
+  //make_shared<vector<shared_ptr<User> > >(debts);
   shared_ptr<vector<shared_ptr<User> > >tmp = make_shared<vector<shared_ptr<User> > >();
   //cout << "before if\n";
-  
-    //cout<< "before for\n";
-    for(auto& d: debts){
-      //cout << "in for\n";
-      tmp->push_back(d->clone());
-    }
-  
+
+  //cout<< "before for\n";
+  for(auto& d: debts){
+    //cout << "in for\n";
+    tmp->push_back(d->clone());
+  }
+
   //cout << "hej" << endl;
   //cout << "get_debts(): " << tmp->size() << endl;
   return tmp;
@@ -262,21 +262,27 @@ bool Self::change_debt(const string & _username, const double & debt){
     if(cont){
       if(cont->username() == _username){ //kontakten vars skuld ska ändras
         vector<shared_ptr<User> > common_debts{};
-
-        for(auto& cont_debt: *user->get_debts()){ //kontaktens kontakter
-          cout << "contacts contacs\n";
+        shared_ptr<Contact> his_me;
+        shared_ptr<vector<shared_ptr<User> > > gd1 = cont->get_debts();
+        for(auto& cont_debt: *gd1){ //kontaktens kontakter
           shared_ptr<Contact> cnt =
             std::dynamic_pointer_cast<Contact>(cont_debt);//ska 
           if(cnt){
-            for(auto& find_self: *cnt->get_debts()){ //om någon av dessa har
+            if(cnt->username() == username()){
+              his_me = std::dynamic_pointer_cast<Contact>(cnt);
+            }
+            shared_ptr<vector<shared_ptr<User> > > gd2 = cnt->get_debts();
+            for(auto& find_self: *gd2){ //om någon av dessa har
               //skuld till användaren
               shared_ptr<Contact> me =
                 std::dynamic_pointer_cast<Contact>(find_self);
-              cout << "contacts contacts contacts\n";
-              if(me->username() == username()){
-                common_debts.push_back(cont_debt->clone());
+              if(me){
+                if(me->username() == username()){
+                  common_debts.push_back(cnt->clone());
+                }
               }
             }
+
           }
         } // Lös skulder mellan *this, cont och common_debts här:
 
@@ -298,12 +304,11 @@ bool Self::change_debt(const string & _username, const double & debt){
         //update_list.push_back(user);
         //return true;
         if(common_debts.empty()){
-          cout << "contact has no common debts\n";
           cont->change_debt("", debt);
           update_list.push_back(user);
           return true;
         }else{
-          double rest{debt}; 
+          double rest{debt};
           for(auto & his_common: common_debts){
             for(auto & my_common: debts){
               shared_ptr<Contact> his_com =
@@ -312,7 +317,6 @@ bool Self::change_debt(const string & _username, const double & debt){
                 std::dynamic_pointer_cast<Contact>(my_common);
 
               if(my_com->username() == his_com->username()){
-
                 if((my_com->debt()<0) && (his_com->debt() <0)){
                   //hittat en där båda är skyldiga
                   if(rest <0){// - på mina pengar
@@ -330,8 +334,10 @@ bool Self::change_debt(const string & _username, const double & debt){
                     }else{//om mer än hans skuld -''-
                       rest -= his_com->debt(); //hans är
                       //negativ och är mindre än debt
-                      his_com->change_debt("",abs(his_com->debt()));
                       my_com->change_debt("",his_com->debt());
+
+                      his_com->change_debt("",abs(his_com->debt()));
+
                       update_list.push_back(his_com);
                       update_list.push_back(my_com);
                     }
@@ -349,8 +355,13 @@ bool Self::change_debt(const string & _username, const double & debt){
               }
             }
           }
+          if(his_me) // går inte igenom.. varför?
+            his_me->change_debt("", abs(rest)); // ger segmenteringsfel
+          cont->change_debt("", rest);
+          return true;
         }
       }
+
     }
   }
   return false;
