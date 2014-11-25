@@ -9,8 +9,12 @@
 }
 @end
 
-
 @implementation HomeModel
+
+-(std::string) getString:(NSString*) nss {
+    std::string stds ([nss UTF8String]);
+    return stds;
+}
 
 - (void)downloadItems
 {
@@ -57,8 +61,16 @@
         newUser.surname = jsonElement[@"Surname"];
         newUser.email = jsonElement[@"Email"];
         newUser.Password = jsonElement[@"Password"];
+  
+        std::string username ([newUser.username UTF8String]);
+        std::string name ([newUser.name UTF8String]);
+        std::string surname ([newUser.surname UTF8String]);
+        std::string email ([newUser.email UTF8String]);
         
-       
+       Self selfish (username, name, surname, 5, email);
+        
+        NSLog(@"The code runs through here!");
+
 
         // Add this question to the users array
         [_users addObject:newUser];
@@ -70,6 +82,7 @@
         [self.delegate itemsDownloaded:_users];
     }
 }
+                     
 
 
 @end

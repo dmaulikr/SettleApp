@@ -31,12 +31,7 @@
     
     // initalize array:
     //_arrayLogin = [[NSArray alloc] initWithObjects:@"user name", @"password", nil];
-    // set the titel:
-    self.navigationItem.title= @"Best App";
 
-    
-    
-    
     
     // Initialize the refresh control.
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
