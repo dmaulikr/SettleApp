@@ -10,7 +10,7 @@
 
 @interface Userc : NSObject
 
-@property (atomic) NSInteger *id;
+@property (nonatomic, assign) NSNumber *ide;
 @property (nonatomic, strong) NSString *username;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *surname;

@@ -221,27 +221,31 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="loginAction:" destination="XQE-CG-mtX" eventType="touchDown" id="n71-c0-1AU"/>
+                                    <action selector="loginAction:" destination="XQE-CG-mtX" eventType="touchUpInside" id="d1V-jX-koR"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="SettleApp.png" translatesAutoresizingMaskIntoConstraints="NO" id="b20-hK-OEU">
                                 <rect key="frame" x="94" y="273" width="133" height="71"/>
                             </imageView>
-                            <textField clipsSubviews="YES" alpha="0.80000001192092896" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" usesAttributedText="YES" allowsEditingTextAttributes="YES" placeholder="Användarnamn" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="uMi-gM-S1P">
+                            <textField clipsSubviews="YES" alpha="0.80000001192092896" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" usesAttributedText="YES" allowsEditingTextAttributes="YES" placeholder="Användarnamn" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="uMi-gM-S1P">
                                 <rect key="frame" x="16" y="129" width="288" height="41"/>
                                 <color key="backgroundColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
                                 <color key="tintColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Användarnamn">
                                         <attributes>
-                                            <font key="NSFont" metaFont="smallSystem"/>
+                                            <font key="NSFont" size="17" name=".HelveticaNeueDeskInterface-Regular"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
                                         </attributes>
                                     </fragment>
                                 </attributedString>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardType="emailAddress" keyboardAppearance="alert" returnKeyType="next"/>
+                                <textInputTraits key="textInputTraits" keyboardAppearance="alert" returnKeyType="next"/>
+                                <connections>
+                                    <action selector="nextPressed:" destination="XQE-CG-mtX" eventType="touchDown" id="ayO-tb-Ycm"/>
+                                    <action selector="nextPressed:" destination="doM-mx-m3c" eventType="editingDidEnd" id="ddg-fl-Is3"/>
+                                </connections>
                             </textField>
-                            <textField clipsSubviews="YES" alpha="0.80000001192092896" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" usesAttributedText="YES" allowsEditingTextAttributes="YES" placeholder="Lösenord" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="eKi-Fb-osk">
+                            <textField clipsSubviews="YES" alpha="0.80000001192092896" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" usesAttributedText="YES" placeholder="Lösenord" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="eKi-Fb-osk">
                                 <rect key="frame" x="16" y="178" width="288" height="41"/>
                                 <color key="backgroundColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
                                 <color key="tintColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
@@ -253,18 +257,8 @@
                                         </attributes>
                                     </fragment>
                                 </attributedString>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardAppearance="alert" returnKeyType="go"/>
+                                <textInputTraits key="textInputTraits" keyboardAppearance="alert" returnKeyType="go" secureTextEntry="YES"/>
                             </textField>
-                            <button opaque="NO" alpha="0.89999997615814209" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dyt-QV-BBz">
-                                <rect key="frame" x="16" y="339" width="288" height="43"/>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="IM THE BOSS">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="QLM-To-UbB" kind="modal" animates="NO" id="zdk-Jd-jdK"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -275,6 +269,7 @@
                     <connections>
                         <outlet property="passwordTextField" destination="eKi-Fb-osk" id="KaJ-d0-Q1c"/>
                         <outlet property="userNameTextField" destination="uMi-gM-S1P" id="jX5-Ds-tlZ"/>
+                        <segue destination="QLM-To-UbB" kind="modal" identifier="login" id="WAg-Yc-cC5"/>
                     </connections>
                 </viewController>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="aUA-dj-Pnu">
@@ -328,7 +323,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="SettleApp.png" translatesAutoresizingMaskIntoConstraints="NO" id="sVQ-tE-7Kz">
                                 <rect key="frame" x="94" y="423" width="133" height="71"/>
                             </imageView>
-                            <textField clipsSubviews="YES" alpha="0.80000001192092896" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" usesAttributedText="YES" allowsEditingTextAttributes="YES" placeholder="Användarnamn" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Low-br-Jj1">
+                            <textField clipsSubviews="YES" alpha="0.80000001192092896" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" usesAttributedText="YES" allowsEditingTextAttributes="YES" placeholder="Användarnamn" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Low-br-Jj1">
                                 <rect key="frame" x="16" y="74" width="288" height="41"/>
                                 <color key="backgroundColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
                                 <color key="tintColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
@@ -354,7 +349,7 @@
                                         </attributes>
                                     </fragment>
                                 </attributedString>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardAppearance="alert" returnKeyType="next"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardAppearance="alert" returnKeyType="next" secureTextEntry="YES"/>
                             </textField>
                             <textField clipsSubviews="YES" alpha="0.80000001192092896" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" usesAttributedText="YES" allowsEditingTextAttributes="YES" placeholder="Förnamn" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="6N0-Ah-kyl">
                                 <rect key="frame" x="16" y="193" width="288" height="41"/>
@@ -396,7 +391,7 @@
                                         </attributes>
                                     </fragment>
                                 </attributedString>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardAppearance="alert" returnKeyType="go"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardAppearance="alert" returnKeyType="go" secureTextEntry="YES"/>
                             </textField>
                             <textField clipsSubviews="YES" alpha="0.80000001192092896" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" usesAttributedText="YES" allowsEditingTextAttributes="YES" placeholder="E-postadress" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="N48-Gc-6Sz">
                                 <rect key="frame" x="16" y="123" width="288" height="41"/>

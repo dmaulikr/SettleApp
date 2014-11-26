@@ -10,9 +10,11 @@
 #import "User.h"
 #import "HomeModel.h"
 #import "AppDelegate.h"
+#import "AppMainView.h"
+#include <memory>
+#include <stdlib.h>
 #include <string>
 #import "users.h"
-
 
 @interface ViewController ()
 {
@@ -22,18 +24,28 @@
 @end
 
 @implementation ViewController
+@synthesize arrayLogin;
+@synthesize userNameTextField, passwordTextField;
 
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if(textField == userNameTextField) {
+        [passwordTextField becomeFirstResponder];
+   }
+    return NO;
+
+}
+
+-(IBAction) nextPressed: (id) sender {
+    if ([userNameTextField isFirstResponder]) {
+        [passwordTextField becomeFirstResponder];
+    }
+    
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    
-    // Login function
-    
-    // initalize array:
-    //_arrayLogin = [[NSArray alloc] initWithObjects:@"user name", @"password", nil];
-
     
     // Initialize the refresh control.
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
@@ -100,23 +112,7 @@
     // Return the number of feed items (initially 0)
     return _feedItems.count;
 }
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Retrieve cell
-    NSString *cellIdentifier = @"BasicCell";
-    UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    
-    // Get the user to be shown
-    Userc *item = _feedItems[indexPath.row];
-    // Get references to labels of cell
-   
-    NSString *fullName = [NSString stringWithFormat:@"%@ %@", item.name, item.surname];
-    myCell.textLabel.text = fullName;
-    
-    return myCell;
-}
-
+ 
 // Dismiss keyboard
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [self.view endEditing:YES];
@@ -154,148 +150,6 @@
     NSLog(@"%@", strResult);
 }
 
-std::string debts_to_str(shared_ptr<User> user){
-    shared_ptr<vector<shared_ptr<User> > > tmp = user->get_debts();
-    std::string str{""};
-    
-    for(auto& debt: *tmp){
-        shared_ptr<Contact> cnt = std::dynamic_pointer_cast<Contact>(debt);
-        if(cnt)
-            str+= cnt->id() + "," + cnt->debt() + ":";
-    }
-    return str;
-}
-
-//std::string stds ([debtUsername UTF8String]);
-
-
-
-// Login/Register User ***************************
-
-/*
-- (void) loginAction{
-    if ([_userNameTextField.text isEqualToString:@""] || [_passwordTextField.text isEqualToString:@""]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"alert" message:@"Please Fill all the field" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alert show];
-        return;
-    }
-    // i will use a code from connect to DB tutorial
-    NSString *strURL = [NSString stringWithFormat:@"http://demo.lundgrendesign.se/settleapp/db.php?userName=%@&password=%@",_userNameTextField.text, _passwordTextField.text];
-    
-    // to execute php code
-    NSData *dataURL = [NSData dataWithContentsOfURL:[NSURL URLWithString:strURL]];
-    
-    // to receive the returend value
-    NSString *strResult = [[NSString alloc] initWithData:dataURL encoding:NSUTF8StringEncoding];
-    
-    if ([strResult isEqualToString:@"1"])
-    {
-        // i need to get the control for main navigation controller
-        AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
-        [appDelegate.navigationController popToRootViewControllerAnimated:NO];
-        // create object from app main view to push it
-        //AppMainView *appMainView = [[AppMainView alloc] initWithNibName:@"AppMainView" bundle:nil];
-      //  [AppDelegate.navigationController pushViewController:appMainView animated:YES];
-    }else
-    {
-        // invalid information
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"alert" message:@"Invalide Information" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alert show];
-        return;
-        
-    }
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-    self.arrayLogin = nil;
-    self.userNameTextField = nil;
-    self.passwordTextField = nil;
-}
-
-
-
-- (IBAction)loginAction:(id)sender{
-    if ([_userNameTextField.text isEqualToString:@""] || [_passwordTextField.text isEqualToString:@""]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"alert" message:@"Please Fill all the field" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alert show];
-        return;
-    }
-    // i will use a code from connect to DB tutorial
-    NSString *strURL = [NSString stringWithFormat:@"http://demo.lundgrendesign.se/settleapp/db.php?userName=%@&password=%@",_userNameTextField.text, _passwordTextField.text];
-    
-    // to execute php code
-    NSData *dataURL = [NSData dataWithContentsOfURL:[NSURL URLWithString:strURL]];
-    
-    // to receive the returend value
-    NSString *strResult = [[NSString alloc] initWithData:dataURL encoding:NSUTF8StringEncoding];
-    
-    if ([strResult isEqualToString:@"1"])
-    {
-        // i need to get the control for main navigation controller
-        //    AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
-        
-        // create object from app main view to push it
-        //    appMainView = [[AppMainView alloc] initWithNibName:@"AppMainView" bundle:nil];
-        //   [UINavigationController pushViewController:SettleApp animated:YES];
-    }else
-    {
-        // invalid information
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"alert" message:@"Invalide Information" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alert show];
-        return;
-        
-    }
-}
-
-
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-    self.arrayLogin = nil;
-    self.userNameTextField = nil;
-    self.passwordTextField = nil;
-}
-*/
-// If Empty table
-
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
-    if (1==1) {
-        
-        self.listTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-        return 1;
-        
-    } else {
-        
-        // Display a message when the table is empty
-        UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-        
-        messageLabel.text = @"No data is currently available. Please pull down to refresh.";
-        messageLabel.textColor = [UIColor blackColor];
-        messageLabel.numberOfLines = 0;
-        messageLabel.textAlignment = NSTextAlignmentCenter;
-        messageLabel.font = [UIFont fontWithName:@"Palatino-Italic" size:20];
-        [messageLabel sizeToFit];
-        
-        self.listTableView.backgroundView = messageLabel;
-        self.listTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        
-    }
-    
-    return 0;
-}
-
-
 - (void)refresh:(UIRefreshControl *)refreshControl {
     
     // End the refreshing
@@ -308,9 +162,63 @@ std::string debts_to_str(shared_ptr<User> user){
     NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attrsDictionary];
   [self.listTableView reloadData]; // EGET SKIT FÖR ATT RELOADA
     
-
-    
     [refreshControl endRefreshing];
 }
+
+- (void) loginAction:(id)sender {
+    if ([userNameTextField.text isEqualToString:@""] || [passwordTextField.text isEqualToString:@""]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"alert" message:@"Please Fill all the field" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    // i will use a code from connect to DB tutorial
+    NSString *strURL = [NSString stringWithFormat:@"http://demo.lundgrendesign.se/settleapp/db.php?userName=%@&password=%@",userNameTextField.text, passwordTextField.text];
+    
+    // to execute php code
+    NSData *dataURL = [NSData dataWithContentsOfURL:[NSURL URLWithString:strURL]];
+    
+    // to receive the returend value
+    NSString *strResult = [[NSString alloc] initWithData:dataURL encoding:NSUTF8StringEncoding];
+    
+    if ([strResult isEqualToString:@"1"] )
+    {
+       /* // i need to get the control for main navigation controller
+        AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
+        [appDelegate.navigationController popToRootViewControllerAnimated:NO];
+        // create object from app main view to push it
+        AppMainView *appMainView = [[AppMainView alloc] initWithNibName:@"AppMainView" bundle:nil];
+        [appDelegate.navigationController pushViewController:appMainView animated:YES];
+        */
+        NSString *strURL = [NSString stringWithFormat:@"http://demo.lundgrendesign.se/settleapp/db.php?i=getUserbyName&username=%@",userNameTextField.text];
+        // to execute php code
+        NSData *dataURL = [NSData dataWithContentsOfURL:[NSURL URLWithString:strURL]];
+        
+        NSString *userResult = [[NSString alloc] initWithData:dataURL encoding:NSUTF8StringEncoding];
+        std::string userResultstd ([userResult UTF8String]);
+        //std::shared_ptr<Self> = stringToSelf(userResultstd);
+        
+        std::shared_ptr<Self> FittPtr = std::make_shared<Self>("username","name", "surname", 1, "tobb");
+        [self performSegueWithIdentifier:@"login" sender:self];
+    }else
+    {
+        // invalid information
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"alert" message:@"Invalide Information" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+        
+    }
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+    self.arrayLogin = nil;
+    self.userNameTextField = nil;
+    self.passwordTextField = nil;
+}
+
+
 
 @end

@@ -31,6 +31,7 @@
 @property (nonatomic, retain) NSArray *arrayLogin;
 @property (nonatomic, retain) IBOutlet UITextField *userNameTextField;
 @property (nonatomic, retain) IBOutlet UITextField *passwordTextField;
+-(IBAction) nextPressed: (id) sender;
 
 // Add debt
 @property (weak, nonatomic) IBOutlet UITextField *debtUsername;

@@ -1,7 +1,7 @@
 #import "HomeModel.h"
 #import "User.h"
 #import "ViewController.h"
-#import "users.h"
+//#import "users.h"
 
 @interface HomeModel()
 {
@@ -55,27 +55,14 @@
         NSDictionary *jsonElement = jsonArray[i];
         // Create a new location object and set its props to JsonElement properties
         Userc *newUser = [[Userc alloc] init];
-     //   newUser.id = jsonElement[@"Id"];
+        newUser.ide = jsonElement[@"ID"];
         newUser.username = jsonElement[@"Username"];
         newUser.name = jsonElement[@"Name"];
         newUser.surname = jsonElement[@"Surname"];
         newUser.email = jsonElement[@"Email"];
-        newUser.Password = jsonElement[@"Password"];
+        newUser.password = jsonElement[@"Password"];
         newUser.debts = jsonElement[@"Debts"];
         
-        std::string username ([newUser.username UTF8String]);
-        std::string name ([newUser.name UTF8String]);
-        std::string surname ([newUser.surname UTF8String]);
-        std::string email ([newUser.email UTF8String]);
-        std::string debts ([newUser.debts UTF8String]);
-        
-       Self selfish (username, name, surname, 5, email);
-
-       
-       
-
-       
-
         // Add this question to the users array
         [_users addObject:newUser];
     }
@@ -88,7 +75,7 @@
 }
 
 /*
-- (void)getOneUser:(NSURLConnection *)connection
+- (void)getUser:(NSURLConnection *)connection: (NSString*) Usernamme
 {
     // Create an array to store the users
     NSMutableArray *_users = [[NSMutableArray alloc] init];
@@ -98,20 +85,22 @@
     NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:_downloadedData options:NSJSONReadingAllowFragments error:&error];
     
   
-        NSDictionary *jsonElement = jsonArray[2];
+        NSDictionary *jsonElement = jsonArray[Usernamme];
         // Create a new location object and set its props to JsonElement properties
         Userc *newUser = [[Userc alloc] init];
-        //   newUser.id = jsonElement[@"Id"];
+        newUser.ide = jsonElement[@"ID"];
         newUser.username = jsonElement[@"Username"];
         newUser.name = jsonElement[@"Name"];
         newUser.surname = jsonElement[@"Surname"];
         newUser.email = jsonElement[@"Email"];
         newUser.Password = jsonElement[@"Password"];
-        
+        newUser.debts = jsonElement[@"Debts"];
+    
         std::string username ([newUser.username UTF8String]);
         std::string name ([newUser.name UTF8String]);
         std::string surname ([newUser.surname UTF8String]);
         std::string email ([newUser.email UTF8String]);
+        std::string  ([newUser.email UTF8String]);
         
         Self selfish (username, name, surname, 5, email);
         
