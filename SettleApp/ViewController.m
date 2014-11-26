@@ -26,8 +26,22 @@
 @implementation ViewController
 @synthesize arrayLogin;
 @synthesize userNameTextField, passwordTextField;
+//@synthesize nextField;
+/*
 
-
+- (BOOL) textFieldShouldReturn:(UITextField *) textField {
+    
+    BOOL didResign = [textField resignFirstResponder];
+    if (!didResign) return NO;
+    
+    if ([textField isKindOfClass:[ViewController class]])
+        dispatch_async(dispatch_get_current_queue(),
+                       ^ { [[(ViewController *)textField nextField] becomeFirstResponder]; });
+    
+    return YES;
+    
+}
+*/
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if(textField == userNameTextField) {
         [passwordTextField becomeFirstResponder];
@@ -111,6 +125,22 @@
 {
     // Return the number of feed items (initially 0)
     return _feedItems.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Retrieve cell
+    NSString *cellIdentifier = @"BasicCell";
+    UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    // Get the user to be shown
+    Userc *item = _feedItems[indexPath.row];
+    // Get references to labels of cell
+    
+    NSString *fullName = [NSString stringWithFormat:@"%@ %@", item.name, item.surname];
+    myCell.textLabel.text = fullName;
+    
+    return myCell;
 }
  
 // Dismiss keyboard

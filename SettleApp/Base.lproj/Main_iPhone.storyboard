@@ -240,10 +240,6 @@
                                     </fragment>
                                 </attributedString>
                                 <textInputTraits key="textInputTraits" keyboardAppearance="alert" returnKeyType="next"/>
-                                <connections>
-                                    <action selector="nextPressed:" destination="XQE-CG-mtX" eventType="touchDown" id="ayO-tb-Ycm"/>
-                                    <action selector="nextPressed:" destination="doM-mx-m3c" eventType="editingDidEnd" id="ddg-fl-Is3"/>
-                                </connections>
                             </textField>
                             <textField clipsSubviews="YES" alpha="0.80000001192092896" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" usesAttributedText="YES" placeholder="Lösenord" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="eKi-Fb-osk">
                                 <rect key="frame" x="16" y="178" width="288" height="41"/>
