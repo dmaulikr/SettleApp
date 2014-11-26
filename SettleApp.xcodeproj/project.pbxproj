@@ -27,6 +27,7 @@
 		33EED2311A23567B0059183D /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 33EED2301A23567B0059183D /* User.m */; };
 		33EED2351A24C45A0059183D /* AppMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 33EED2331A24C45A0059183D /* AppMainView.m */; };
 		33EED2391A24C8470059183D /* AppMainView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33EED2381A24C8470059183D /* AppMainView.storyboard */; };
+		33EED2751A2608DF0059183D /* SOTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 33EED2741A2608DF0059183D /* SOTextField.m */; };
 		33F481AE1A0BA5DA00A27CCD /* HomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F481AD1A0BA5DA00A27CCD /* HomeModel.m */; };
 		33F7E64A19BE562000DA241D /* SettleApp.png in Resources */ = {isa = PBXBuildFile; fileRef = 33F7E64919BE562000DA241D /* SettleApp.png */; };
 /* End PBXBuildFile section */
@@ -69,6 +70,8 @@
 		33EED2331A24C45A0059183D /* AppMainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppMainView.m; sourceTree = "<group>"; };
 		33EED2341A24C45A0059183D /* AppMainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppMainView.h; sourceTree = "<group>"; };
 		33EED2381A24C8470059183D /* AppMainView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AppMainView.storyboard; sourceTree = "<group>"; };
+		33EED2731A2608DF0059183D /* SOTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SOTextField.h; path = ../SOTextField.h; sourceTree = "<group>"; };
+		33EED2741A2608DF0059183D /* SOTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SOTextField.m; path = ../SOTextField.m; sourceTree = "<group>"; };
 		33F481A91A0B96AD00A27CCD /* HomeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeModel.h; sourceTree = "<group>"; };
 		33F481AB1A0B96FA00A27CCD /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		33F481AD1A0BA5DA00A27CCD /* HomeModel.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = HomeModel.m; sourceTree = "<group>"; };
@@ -136,6 +139,8 @@
 		33B4C96B19BE386F0000E64F /* SettleApp */ = {
 			isa = PBXGroup;
 			children = (
+				33EED2731A2608DF0059183D /* SOTextField.h */,
+				33EED2741A2608DF0059183D /* SOTextField.m */,
 				33EED2381A24C8470059183D /* AppMainView.storyboard */,
 				33B4C97419BE386F0000E64F /* AppDelegate.h */,
 				33EED2331A24C45A0059183D /* AppMainView.m */,
@@ -290,6 +295,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				33F481AE1A0BA5DA00A27CCD /* HomeModel.m in Sources */,
+				33EED2751A2608DF0059183D /* SOTextField.m in Sources */,
 				33EED2351A24C45A0059183D /* AppMainView.m in Sources */,
 				33EED2311A23567B0059183D /* User.m in Sources */,
 				33B4C97F19BE386F0000E64F /* ViewController.m in Sources */,

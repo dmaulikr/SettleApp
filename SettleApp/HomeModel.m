@@ -1,7 +1,6 @@
 #import "HomeModel.h"
 #import "User.h"
 #import "ViewController.h"
-//#import "users.h"
 
 @interface HomeModel()
 {
@@ -10,11 +9,6 @@
 @end
 
 @implementation HomeModel
-/*
--(std::string) getString:(NSString*) nss {
-    std::string stds ([nss UTF8String]);
-    return stds;
-}*/
 
 - (void)downloadItems
 {

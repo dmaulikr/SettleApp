@@ -8,10 +8,22 @@
 
 #import <UIKit/UIKit.h>
 #import "HomeModel.h"
-@interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, HomeModelProtocol>
+#import "SOTextField.h"
 
+@protocol ViewControllerProtocol <NSObject>
+
+- (void)createSelf;
+
+@end
+
+@interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, HomeModelProtocol> {
+// Main View
+    IBOutlet UILabel *totalDebts;
+
+}
+
+//@property (retain, nonatomic) IBOutlet UILabel *totalDebts;
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
-
 
 // Register
 @property (weak, nonatomic) IBOutlet UITextField *txtUsername;
@@ -31,14 +43,15 @@
 @property (nonatomic, retain) NSArray *arrayLogin;
 @property (nonatomic, retain) IBOutlet UITextField *userNameTextField;
 @property (nonatomic, retain) IBOutlet UITextField *passwordTextField;
-//-(IBAction) nextPressed: (id) sender;
-//@property (nonatomic, readwrite, assign) IBOutlet UITextField *nextField;
+
+@property (nonatomic, readwrite, assign) IBOutlet UITextField *nextField;
+- (IBAction)userNameTxt:(SOTextField *)sender;
+- (IBAction)passwordTxt:(SOTextField *)sender;
 
 // Add debt
 @property (weak, nonatomic) IBOutlet UITextField *debtUsername;
 @property (weak, nonatomic) IBOutlet UITextField *debtDebt;
 - (IBAction)createDebt:(id)sender;
-
 
 
 

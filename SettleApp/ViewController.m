@@ -11,48 +11,75 @@
 #import "HomeModel.h"
 #import "AppDelegate.h"
 #import "AppMainView.h"
-#include <memory>
-#include <stdlib.h>
-#include <string>
+
+#ifndef USER_CLASS
 #import "users.h"
+#include <memory>
+#include <string>
+#endif
+
+
+static std::shared_ptr<Self> SelfPtr;
+static double tot;
 
 @interface ViewController ()
 {
     HomeModel *_homeModel;
     NSArray *_feedItems;
+    //std::shared_ptr<Self> SelfPtr;
 }
+@property (nonatomic) std::shared_ptr<Self> SelfPtr;
 @end
 
 @implementation ViewController
 @synthesize arrayLogin;
 @synthesize userNameTextField, passwordTextField;
-//@synthesize nextField;
-/*
+@synthesize nextField;
+
+
+- (IBAction)userNameTxt:(SOTextField *)sender{}
+- (IBAction)passwordTxt:(SOTextField *)sender{}
 
 - (BOOL) textFieldShouldReturn:(UITextField *) textField {
     
     BOOL didResign = [textField resignFirstResponder];
     if (!didResign) return NO;
     
-    if ([textField isKindOfClass:[ViewController class]])
+    if ([textField isKindOfClass:[SOTextField class]])
+        
         dispatch_async(dispatch_get_current_queue(),
-                       ^ { [[(ViewController *)textField nextField] becomeFirstResponder]; });
+                       ^ { [[(SOTextField *)textField nextField] becomeFirstResponder]; });
     
     return YES;
+
+}
+
+
+- (void) createSelf
+{
+    if (!self.SelfPtr) {
+    std::shared_ptr<Self> SelfPtr;
+    NSString *strURL = [NSString stringWithFormat:@"http://demo.lundgrendesign.se/settleapp/db.php?i=getUserbyName&username=%@",userNameTextField.text];
+    NSData *dataURL = [NSData dataWithContentsOfURL:[NSURL URLWithString:strURL]];
+    NSString *userResult = [[NSString alloc] initWithData:dataURL encoding:NSUTF8StringEncoding];
+    std::string userResultstd ([userResult UTF8String]);
+    self.SelfPtr = string_to_self(userResultstd);
     
-}
-*/
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    if(textField == userNameTextField) {
-        [passwordTextField becomeFirstResponder];
-   }
-    return NO;
+    self.SelfPtr->push_back(make_shared<Contact>("fafa", "petrus", "elis", 100, 0));
+    self.SelfPtr->change_debt("fafa", 1000);
+    self.SelfPtr->refresh();
+    
+    
+    // totalDebts.text = [[NSString alloc] initWithFormat:@"%2f", SelfPtr->total()];
+     NSLog(@"ja vi skapar SElf :P ");
+    //double c = 1*0.8; // Summa ex.moms
+    //totalDebts.text = [[NSString alloc] initWithFormat:@"%2f", c];
+    tot = 5;
+        totalDebts.text = [[NSString alloc] initWithFormat:@"%2f", self.SelfPtr->total()];
 
-}
-
--(IBAction) nextPressed: (id) sender {
-    if ([userNameTextField isFirstResponder]) {
-        [passwordTextField becomeFirstResponder];
+        
+    }else {
+        return;
     }
     
 }
@@ -60,6 +87,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self createSelf];
     
     // Initialize the refresh control.
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
@@ -73,7 +102,7 @@
     // Set this view controller object as the delegate and data source for the table view
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
-    
+
     // Create array object and assign it to _feedItems variable
     _feedItems = [[NSArray alloc] init];
     
@@ -106,7 +135,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 -(void)itemsDownloaded:(NSArray *)items
 {
@@ -219,18 +247,9 @@
         AppMainView *appMainView = [[AppMainView alloc] initWithNibName:@"AppMainView" bundle:nil];
         [appDelegate.navigationController pushViewController:appMainView animated:YES];
         */
-        NSString *strURL = [NSString stringWithFormat:@"http://demo.lundgrendesign.se/settleapp/db.php?i=getUserbyName&username=%@",userNameTextField.text];
-        // to execute php code
-        NSData *dataURL = [NSData dataWithContentsOfURL:[NSURL URLWithString:strURL]];
         
-        NSString *userResult = [[NSString alloc] initWithData:dataURL encoding:NSUTF8StringEncoding];
-        std::string userResultstd ([userResult UTF8String]);
-        //std::shared_ptr<Self> = stringToSelf(userResultstd);
-        
-        std::shared_ptr<Self> FittPtr = std::make_shared<Self>("username","name", "surname", 1, "tobb");
         [self performSegueWithIdentifier:@"login" sender:self];
-    }else
-    {
+    }else{
         // invalid information
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"alert" message:@"Invalide Information" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alert show];
@@ -248,7 +267,6 @@
     self.userNameTextField = nil;
     self.passwordTextField = nil;
 }
-
 
 
 @end
