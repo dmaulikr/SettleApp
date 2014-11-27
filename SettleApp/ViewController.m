@@ -75,7 +75,7 @@ static double tot;
     //double c = 1*0.8; // Summa ex.moms
     //totalDebts.text = [[NSString alloc] initWithFormat:@"%2f", c];
     tot = 5;
-        totalDebts.text = [[NSString alloc] initWithFormat:@"%2f", self.SelfPtr->total()];
+        totalDebts.text = [[NSString alloc] initWithFormat:@"%.0f", self.SelfPtr->total()]; // 0 decimals
 
         
     }else {
