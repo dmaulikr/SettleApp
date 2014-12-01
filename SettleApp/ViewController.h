@@ -22,7 +22,6 @@
 
 }
 
-//@property (retain, nonatomic) IBOutlet UILabel *totalDebts;
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
 
 // Register
