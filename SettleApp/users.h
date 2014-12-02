@@ -26,12 +26,12 @@ public:
     virtual ~User() = default;
     
     string name() const {return name_;}
-    int id(){return id_;}
+    int Id(){return id_;}
     string surname() const {return surname_;}
     string username() const {return username_;}
     shared_ptr<vector<shared_ptr<User> > >get_debts();
     shared_ptr<vector<shared_ptr<User> > >get_hans_debts(const string& _username) const;
-    std::string debts_to_str(shared_ptr<User> user);
+    std::string debts_to_str();
     
     void insert_end(const vector<shared_ptr<User> > & new_debts);
     void push_back(shared_ptr<User> const & user);
@@ -194,6 +194,8 @@ public:
     bool refresh();
     bool update();
     
+    shared_ptr<vector<shared_ptr<User> > > get_update();
+    
     virtual bool change_debt(const string & _username, const double & debt) final;
     virtual shared_ptr<User> clone() final;
     
@@ -209,6 +211,27 @@ shared_ptr<User> Self::clone(){
     return this->shared_from_this();
 }
 
+shared_ptr<vector<shared_ptr<User> > >Self::get_update(){
+    //cout << "get_debts     " << username() << endl;
+    // shared_ptr<vector<shared_ptr<User> > >tmp =
+    //make_shared<vector<shared_ptr<User> > >(debts);
+    shared_ptr<vector<shared_ptr<User> > >tmp = make_shared<vector<shared_ptr<User> > >();
+    //cout << "before if\n";
+    
+    //cout<< "before for\n";
+    for(auto& d: update_list){
+        //cout << "in for\n";
+        tmp->push_back(d->clone());
+    }
+    
+    //cout << "hej" << endl;
+    //cout << "get_debts(): " << tmp->size() << endl;
+    return tmp;
+}
+
+
+
+
 bool Self::refresh(){
     /* Från designspecifikation:
      Refresh, tar inga parametrar och returnerar en bool om det gick bra eller inte. Den ber
@@ -219,7 +242,7 @@ bool Self::refresh(){
     for(auto& user: debts){
         shared_ptr<Contact> cont = std::dynamic_pointer_cast<Contact>(user);
         if(cont){
-            total_debt+= cont->debt();
+            total_debt += cont->debt();
         }
     }
     return true;
@@ -308,6 +331,7 @@ bool Self::change_debt(const string & _username, const double & debt){
                 if(common_debts.empty()){
                     cont->change_debt("", debt);
                     update_list.push_back(user);
+                    update_list.push_back(cont);
                     return true;
                 }else{
                     double rest{debt};
@@ -360,6 +384,8 @@ bool Self::change_debt(const string & _username, const double & debt){
                     if(his_me) // går inte igenom.. varför?
                         his_me->change_debt("", abs(rest)); // ger segmenteringsfel
                     cont->change_debt("", rest);
+                    update_list.push_back(his_me);
+                    update_list.push_back(cont);
                     return true;
                 }
             }
@@ -369,23 +395,17 @@ bool Self::change_debt(const string & _username, const double & debt){
     return false;
 }
 
-
-
-
-std::string User::debts_to_str(shared_ptr<User> user){
-    shared_ptr<vector<shared_ptr<User> > > tmp = user->get_debts();
+std::string User::debts_to_str() {
+    shared_ptr<vector<shared_ptr<User> > > tmp = this->get_debts();
     std::string str{""};
     
     for(auto& debt: *tmp){
         shared_ptr<Contact> cnt = std::dynamic_pointer_cast<Contact>(debt);
         if(cnt)
-            str+= cnt->id() + "," + std::to_string(cnt->debt()) + ":";
+            str+= std::to_string(cnt->Id()) + "," + std::to_string(cnt->debt()) + ":";
     }
     return str;
 }
-
-
-
 
 
 #endif
