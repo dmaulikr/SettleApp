@@ -28,10 +28,10 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
 {
     HomeModel *_homeModel;
     NSArray *_feedItems;
-   // NSMutableArray *tableArray;
-    IBOutlet UIView *contactView;
+    // NSMutableArray *tableArray;
+    // IBOutlet UIView *contactView;
     
-    IBOutlet UITableView *contactTableView;
+    // IBOutlet UITableView *contactTableView;
     
 }
 @property (nonatomic) NSString *usernameSelf;
@@ -65,20 +65,25 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     std::shared_ptr<vector<shared_ptr<User> > > fillVector = self.SelfPtr->get_debts();
     NSMutableArray *tableArray = [[NSMutableArray alloc] init];
     
+    
+    
     if (self.SelfPtr) {
         
         if (fillVector->size() != 0) {
+            NSString *debt;
+            
             for (auto & cont : *fillVector) {
-
-                NSString *fullName = [NSString stringWithFormat:@"%s %s", cont->name().c_str(), cont->surname().c_str()];
+                std::shared_ptr<Contact> cnt = std::dynamic_pointer_cast<Contact>(cont);
+                if (cnt) {
+                    debt = [NSString stringWithFormat:@"%.fkr", cnt->debt()];
+                NSString *fullName = [NSString stringWithFormat:@"%s %s %@ %@", cnt->name().c_str(), cnt->surname().c_str(), @"         ", debt];
                 
                 NSLog(@"Lägger till Cell i tableArray: %@", fullName);
-            [tableArray addObject: fullName];
+                [tableArray addObject: fullName];
+                }
             }
-            
-            
+            // Sets array with Contact to tableView
             _feedItems = tableArray;
-             NSLog(@"Zmutt:");
             data = [[NSMutableArray alloc] initWithArray:_feedItems];
         }
     }
@@ -117,18 +122,17 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
 {
     [super viewDidLoad];
     
-    
     //Instantiate NSMutableArray
-    //NSLog(@"Här är feed items: %@", _feedItems);
-    //data = [[NSMutableArray alloc] initWithArray:_feedItems];
-
+    NSLog(@"Kör ViewdidLoad: %@", _feedItems);
+    data = [[NSMutableArray alloc] initWithArray:_feedItems];
+    
     // Initialize the refresh control.
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     //refreshControl.backgroundColor = [UIColor lightGrayColor];
     //refreshControl.tintColor = [UIColor whiteColor];
     [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
-   // [self.listTableView addSubview:refreshControl];
-
+    // [self.listTableView addSubview:refreshControl];
+    
     _feedItems = [[NSArray alloc] init];
     
     [self createSelf];
@@ -147,23 +151,10 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     
 }
 
-
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
--(void)itemsDownloaded:(NSArray *)items
-{
-    // This delegate method will get called when the items are finished downloading
-    
-    // Set the downloaded items to the array
-    _feedItems = items;
-    
-    // Reload the table view
-    //[self.listTableView reloadData];
 }
 
 #pragma mark Table View Delegate Methods
@@ -239,9 +230,9 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
         
         if (cnt) {
             NSString *str = [NSString stringWithCString:cnt->username().c_str()
-                                               encoding:[NSString defaultCStringEncoding]];
+                                               encoding:NSUTF8StringEncoding];
             NSLog(@"ID: %@", str);
-            
+ 
             if (cnt->username() == usernamestd) {
                 
                 NSLog(@"Användare finns: ");
@@ -264,7 +255,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
         
         
         NSString *str2 = [NSString stringWithCString:debtCont->username().c_str()
-                                            encoding:[NSString defaultCStringEncoding]];
+                                            encoding:NSUTF8StringEncoding];
         NSLog(@"debtCont: %@", str2);
         
         std::shared_ptr<Contact> selfCont = (make_shared<Contact>(_self.username(), _self.name(),  _self.surname(), _self.Id(), 0));
@@ -276,11 +267,11 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     
     std::shared_ptr<vector<shared_ptr<User> > > debtUpd = _self.get_debts();
     NSString *userns = [NSString stringWithCString:_self.username().c_str()
-                                          encoding:[NSString defaultCStringEncoding]];
+                                          encoding:NSUTF8StringEncoding];
     
     
     NSString *selfdebt = [NSString stringWithCString:_self.debts_to_str().c_str()
-                                            encoding:[NSString defaultCStringEncoding]];
+                                            encoding:NSUTF8StringEncoding];
     
     
     NSString *strURL = [NSString stringWithFormat:@"http://demo.lundgrendesign.se/settleapp/db.php?debtUsername=%@&debtStr=%@", userns, selfdebt];
@@ -290,9 +281,9 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
         std::shared_ptr<Contact> upd = std::dynamic_pointer_cast<Contact>(u);
         if (upd) {
             NSString *usernamens = [NSString stringWithCString:upd->username().c_str()
-                                                      encoding:[NSString defaultCStringEncoding]];
+                                                      encoding:NSUTF8StringEncoding];
             NSString *debtns = [NSString stringWithCString:upd->debts_to_str().c_str()
-                                                  encoding:[NSString defaultCStringEncoding]];
+                                                  encoding:NSUTF8StringEncoding];
             
             // NSLog(@"Uppdatera vän: %@", debtns);
             NSString *strURL2 = [NSString stringWithFormat:@"http://demo.lundgrendesign.se/settleapp/db.php?debtUsername=%@&debtStr=%@", usernamens, debtns];
@@ -322,7 +313,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
 
 - (void) loginAction:(id)sender {
     if ([userNameTextField.text isEqualToString:@""] || [passwordTextField.text isEqualToString:@""]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"alert" message:@"Vänligen fyll i alla fält" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Fel vid inloggning" message:@"Vänligen fyll i alla fält" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alert show];
         return;
     }
@@ -401,9 +392,10 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     std::string surname{""};
     int Id;
     ss >> username >> name >> surname >> Id;
+
     
-    NSString *usrCont  = [NSString stringWithCString:username.c_str()
-                                            encoding:[NSString defaultCStringEncoding]];
+    NSString *usrCont  = [NSString stringWithCString:surname.c_str()
+                                            encoding:NSUTF8StringEncoding];
     
     NSLog(@"USERNAME CONTACT: %@", usrCont);
     
