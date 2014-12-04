@@ -18,6 +18,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <math.h>
 #endif
 
 static NSString *usernameSelf;
@@ -232,20 +233,13 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
 // Create Debt
 - (IBAction)createDebt:(id)sender
 {
-    std::shared_ptr<vector<shared_ptr<User> > > debtVec = self.SelfPtr->get_debts();
+    Self _self = *self.SelfPtr; // set self
+    
+    std::shared_ptr<vector<shared_ptr<User> > > debtVec = _self.get_debts();
     std::string usernamestd ([_debtUsername.text UTF8String]);
-    double userDebtstd = ([_debtDebt.text doubleValue]);
+    double userDebtstd  = ([_debtDebt.text doubleValue]);
     
-    // double userDebtstd = ([[_debtDebt.text initWithFormat:@"%.0f@", _debtDebt.text] doubleValue]);
-
-   //   totalDebts.text = [[NSString alloc] initWithFormat:@"%.0f", self.SelfPtr->total()]; // 0 decimals
-    
-    
-    
-   // [NSString stringWithFormat:@"%9.5f", x]
-    
-    
-         BOOL existing = false;
+    BOOL existing = false;
     
     for (auto & debt : *debtVec) {
         std::shared_ptr<Contact> cnt = std::dynamic_pointer_cast<Contact>(debt);
@@ -257,8 +251,8 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
             
             if (cnt->username() == usernamestd) {
                 
-                NSLog(@"KUKEn: ");
-                self.SelfPtr->change_debt(usernamestd,userDebtstd);
+                NSLog(@"Användare finns: ");
+                _self.change_debt(usernamestd,userDebtstd);
                 existing = true;
             }
         }
@@ -271,25 +265,31 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
         NSString *strResult = [[NSString alloc] initWithData:dataURL encoding:NSUTF8StringEncoding];
         std::string strResultstd ([strResult UTF8String]);
         
+        NSLog(@"HÄR ÄR DET FETT HORIGT BREE: %@", strResult);
+        
         std::shared_ptr<Contact> debtCont = (string_to_contact(strResultstd, 0));
         
         
         NSString *str2 = [NSString stringWithCString:debtCont->username().c_str()
-                                           encoding:[NSString defaultCStringEncoding]];
+                                            encoding:[NSString defaultCStringEncoding]];
         NSLog(@"debtCont: %@", str2);
         
-        std::shared_ptr<Contact> selfCont = (make_shared<Contact>(self.SelfPtr->username(), self.SelfPtr->name(),  self.SelfPtr->surname(), self.SelfPtr->Id(), 0));
+        std::shared_ptr<Contact> selfCont = (make_shared<Contact>(_self.username(), _self.name(),  _self.surname(), _self.Id(), 0));
         
         debtCont->push_back(selfCont);
-        self.SelfPtr->push_back(debtCont);
-        self.SelfPtr->change_debt(debtCont->username(), userDebtstd);
+        _self.push_back(debtCont);
+        _self.change_debt(debtCont->username(), userDebtstd);
     }
     
-    std::shared_ptr<vector<shared_ptr<User> > > debtUpd = self.SelfPtr->get_update();
-    NSString *userns = [NSString stringWithCString:self.SelfPtr->username().c_str()
+    std::shared_ptr<vector<shared_ptr<User> > > debtUpd = _self.get_debts();
+    NSString *userns = [NSString stringWithCString:_self.username().c_str()
                                           encoding:[NSString defaultCStringEncoding]];
-    NSString *selfdebt = [NSString stringWithCString:self.SelfPtr->debts_to_str().c_str()
+    
+    
+    NSString *selfdebt = [NSString stringWithCString:_self.debts_to_str().c_str()
                                             encoding:[NSString defaultCStringEncoding]];
+    
+    
     NSString *strURL = [NSString stringWithFormat:@"http://demo.lundgrendesign.se/settleapp/db.php?debtUsername=%@&debtStr=%@", userns, selfdebt];
     [NSData dataWithContentsOfURL:[NSURL URLWithString:strURL]];
     
@@ -301,7 +301,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
             NSString *debtns = [NSString stringWithCString:upd->debts_to_str().c_str()
                                                   encoding:[NSString defaultCStringEncoding]];
             
-            NSLog(@"Uppdatera vän: %@", debtns);
+            // NSLog(@"Uppdatera vän: %@", debtns);
             NSString *strURL2 = [NSString stringWithFormat:@"http://demo.lundgrendesign.se/settleapp/db.php?debtUsername=%@&debtStr=%@", usernamens, debtns];
             [NSData dataWithContentsOfURL:[NSURL URLWithString:strURL2]];
             
@@ -309,8 +309,8 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
         }
     }
     
-    self.SelfPtr->refresh();
-    totalDebts.text = [[NSString alloc] initWithFormat:@"%.0f", self.SelfPtr->total()]; // 0 decimals
+    _self.refresh();
+    totalDebts.text = [[NSString alloc] initWithFormat:@"%.0f", _self.total()]; // 0 decimals
 }
 
 - (void)refresh:(UIRefreshControl *)refreshControl {
@@ -386,7 +386,7 @@ std::shared_ptr<Self> string_to_self(const std::string info){
         char c;
         ss >> contId >> c >> contDebt >> c;
         
-        NSString *strFromInt = [NSString stringWithFormat:@"%d",contId];
+        NSString *strFromInt = [NSString stringWithFormat:@"%d", contId];
         NSLog (@"StrFromInt: %@", strFromInt);
         NSString *strURL = [NSString stringWithFormat:@"http://demo.lundgrendesign.se/settleapp/db.php?i=getUserbyID&id=%@",strFromInt];
         NSData *dataURL = [NSData dataWithContentsOfURL:[NSURL URLWithString:strURL]];
@@ -411,7 +411,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     ss >> username >> name >> surname >> Id;
     
     NSString *usrCont  = [NSString stringWithCString:username.c_str()
-                                          encoding:[NSString defaultCStringEncoding]];
+                                            encoding:[NSString defaultCStringEncoding]];
     
     NSLog(@"USERNAME CONTACT: %@", usrCont);
     

@@ -171,30 +171,24 @@ private:
  */
 bool Contact::change_debt(const string & _username, const double & _debt){
     
-    if (_username == "") {
-        debt_ += _debt;
-        return true;
-    }else{
-        debt_ = _debt;
-    }
-    
     if(debts.size() != 0){
-        
+        debt_ = _debt;
         for(auto& find_self: debts){
             shared_ptr<Contact> me = std::dynamic_pointer_cast<Contact>(find_self);
             if(me){
                 if(_username == me->username()){
                     if(debt_ < 0)
-                        me->change_debt(username(), abs(debt_));
+                        me->change_debt("", abs(debt_));
                     if(debt_ > 0)
-                        me->change_debt(username(), (debt_ - (debt_ *2)));
+                        me->change_debt("", (debt_ - (debt_ *2)));
                 }
             }
             
             
         }
+    }else{
+        debt_ += _debt;
     }
-    
     return true;
 }
 
@@ -356,7 +350,6 @@ bool Self::change_debt(const string & _username, const double & debt){
                     cont->change_debt(username(), debt);
                     update_list.push_back(user);
                     update_list.push_back(cont);
-                    
                     return true;
                 }else{
                     double rest{debt};
@@ -376,7 +369,7 @@ bool Self::change_debt(const string & _username, const double & debt){
                                             his_com->change_debt("", abs(rest));
                                             my_com->change_debt("", rest);
                                             rest += his_com->debt();
-                                            cont->change_debt(username(), rest);
+                                            cont->change_debt("", rest);
                                             update_list.push_back(his_com);
                                             update_list.push_back(my_com);
                                             update_list.push_back(cont);
@@ -389,7 +382,7 @@ bool Self::change_debt(const string & _username, const double & debt){
                                             
                                             his_com->change_debt("",abs(his_com->debt()));
                                             
-                                            //update_list.push_back(his_com);
+                                            update_list.push_back(his_com);
                                             update_list.push_back(my_com);
                                         }
                                     }else{//       + på mina pengar
@@ -409,11 +402,12 @@ bool Self::change_debt(const string & _username, const double & debt){
                     if(his_me) // går inte igenom.. varför?
                         his_me->change_debt("", abs(rest)); // ger segmenteringsfel
                     cont->change_debt(username(), rest);
+                    update_list.push_back(his_me);
                     update_list.push_back(cont);
-                    
                     return true;
                 }
             }
+            
         }
     }
     return false;
@@ -426,11 +420,9 @@ std::string User::debts_to_str() {
     for(auto& debt: *tmp){
         shared_ptr<Contact> cnt = std::dynamic_pointer_cast<Contact>(debt);
         if(cnt)
-            str += std::to_string(cnt->Id()) + "," + std::to_string(cnt->debt()) + ":";
+            str+= std::to_string(cnt->Id()) + "," + std::to_string(cnt->debt()) + ":";
     }
     return str;
 }
 
 #endif
-
-

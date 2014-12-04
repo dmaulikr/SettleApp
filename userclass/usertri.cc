@@ -81,6 +81,11 @@ for(auto& hannes: *haaans2){
   cout << huun->username() << huun->debt() << endl;
 }
 
+shared_ptr<vector<shared_ptr<User> > >minnnna = self.get_update();
+for(auto& x : *minnnna)
+{
+  cout << "USERBÖG: " << x->username() << endl; 
+}
 
 return 0;
 }
