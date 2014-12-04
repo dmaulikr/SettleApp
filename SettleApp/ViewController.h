@@ -21,8 +21,10 @@
     IBOutlet UILabel *totalDebts;
 
 }
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) NSMutableArray *data;
 
-@property (weak, nonatomic) IBOutlet UITableView *listTableView;
+//@property (weak, nonatomic) IBOutlet UITableView *listTableView;
 
 // Register
 @property (weak, nonatomic) IBOutlet UITextField *txtUsername;

@@ -28,6 +28,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
 {
     HomeModel *_homeModel;
     NSArray *_feedItems;
+   // NSMutableArray *tableArray;
     IBOutlet UIView *contactView;
     
     IBOutlet UITableView *contactTableView;
@@ -38,6 +39,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
 @end
 
 @implementation ViewController
+@synthesize data;
 @synthesize arrayLogin;
 @synthesize userNameTextField, passwordTextField;
 @synthesize nextField;
@@ -63,30 +65,21 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     std::shared_ptr<vector<shared_ptr<User> > > fillVector = self.SelfPtr->get_debts();
     NSMutableArray *tableArray = [[NSMutableArray alloc] init];
     
-    
     if (self.SelfPtr) {
         
         if (fillVector->size() != 0) {
             for (auto & cont : *fillVector) {
-                // Create cell
-                NSString *cellIdentifier = @"ContactCell";
-                UITableViewCell *myCell = [self->contactTableView dequeueReusableCellWithIdentifier:cellIdentifier];
-                
-                // Get references to labels of cell
+
                 NSString *fullName = [NSString stringWithFormat:@"%s %s", cont->name().c_str(), cont->surname().c_str()];
-                myCell.textLabel.text = fullName;
                 
-                
-                /* HUR FAN GÖR MAN
-                 if ([tableArray isEqual:nil]) {
-                 NSLog(@"Lägger till Cell i tableArray");
-                 [tableArray addObject: myCell];
-                 
-                 } */
-                
+                NSLog(@"Lägger till Cell i tableArray: %@", fullName);
+            [tableArray addObject: fullName];
             }
+            
+            
             _feedItems = tableArray;
-            NSLog(@"Sätter _feedItems");
+             NSLog(@"Zmutt:");
+            data = [[NSMutableArray alloc] initWithArray:_feedItems];
         }
     }
 }
@@ -109,11 +102,9 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
             self.SelfPtr = make_shared<Self> ("", "", "", 0,"");
             return;
         }
-        NSLog(@"Vi skapar en Self :P");
         
         self.SelfPtr->refresh();
         totalDebts.text = [[NSString alloc] initWithFormat:@"%.0f", self.SelfPtr->total()]; // 0 decimals
-        
         
         [self fillArray];
     }else {
@@ -127,31 +118,20 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     [super viewDidLoad];
     
     
+    //Instantiate NSMutableArray
+    //NSLog(@"Här är feed items: %@", _feedItems);
+    //data = [[NSMutableArray alloc] initWithArray:_feedItems];
+
     // Initialize the refresh control.
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     //refreshControl.backgroundColor = [UIColor lightGrayColor];
     //refreshControl.tintColor = [UIColor whiteColor];
     [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
-    [self.listTableView addSubview:refreshControl];
-    
-    // Use the HomeModel to view cells **
-    
-    // Set this view controller object as the delegate and data source for the table view
-    self.listTableView.delegate = self;
-    self.listTableView.dataSource = self;
-    
-    // Create array object and assign it to _feedItems variable
+   // [self.listTableView addSubview:refreshControl];
+
     _feedItems = [[NSArray alloc] init];
     
     [self createSelf];
-    // Create new HomeModel object and assign it to _homeModel variable
-    //_homeModel = [[HomeModel alloc] init];
-    
-    // Set this view controller object as the delegate for the home model object
-    //_homeModel.delegate = self;
-    
-    // Call the download items method of the home model object
-    //[_homeModel downloadItems];
     
     // Set the Navigation Logo Image**
     UIImageView *logoImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 150, 25)];
@@ -167,6 +147,8 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     
 }
 
+
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -181,29 +163,40 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     _feedItems = items;
     
     // Reload the table view
-    [self.listTableView reloadData];
+    //[self.listTableView reloadData];
 }
 
 #pragma mark Table View Delegate Methods
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of feed items (initially 0)
-    return _feedItems.count;
+    //return _feedItems.count;
+    return [data count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Retrieve cell
-    NSString *cellIdentifier = @"BasicCell";
-    UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    static NSString *cellIdentifier = @"ContactCell"; // static?
+    UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier: cellIdentifier forIndexPath:indexPath];
+    
+    if (myCell == nil){
+        myCell = [[UITableViewCell alloc]initWithStyle: UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
+    myCell.textLabel.text = [data objectAtIndex:indexPath.row];
     
     // Get the user to be shown
-    Userc *item = _feedItems[indexPath.row];
+    //Userc *item = _feedItems[indexPath.row];
     // Get references to labels of cell
     
-    NSString *fullName = [NSString stringWithFormat:@"%@ %@", item.name, item.surname];
-    myCell.textLabel.text = fullName;
+    //NSString *fullName = [NSString stringWithFormat:@"%@ %@", item.name, item.surname];
+    //myCell.textLabel.text = fullName;
     
     return myCell;
 }
@@ -323,7 +316,6 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor]
                                                                 forKey:NSForegroundColorAttributeName];
     NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attrsDictionary];
-    [self.listTableView reloadData]; // EGET SKIT FÖR ATT RELOADA
     
     [refreshControl endRefreshing];
 }
