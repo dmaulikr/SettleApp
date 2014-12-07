@@ -106,6 +106,7 @@ public:
     shared_ptr<User> login(const string & _username,const string & passw);
     shared_ptr<User> create(const string & _username, const string & _name, const
                             string & surname, const string & email);
+    double debt() { return debt_; }
 private:
     double debt_;
 };
@@ -249,6 +250,7 @@ shared_ptr<vector<shared_ptr<User> > >Self::get_update(){
     
     //cout << "hej" << endl;
     //cout << "get_debts(): " << tmp->size() << endl;
+    update_list.empty();
     return tmp;
 }
 
@@ -266,6 +268,10 @@ bool Self::refresh(){
         shared_ptr<Contact> cont = std::dynamic_pointer_cast<Contact>(user);
         if(cont){
             total_debt += cont->debt();
+        }
+        shared_ptr<Not_Complete> nc = std::dynamic_pointer_cast<Not_Complete>(user);
+        if(nc){
+            total_debt += nc->debt();
         }
     }
     return true;
@@ -298,12 +304,17 @@ bool Self::change_debt(const string & _username, const double & debt){
      */
     for(auto& d:debts){
         shared_ptr<Contact> cnt = std::dynamic_pointer_cast<Contact>(d);
+        shared_ptr<Not_Complete> nc = std::dynamic_pointer_cast<Not_Complete>(d);
+        
         if(cnt){
             if (cnt->username() == _username) {
                 cnt->change_debt(this->username(),debt);
                 update_list.push_back(cnt->clone());
                 return true;
             }
+        }else if(nc) {
+            nc->change_debt("", debt);
+            return true;
         }
     }
     /*
@@ -443,9 +454,15 @@ std::string User::debts_to_str() {
     
     for(auto& debt: *tmp){
         shared_ptr<Contact> cnt = std::dynamic_pointer_cast<Contact>(debt);
+        shared_ptr<Not_Complete> nc = std::dynamic_pointer_cast<Not_Complete>(debt);
+        if(nc) {
+            str+= nc->name() + "," + nc->surname() + "," + std::to_string(nc->debt()) + ":";
+            
+        }
         if(cnt)
             str+= std::to_string(cnt->Id()) + "," + std::to_string(cnt->debt()) + ":";
     }
+    
     return str;
 }
 

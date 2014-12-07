@@ -14,10 +14,10 @@
                         <viewControllerLayoutGuide type="bottom" id="nME-6f-rcM"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tabBar contentMode="scaleToFill" horizontalHuggingPriority="20" verticalHuggingPriority="20" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LI4-dx-UYs">
+                            <tabBar contentMode="scaleToFill" horizontalHuggingPriority="20" verticalHuggingPriority="20" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LI4-dx-UYs">
                                 <rect key="frame" x="0.0" y="455" width="320" height="49"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="49" id="25W-KT-6ef"/>
@@ -144,7 +144,7 @@
                         <viewControllerLayoutGuide type="bottom" id="XRk-gn-ke7"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="yuE-Oo-XZd">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" highlighted="YES" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Användarnamn" borderStyle="roundedRect" placeholder="Förnamn" clearsOnBeginEditing="YES" minimumFontSize="19" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="UXR-eV-KbY">
@@ -170,6 +170,7 @@
                                 </state>
                                 <connections>
                                     <action selector="createDebt:" destination="mVJ-Qk-spi" eventType="touchUpInside" id="Y2D-Jo-Dlp"/>
+                                    <segue destination="vXZ-lx-hvc" kind="push" id="2D3-8Q-Uts"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -494,8 +495,9 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="ZAb-rz-Cmk"/>
+        <segue reference="2D3-8Q-Uts"/>
         <segue reference="7wx-Uh-1Gy"/>
+        <segue reference="ZAb-rz-Cmk"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>
