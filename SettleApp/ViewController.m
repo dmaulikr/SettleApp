@@ -60,6 +60,66 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     return YES;
 }
 
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    //Instantiate NSMutableArray
+    NSLog(@"Kör ViewdidLoad feedItems: %@", _feedItems);
+    data = [[NSMutableArray alloc] initWithArray:_feedItems];
+    
+    // Initialize the refresh control.
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    refreshControl.backgroundColor = [UIColor lightGrayColor];
+    refreshControl.tintColor = [UIColor whiteColor];
+    [refreshControl addTarget:self action:@selector(fillArray) forControlEvents:UIControlEventValueChanged];
+    [_tableView addSubview:refreshControl];
+    
+    _feedItems = [[NSArray alloc] init];
+    
+    [self createSelf];
+    
+    // Set the Navigation Logo Image**
+    UIImageView *logoImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 150, 25)];
+    // if you need to resize the image to fit the UIImageView frame
+    logoImage.contentMode = UIViewContentModeScaleAspectFit;
+    // no extension name needed for image_name
+    [logoImage setImage:[UIImage imageNamed:@"SettleApp.png"]];
+    UIView *logoView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, logoImage.frame.size.width, logoImage.frame.size.height)];
+    [logoView addSubview:logoImage];
+    self.navigationItem.titleView = logoView;
+    
+    // Do any additional setup after loading the view, typically from a nib.
+    
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+
+
+
+
+- (void)refresh:(UIRefreshControl *)refreshControl {
+    
+    // End the refreshing
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"MMM d, h:mm a"];
+    NSString *title = [NSString stringWithFormat:@"Last update: %@", [formatter stringFromDate:[NSDate date]]];
+    NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor]
+                                                                forKey:NSForegroundColorAttributeName];
+    NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attrsDictionary];
+    
+    [refreshControl endRefreshing];
+}
+
+
+
 - (void) fillArray
 {
     std::shared_ptr<vector<shared_ptr<User> > > fillVector = self.SelfPtr->get_debts();
@@ -70,13 +130,15 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     if (self.SelfPtr) {
         
         if (fillVector->size() != 0) {
-            NSString *debt;
+            NSString *debt, *name, *surname;
             
             for (auto & cont : *fillVector) {
                 std::shared_ptr<Contact> cnt = std::dynamic_pointer_cast<Contact>(cont);
                 if (cnt) {
+                    name = [NSString stringWithUTF8String:cnt->name().c_str()];
+                    surname = [NSString stringWithUTF8String:cnt->surname().c_str()];;
                     debt = [NSString stringWithFormat:@"%.fkr", cnt->debt()];
-                NSString *fullName = [NSString stringWithFormat:@"%s %s %@ %@", cnt->name().c_str(), cnt->surname().c_str(), @"         ", debt];
+                NSString *fullName = [NSString stringWithFormat:@"%@ %@ %@ %@", name, surname, @"         ", debt];
                 
                 NSLog(@"Lägger till Cell i tableArray: %@", fullName);
                 [tableArray addObject: fullName];
@@ -87,6 +149,10 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
             data = [[NSMutableArray alloc] initWithArray:_feedItems];
         }
     }
+    
+    // As this block of code is run in a background thread, we need to ensure the GUI
+    // update is executed in the main thread
+    [self performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 - (void) createSelf
 {
@@ -118,50 +184,41 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    //Instantiate NSMutableArray
-    NSLog(@"Kör ViewdidLoad: %@", _feedItems);
-    data = [[NSMutableArray alloc] initWithArray:_feedItems];
-    
-    // Initialize the refresh control.
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    //refreshControl.backgroundColor = [UIColor lightGrayColor];
-    //refreshControl.tintColor = [UIColor whiteColor];
-    [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
-    // [self.listTableView addSubview:refreshControl];
-    
-    _feedItems = [[NSArray alloc] init];
-    
-    [self createSelf];
-    
-    // Set the Navigation Logo Image**
-    UIImageView *logoImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 150, 25)];
-    // if you need to resize the image to fit the UIImageView frame
-    logoImage.contentMode = UIViewContentModeScaleAspectFit;
-    // no extension name needed for image_name
-    [logoImage setImage:[UIImage imageNamed:@"SettleApp.png"]];
-    UIView *logoView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, logoImage.frame.size.width, logoImage.frame.size.height)];
-    [logoView addSubview:logoImage];
-    self.navigationItem.titleView = logoView;
-    
-    // Do any additional setup after loading the view, typically from a nib.
-    
-}
 
-- (void)didReceiveMemoryWarning
+- (void)reloadData
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    // Reload table data
+    [self.tableView reloadData];
+    
 }
 
 #pragma mark Table View Delegate Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    if (_feedItems) {
+        
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        return 1;
+        
+    } else {
+        
+        // Display a message when the table is empty
+        UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+        
+        messageLabel.text = @"No data is currently available. Please pull down to refresh.";
+        messageLabel.textColor = [UIColor blackColor];
+        messageLabel.numberOfLines = 0;
+        messageLabel.textAlignment = NSTextAlignmentCenter;
+        messageLabel.font = [UIFont fontWithName:@"Palatino-Italic" size:20];
+        [messageLabel sizeToFit];
+        
+        self.tableView.backgroundView = messageLabel;
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        
+    }
+    
+    return 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -285,7 +342,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
             NSString *debtns = [NSString stringWithCString:upd->debts_to_str().c_str()
                                                   encoding:NSUTF8StringEncoding];
             
-            // NSLog(@"Uppdatera vän: %@", debtns);
+            NSLog(@"Uppdatera vän: %@", debtns);
             NSString *strURL2 = [NSString stringWithFormat:@"http://demo.lundgrendesign.se/settleapp/db.php?debtUsername=%@&debtStr=%@", usernamens, debtns];
             [NSData dataWithContentsOfURL:[NSURL URLWithString:strURL2]];
             
@@ -297,19 +354,6 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     totalDebts.text = [[NSString alloc] initWithFormat:@"%.0f", _self.total()]; // 0 decimals
 }
 
-- (void)refresh:(UIRefreshControl *)refreshControl {
-    
-    // End the refreshing
-    
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"MMM d, h:mm a"];
-    NSString *title = [NSString stringWithFormat:@"Last update: %@", [formatter stringFromDate:[NSDate date]]];
-    NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor]
-                                                                forKey:NSForegroundColorAttributeName];
-    NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attrsDictionary];
-    
-    [refreshControl endRefreshing];
-}
 
 - (void) loginAction:(id)sender {
     if ([userNameTextField.text isEqualToString:@""] || [passwordTextField.text isEqualToString:@""]) {
@@ -328,7 +372,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
         [self performSegueWithIdentifier:@"login" sender:self];
     }else{
         // invalid information
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"alert" message:@"Felaktigt användarnamn eller lösenord." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Fel vid inloggning" message:@"Felaktigt användarnamn eller lösenord." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alert show];
         return;
     }
