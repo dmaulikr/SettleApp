@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		333722231A363099009CF359 /* CustomTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 333722221A363099009CF359 /* CustomTableCell.m */; };
+		333722261A363519009CF359 /* Loan.m in Sources */ = {isa = PBXBuildFile; fileRef = 333722251A363519009CF359 /* Loan.m */; };
 		335F56FB19CB667D00E90B89 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335F56F919CB667D00E90B89 /* Main_iPhone.storyboard */; };
 		33622E1019CAE161006AA3AA /* login-page-bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 33622E0F19CAE161006AA3AA /* login-page-bg.jpg */; };
 		33622E1419CB420E006AA3AA /* SettleApp-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 33622E1319CB420E006AA3AA /* SettleApp-logo.png */; };
@@ -43,6 +45,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		333722211A363099009CF359 /* CustomTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTableCell.h; sourceTree = "<group>"; };
+		333722221A363099009CF359 /* CustomTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTableCell.m; sourceTree = "<group>"; };
+		333722241A363519009CF359 /* Loan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Loan.h; sourceTree = "<group>"; };
+		333722251A363519009CF359 /* Loan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Loan.m; sourceTree = "<group>"; };
 		335F56FA19CB667D00E90B89 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		33622E0F19CAE161006AA3AA /* login-page-bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "login-page-bg.jpg"; sourceTree = "<group>"; };
 		33622E1319CB420E006AA3AA /* SettleApp-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SettleApp-logo.png"; sourceTree = "<group>"; };
@@ -152,6 +158,10 @@
 				33B4C98019BE386F0000E64F /* Images.xcassets */,
 				33B4C96C19BE386F0000E64F /* Supporting Files */,
 				33F481A91A0B96AD00A27CCD /* HomeModel.h */,
+				333722241A363519009CF359 /* Loan.h */,
+				333722251A363519009CF359 /* Loan.m */,
+				333722211A363099009CF359 /* CustomTableCell.h */,
+				333722221A363099009CF359 /* CustomTableCell.m */,
 				33F481AB1A0B96FA00A27CCD /* User.h */,
 				33EED2321A2357F80059183D /* users.h */,
 				33F481AD1A0BA5DA00A27CCD /* HomeModel.m */,
@@ -297,10 +307,12 @@
 				33F481AE1A0BA5DA00A27CCD /* HomeModel.m in Sources */,
 				33EED2751A2608DF0059183D /* SOTextField.m in Sources */,
 				33EED2351A24C45A0059183D /* AppMainView.m in Sources */,
+				333722261A363519009CF359 /* Loan.m in Sources */,
 				33EED2311A23567B0059183D /* User.m in Sources */,
 				33B4C97F19BE386F0000E64F /* ViewController.m in Sources */,
 				33B4C97619BE386F0000E64F /* AppDelegate.m in Sources */,
 				33B4C97219BE386F0000E64F /* main.m in Sources */,
+				333722231A363099009CF359 /* CustomTableCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

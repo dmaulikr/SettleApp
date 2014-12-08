@@ -10,7 +10,9 @@
 #import "User.h"
 #import "HomeModel.h"
 #import "AppDelegate.h"
-#import "AppMainView.h"
+//#import "AppMainView.h"
+#import "CustomTableCell.h"
+#import "Loan.h"
 
 #ifndef USER_CLASS
 #import "users.h"
@@ -29,6 +31,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
 {
     HomeModel *_homeModel;
     NSArray *_feedItems;
+    NSArray *_cellItem;
     // NSMutableArray *tableArray;
     // IBOutlet UIView *contactView;
     
@@ -42,6 +45,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
 
 @implementation ViewController
 @synthesize data;
+//@synthesize data2;
 @synthesize arrayLogin;
 @synthesize userNameTextField, passwordTextField;
 @synthesize nextField;
@@ -68,9 +72,8 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     [super viewDidLoad];
     
     //Instantiate NSMutableArray
-    NSLog(@"Kör ViewdidLoad feedItems: %@", _feedItems);
     data = [[NSMutableArray alloc] initWithArray:_feedItems];
-    
+
     // Initialize the refresh control.
     self.refreshControl = [[UIRefreshControl alloc] init];
     self.refreshControl.backgroundColor = [UIColor lightGrayColor];
@@ -120,29 +123,16 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     }
     
     self.SelfPtr->refresh();
-    totalDebts.text = [[NSString alloc] initWithFormat:@"%.0f", self.SelfPtr->total()]; // 0 decimals
+    totalDebts.text = [[NSString alloc] initWithFormat:@"%.0fkr", self.SelfPtr->total()]; // 0 decimals
     
     
     [self fillArray];
     // As this block of code is run in a background thread, we need to ensure the GUI
     // update is executed in the main thread
-    NSLog(@"End Reload");
     [self performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 
 }
-- (void)refresh:(UIRefreshControl *)refreshControl {
-    
-    // End the refreshing
-    
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"MMM d, h:mm a"];
-    NSString *title = [NSString stringWithFormat:@"Last update: %@", [formatter stringFromDate:[NSDate date]]];
-    NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor]
-                                                                forKey:NSForegroundColorAttributeName];
-    NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attrsDictionary];
-    
-    [refreshControl endRefreshing];
-}
+
 
 
 
@@ -153,42 +143,42 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     
     if (self.SelfPtr) {
         
+        
         if (fillVector->size() != 0) {
-            NSString *debt, *name, *surname;
+            NSString *name, *surname;
+            NSNumber *debt;
             
             for (auto & cont : *fillVector) {
                 std::shared_ptr<Contact> cnt = std::dynamic_pointer_cast<Contact>(cont);
+                 Loan *contacts = [[Loan alloc] init];
                 if (cnt) {
+                   
                     name = [NSString stringWithUTF8String:cnt->name().c_str()];
                     surname = [NSString stringWithUTF8String:cnt->surname().c_str()];;
-                    debt = [NSString stringWithFormat:@"%.fkr", cnt->debt()];
-                    NSString *fullName = [NSString stringWithFormat:@"%@ %@ %@ %@", name, surname, @"         ", debt];
+                    debt = [NSNumber numberWithDouble:cnt->debt()];
+                    NSString *fullName = [NSString stringWithFormat:@"%@ %@", name, surname];
+                    contacts.fullname = fullName;
+                    contacts.amount = debt;
                     
                     NSLog(@"Lägger till Cell i tableArray: %@", fullName);
-                    [tableArray addObject: fullName];
+                    [tableArray addObject: contacts];
                 }
-                
                 
                 std::shared_ptr<Not_Complete> nc = std::dynamic_pointer_cast<Not_Complete>(cont);
                 if (nc) {
                     name = [NSString stringWithUTF8String:nc->name().c_str()];
                     surname = [NSString stringWithUTF8String:nc->surname().c_str()];;
-                    debt = [NSString stringWithFormat:@"%.fkr", nc->debt()];
-                    NSString *fullName = [NSString stringWithFormat:@"%@ %@ %@ %@", name, surname, @"         ", debt];
-                    
-                    NSLog(@"Lägger till Cell i tableArray: %@", fullName);
-                    [tableArray addObject: fullName];
+                    debt = [NSNumber numberWithDouble:nc->debt()];
+                    NSString *fullName = [NSString stringWithFormat:@"%@ %@", name, surname];
+                    contacts.fullname = fullName;
+                    contacts.amount = debt;
+                   
+                    [tableArray addObject: contacts];
                 }
-
             }
             // Sets array with Contact to tableView
             _feedItems = tableArray;
             data = [[NSMutableArray alloc] initWithArray:_feedItems];
-            
-            // As this block of code is run in a background thread, we need to ensure the GUI
-            // update is executed in the main thread
-            NSLog(@"End Reload");
-            [self performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
             
         }
     }
@@ -235,7 +225,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     if (self.refreshControl) {
         
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"MMM d, h:mm a"];
+        [formatter setDateFormat:@"MMM d, HH:mm"];
         NSString *title = [NSString stringWithFormat:@"Senast uppdaterad: %@", [formatter stringFromDate:[NSDate date]]];
         NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor]
                                                                     forKey:NSForegroundColorAttributeName];
@@ -250,7 +240,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (_feedItems) {
+    if (data) {
         
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         return 1;
@@ -286,12 +276,24 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
 {
     // Retrieve cell
     static NSString *cellIdentifier = @"ContactCell"; // static?
-    UITableViewCell *myCell = [tableView dequeueReusableCellWithIdentifier: cellIdentifier forIndexPath:indexPath];
+    CustomTableCell *myCell = [tableView dequeueReusableCellWithIdentifier: cellIdentifier forIndexPath:indexPath];
     
     if (myCell == nil){
         myCell = [[UITableViewCell alloc]initWithStyle: UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
-    myCell.textLabel.text = [data objectAtIndex:indexPath.row];
+    Loan *contacts = [data objectAtIndex:indexPath.row];
+    myCell.cellName.text = contacts.fullname;
+    myCell.cellTotal.text = [NSString stringWithFormat:@"%@kr", [contacts.amount stringValue]];
+    
+    NSLog(@"%@", contacts.amount);
+    if ([contacts.amount doubleValue] > 0)
+        myCell.cellTotal.textColor = [UIColor colorWithRed:(57.0/255.0) green:(169.0/255.0) blue:(136.0/255.0) alpha:1];
+    else if ([contacts.amount doubleValue] < 0)
+        myCell.cellTotal.textColor = [UIColor colorWithRed:(231.0/255.0) green:(79.0/255.0) blue:(43.0/255.0) alpha:1];
+    else myCell.cellTotal.textColor = [UIColor grayColor];
+    
+    
+    //myCell.textLabel.text = [data objectAtIndex:indexPath.row];
     
     return myCell;
 }

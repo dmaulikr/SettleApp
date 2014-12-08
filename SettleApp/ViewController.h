@@ -23,6 +23,8 @@
 }
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *data;
+@property (strong, nonatomic) NSMutableArray *data2;
+
 
 //@property (weak, nonatomic) IBOutlet UITableView *listTableView;
 
@@ -53,7 +55,5 @@
 @property (weak, nonatomic) IBOutlet UITextField *debtUsername;
 @property (weak, nonatomic) IBOutlet UITextField *debtDebt;
 - (IBAction)createDebt:(id)sender;
-
-
 
 @end
