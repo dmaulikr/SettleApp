@@ -7,10 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "User.h"
-#import "HomeModel.h"
 #import "AppDelegate.h"
-//#import "AppMainView.h"
 #import "CustomTableCell.h"
 #import "Loan.h"
 
@@ -29,14 +26,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
 
 @interface ViewController ()
 {
-    HomeModel *_homeModel;
     NSArray *_feedItems;
-    NSArray *_cellItem;
-    // NSMutableArray *tableArray;
-    // IBOutlet UIView *contactView;
-    
-    // IBOutlet UITableView *contactTableView;
-    
 }
 @property (nonatomic) NSString *usernameSelf;
 @property (nonatomic) std::shared_ptr<Self> SelfPtr;
@@ -44,27 +34,9 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
 @end
 
 @implementation ViewController
-@synthesize data;
-//@synthesize data2;
-@synthesize arrayLogin;
-@synthesize userNameTextField, passwordTextField;
-@synthesize nextField;
-
-- (IBAction)userNameTxt:(SOTextField *)sender{}
-- (IBAction)passwordTxt:(SOTextField *)sender{}
-
-- (BOOL) textFieldShouldReturn:(UITextField *) textField {
-    
-    BOOL didResign = [textField resignFirstResponder];
-    if (!didResign) return NO;
-    
-    if ([textField isKindOfClass:[SOTextField class]])
-        
-        dispatch_async(dispatch_get_current_queue(),
-                       ^ { [[(SOTextField *)textField nextField] becomeFirstResponder]; });
-    
-    return YES;
-}
+//@synthesize data;
+//@synthesize arrayLogin;
+@synthesize userNameTextField, passwordTextField, data, arrayLogin, totalDebts;
 
 
 - (void)viewDidLoad
@@ -73,7 +45,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     
     //Instantiate NSMutableArray
     data = [[NSMutableArray alloc] initWithArray:_feedItems];
-
+    
     // Initialize the refresh control.
     self.refreshControl = [[UIRefreshControl alloc] init];
     self.refreshControl.backgroundColor = [UIColor lightGrayColor];
@@ -97,12 +69,94 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     
     // Do any additional setup after loading the view, typically from a nib.
     
+    // Show/Hide password
+    CGSize hideShowSize = [@"VISAX" sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f]}];
+    UIButton *hideShow = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, hideShowSize.width, self.passwordTextField.frame.size.height)];
+    [hideShow.titleLabel setFont:[UIFont systemFontOfSize:14.0f]];
+    [hideShow setTitle:@"GÖM" forState:UIControlStateNormal];
+    [hideShow setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    self.passwordTextField.rightView = hideShow;
+    self.passwordTextField.rightViewMode = UITextFieldViewModeAlways;
+    [hideShow addTarget:self action:@selector(hideShow:) forControlEvents:UIControlEventTouchUpInside];
+
+    // Slide to delete function
+    self.tableView.allowsMultipleSelectionDuringEditing = NO;
+    
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+// Override to support conditional editing of the table view.
+// This only needs to be implemented if you are going to be returning NO
+// for some items. By default, all items are editable.
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return YES if you want the specified item to be editable.
+    return YES;
+}
+
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        //add code here for when you hit delete
+        
+        
+    }
+}
+
+
+
+- (void)hideShow:(id)sender
+{
+    UIButton *hideShow = (UIButton *)self.passwordTextField.rightView;
+    if (!self.passwordTextField.secureTextEntry)
+    {
+        self.passwordTextField.secureTextEntry = YES;
+        [hideShow setTitle:@"VISA" forState:UIControlStateNormal];
+    }
+    else
+    {
+        self.passwordTextField.secureTextEntry = NO;
+        [hideShow setTitle:@"GÖM" forState:UIControlStateNormal];
+    }
+    [self.passwordTextField becomeFirstResponder];
+}
+
+
+
+-(BOOL)textFieldShouldReturn:(UITextField*)textField;
+{
+    
+    if (textField == self.passwordTextField) {
+        [textField resignFirstResponder];
+        [self loginAction:0]; // why 0?
+    }
+    if (textField == self.txtConfirmpassword) {
+        [textField resignFirstResponder];
+        [self registerUser:0]; // why 0?
+    }
+    if (textField == self.debtDebt) {
+        [textField resignFirstResponder];
+        [self performSegueWithIdentifier:@"login" sender:self];
+    }
+    
+    
+    
+    NSInteger nextTag = textField.tag + 1;
+    // Try to find next responder
+    UIResponder* nextResponder = [textField.superview viewWithTag:nextTag];
+    if (nextResponder) {
+        // Found next responder, so set it.
+        [nextResponder becomeFirstResponder];
+    } else {
+        // Not found, so remove keyboard.
+        [textField resignFirstResponder];
+    }
+    return NO; // We do not want UITextField to insert line-breaks.
+    
 }
 
 - (void) uglyReload {
@@ -123,6 +177,12 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     }
     
     self.SelfPtr->refresh();
+    
+    if (self.SelfPtr->total() > 0)
+        totalDebts.textColor = [UIColor colorWithRed:(57.0/255.0) green:(169.0/255.0) blue:(136.0/255.0) alpha:1];
+    else if (self.SelfPtr->total() < 0)
+        totalDebts.textColor = [UIColor colorWithRed:(231.0/255.0) green:(79.0/255.0) blue:(43.0/255.0) alpha:1];
+    else totalDebts.textColor = [UIColor grayColor];
     totalDebts.text = [[NSString alloc] initWithFormat:@"%.0fkr", self.SelfPtr->total()]; // 0 decimals
     
     
@@ -132,9 +192,6 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     [self performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 
 }
-
-
-
 
 - (void) fillArray
 {
@@ -204,7 +261,12 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
         }
         
         self.SelfPtr->refresh();
-        totalDebts.text = [[NSString alloc] initWithFormat:@"%.0f", self.SelfPtr->total()]; // 0 decimals
+        if (self.SelfPtr->total() > 0)
+            totalDebts.textColor = [UIColor colorWithRed:(57.0/255.0) green:(169.0/255.0) blue:(136.0/255.0) alpha:1];
+        else if (self.SelfPtr->total() < 0)
+            totalDebts.textColor = [UIColor colorWithRed:(231.0/255.0) green:(79.0/255.0) blue:(43.0/255.0) alpha:1];
+        else totalDebts.textColor = [UIColor grayColor];
+        totalDebts.text = [[NSString alloc] initWithFormat:@"%.0fkr", self.SelfPtr->total()]; // 0 decimals
         
         
         [self fillArray];
@@ -279,13 +341,12 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     CustomTableCell *myCell = [tableView dequeueReusableCellWithIdentifier: cellIdentifier forIndexPath:indexPath];
     
     if (myCell == nil){
-        myCell = [[UITableViewCell alloc]initWithStyle: UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        myCell = [[CustomTableCell alloc]initWithStyle: UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     Loan *contacts = [data objectAtIndex:indexPath.row];
     myCell.cellName.text = contacts.fullname;
     myCell.cellTotal.text = [NSString stringWithFormat:@"%@kr", [contacts.amount stringValue]];
     
-    NSLog(@"%@", contacts.amount);
     if ([contacts.amount doubleValue] > 0)
         myCell.cellTotal.textColor = [UIColor colorWithRed:(57.0/255.0) green:(169.0/255.0) blue:(136.0/255.0) alpha:1];
     else if ([contacts.amount doubleValue] < 0)
@@ -327,7 +388,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     
     std::shared_ptr<vector<shared_ptr<User> > > debtVec = _self.get_debts();
     std::string usernamestd ([_debtUsername.text UTF8String]);
-    double userDebtstd  = ([_debtDebt.text doubleValue]);
+    double userDebtstd  = ([self.debtDebt.text doubleValue]);
     
     BOOL existing = false;
     
@@ -429,7 +490,6 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     }
     
     _self.refresh();
-    totalDebts.text = [[NSString alloc] initWithFormat:@"%.0f", _self.total()]; // 0 decimals
 }
 
 

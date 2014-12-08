@@ -106,7 +106,7 @@ public:
     shared_ptr<User> login(const string & _username,const string & passw);
     shared_ptr<User> create(const string & _username, const string & _name, const
                             string & surname, const string & email);
-    double debt() { return debt_; }
+    double debt(){return debt_;}
 private:
     double debt_;
 };

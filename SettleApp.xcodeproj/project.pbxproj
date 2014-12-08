@@ -26,11 +26,6 @@
 		33B4C98A19BE38700000E64F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33B4C96919BE386F0000E64F /* UIKit.framework */; };
 		33B4C99219BE38700000E64F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 33B4C99019BE38700000E64F /* InfoPlist.strings */; };
 		33B4C99419BE38700000E64F /* SettleAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 33B4C99319BE38700000E64F /* SettleAppTests.m */; };
-		33EED2311A23567B0059183D /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 33EED2301A23567B0059183D /* User.m */; };
-		33EED2351A24C45A0059183D /* AppMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 33EED2331A24C45A0059183D /* AppMainView.m */; };
-		33EED2391A24C8470059183D /* AppMainView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33EED2381A24C8470059183D /* AppMainView.storyboard */; };
-		33EED2751A2608DF0059183D /* SOTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 33EED2741A2608DF0059183D /* SOTextField.m */; };
-		33F481AE1A0BA5DA00A27CCD /* HomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F481AD1A0BA5DA00A27CCD /* HomeModel.m */; };
 		33F7E64A19BE562000DA241D /* SettleApp.png in Resources */ = {isa = PBXBuildFile; fileRef = 33F7E64919BE562000DA241D /* SettleApp.png */; };
 /* End PBXBuildFile section */
 
@@ -71,16 +66,7 @@
 		33B4C98F19BE38700000E64F /* SettleAppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SettleAppTests-Info.plist"; sourceTree = "<group>"; };
 		33B4C99119BE38700000E64F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		33B4C99319BE38700000E64F /* SettleAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettleAppTests.m; sourceTree = "<group>"; };
-		33EED2301A23567B0059183D /* User.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = User.m; sourceTree = "<group>"; };
 		33EED2321A2357F80059183D /* users.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; path = users.h; sourceTree = "<group>"; };
-		33EED2331A24C45A0059183D /* AppMainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppMainView.m; sourceTree = "<group>"; };
-		33EED2341A24C45A0059183D /* AppMainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppMainView.h; sourceTree = "<group>"; };
-		33EED2381A24C8470059183D /* AppMainView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AppMainView.storyboard; sourceTree = "<group>"; };
-		33EED2731A2608DF0059183D /* SOTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SOTextField.h; path = ../SOTextField.h; sourceTree = "<group>"; };
-		33EED2741A2608DF0059183D /* SOTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SOTextField.m; path = ../SOTextField.m; sourceTree = "<group>"; };
-		33F481A91A0B96AD00A27CCD /* HomeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeModel.h; sourceTree = "<group>"; };
-		33F481AB1A0B96FA00A27CCD /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
-		33F481AD1A0BA5DA00A27CCD /* HomeModel.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = HomeModel.m; sourceTree = "<group>"; };
 		33F7E64919BE562000DA241D /* SettleApp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SettleApp.png; path = SettleApp/SettleApp.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -145,27 +131,18 @@
 		33B4C96B19BE386F0000E64F /* SettleApp */ = {
 			isa = PBXGroup;
 			children = (
-				33EED2731A2608DF0059183D /* SOTextField.h */,
-				33EED2741A2608DF0059183D /* SOTextField.m */,
-				33EED2381A24C8470059183D /* AppMainView.storyboard */,
 				33B4C97419BE386F0000E64F /* AppDelegate.h */,
-				33EED2331A24C45A0059183D /* AppMainView.m */,
-				33EED2341A24C45A0059183D /* AppMainView.h */,
 				33B4C97519BE386F0000E64F /* AppDelegate.m */,
 				335F56F919CB667D00E90B89 /* Main_iPhone.storyboard */,
 				33B4C97D19BE386F0000E64F /* ViewController.h */,
 				33B4C97E19BE386F0000E64F /* ViewController.m */,
 				33B4C98019BE386F0000E64F /* Images.xcassets */,
 				33B4C96C19BE386F0000E64F /* Supporting Files */,
-				33F481A91A0B96AD00A27CCD /* HomeModel.h */,
 				333722241A363519009CF359 /* Loan.h */,
 				333722251A363519009CF359 /* Loan.m */,
 				333722211A363099009CF359 /* CustomTableCell.h */,
 				333722221A363099009CF359 /* CustomTableCell.m */,
-				33F481AB1A0B96FA00A27CCD /* User.h */,
 				33EED2321A2357F80059183D /* users.h */,
-				33F481AD1A0BA5DA00A27CCD /* HomeModel.m */,
-				33EED2301A23567B0059183D /* User.m */,
 			);
 			path = SettleApp;
 			sourceTree = "<group>";
@@ -284,7 +261,6 @@
 				339919BD19BE793400E0DC65 /* SettleApp-1024px.png in Resources */,
 				33622E1019CAE161006AA3AA /* login-page-bg.jpg in Resources */,
 				33B4C97019BE386F0000E64F /* InfoPlist.strings in Resources */,
-				33EED2391A24C8470059183D /* AppMainView.storyboard in Resources */,
 				33F7E64A19BE562000DA241D /* SettleApp.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -304,11 +280,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				33F481AE1A0BA5DA00A27CCD /* HomeModel.m in Sources */,
-				33EED2751A2608DF0059183D /* SOTextField.m in Sources */,
-				33EED2351A24C45A0059183D /* AppMainView.m in Sources */,
 				333722261A363519009CF359 /* Loan.m in Sources */,
-				33EED2311A23567B0059183D /* User.m in Sources */,
 				33B4C97F19BE386F0000E64F /* ViewController.m in Sources */,
 				33B4C97619BE386F0000E64F /* AppDelegate.m in Sources */,
 				33B4C97219BE386F0000E64F /* main.m in Sources */,
