@@ -313,8 +313,10 @@ bool Self::change_debt(const string & _username, const double & debt){
                 return true;
             }
         }else if(nc) {
-            nc->change_debt("", debt);
-            return true;
+            if(nc->username() == _username){
+                nc->change_debt("", debt);
+                return true;
+            }
         }
     }
     /*

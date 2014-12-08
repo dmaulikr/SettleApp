@@ -318,6 +318,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
         
         if (nc) {
                 if (nc->username() == usernamestd) {
+                    NSLog(@"Användare finns: ");
                 _self.change_debt(usernamestd,userDebtstd);
                 existing = true;
             }
@@ -458,18 +459,40 @@ std::shared_ptr<Self> string_to_self(const std::string info){
         int contId {};
         double contDebt {};
         char c;
-        if (std::isalpha(ss.peek())) {
+        NSLog(@"SS.PEEK :%d ", (char)ss.peek());
+        ss >> std::ws;
+        if (std::isalpha((char)ss.peek())) {
+           
             std::string namenc;
-            std::string surnamenc;
+            std::string surnamenc = "";
             std::getline(ss,namenc,',');
-            std::getline(ss,surname,',');
+           //if(ss.peek() == ',')
+               ss >> std::ws;
+              NSLog(@"SS.PEEK :%d ", (char)ss.peek());
+            while(true){
+                
+                ss>>c;
+                if(c != ','){
+                    surnamenc+=c;
+                }else{
+                    break;
+                }
+                
+            }
+                
+                
             
+            //std::getline(ss,surname,',');
+             
             NSString *surnameNS = [NSString stringWithCString:surnamenc.c_str()
                                                                          encoding:NSUTF8StringEncoding];
             NSLog(@"surnamme: %@", surnameNS);
+            if(ss.peek() == ',')
+                ss >> c; 
             ss >> contDebt >> c;
             std::shared_ptr<Not_Complete> nc = make_shared<Not_Complete>(namenc, surnamenc, contDebt);
             _self->push_back(nc);
+            
         }else{
             ss >> contId >> c >> contDebt >> c;
             
@@ -517,12 +540,33 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
             double contDebt {};
             char c;
             if(isalpha(ss.peek())) {
-                std::string namenc;
-                std::string surnamenc;
-                std::getline(ss,namenc,',');
-                std::getline(ss,surname,',');
-                ss >> contDebt >> c;
-                
+                int contId {};
+                double contDebt {};
+                char c;
+                ss >> std::ws;
+                if (std::isalpha((char)ss.peek())) {
+                    
+                    std::string namenc;
+                    std::string surnamenc = "";
+                    std::getline(ss,namenc,',');
+                    //if(ss.peek() == ',')
+                    ss >> std::ws;
+                    NSLog(@"SS.PEEK :%d ", (char)ss.peek());
+                    while(true){
+                        
+                        ss>>c;
+                        if(c != ','){
+                            surnamenc+=c;
+                        }else{
+                            break;
+                        }
+                        
+                    }
+                   
+                    if(ss.peek() == ',')
+                        ss >> c; 
+                    ss >> contDebt >> c;
+                }
             }else{
                 ss >> contId >> c >> contDebt >> c;
                 
