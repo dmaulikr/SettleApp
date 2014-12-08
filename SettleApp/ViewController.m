@@ -75,7 +75,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     self.refreshControl = [[UIRefreshControl alloc] init];
     self.refreshControl.backgroundColor = [UIColor lightGrayColor];
     self.refreshControl.tintColor = [UIColor whiteColor];
-    [self.refreshControl addTarget:self action:@selector(createSelf) forControlEvents:UIControlEventValueChanged];
+    [self.refreshControl addTarget:self action:@selector(uglyReload) forControlEvents:UIControlEventValueChanged];
     [_tableView addSubview:self.refreshControl];
     
     _feedItems = [[NSArray alloc] init];
@@ -103,7 +103,32 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
 }
 
 - (void) uglyReload {
-    [self performSegueWithIdentifier:@"login" sender:self];
+    NSString *strURL = [NSString stringWithFormat:@"http://demo.lundgrendesign.se/settleapp/db.php?i=getUserbyName&id=%@",usernameSelf];
+    
+    NSLog(@"Användare: %@", usernameSelf);
+    NSData *dataURL = [NSData dataWithContentsOfURL:[NSURL URLWithString:strURL]];
+    NSString *userResult = [[NSString alloc] initWithData:dataURL encoding:NSUTF8StringEncoding];
+    
+    std::string userResultstd ([userResult UTF8String]);
+    if (userResultstd[0] != ' ') {
+        self.SelfPtr = string_to_self(userResultstd);
+        self.SelfPtr->refresh();
+        
+    } else {
+        self.SelfPtr = make_shared<Self> ("", "", "", 0,"");
+        return;
+    }
+    
+    self.SelfPtr->refresh();
+    totalDebts.text = [[NSString alloc] initWithFormat:@"%.0f", self.SelfPtr->total()]; // 0 decimals
+    
+    
+    [self fillArray];
+    // As this block of code is run in a background thread, we need to ensure the GUI
+    // update is executed in the main thread
+    NSLog(@"End Reload");
+    [self performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+
 }
 - (void)refresh:(UIRefreshControl *)refreshControl {
     
@@ -159,6 +184,12 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
             // Sets array with Contact to tableView
             _feedItems = tableArray;
             data = [[NSMutableArray alloc] initWithArray:_feedItems];
+            
+            // As this block of code is run in a background thread, we need to ensure the GUI
+            // update is executed in the main thread
+            NSLog(@"End Reload");
+            [self performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+            
         }
     }
 }
@@ -185,14 +216,11 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
         self.SelfPtr->refresh();
         totalDebts.text = [[NSString alloc] initWithFormat:@"%.0f", self.SelfPtr->total()]; // 0 decimals
         
-        // As this block of code is run in a background thread, we need to ensure the GUI
-        // update is executed in the main thread
-        NSLog(@"End Reload");
-        [self performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
-        
         
         [self fillArray];
-    }else {
+    
+        }else {
+
         return;
     }
     
