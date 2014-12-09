@@ -20,6 +20,7 @@
 
 // Main View
 @property (weak, nonatomic) IBOutlet UILabel *totalDebts;
+//@property (strong, nonatomic) IBOutlet UILabel *messageLabel;
 
 // Register
 @property (weak, nonatomic) IBOutlet UITextField *txtUsername;
@@ -47,5 +48,11 @@
 @property (weak, nonatomic) IBOutlet UITextField *debtUsername;
 @property (weak, nonatomic) IBOutlet UITextField *debtDebt;
 - (IBAction)createDebt:(id)sender;
+
+
+// Contact window
+@property (strong, nonatomic) IBOutlet UILabel *contactName;
+@property (strong, nonatomic) IBOutlet UILabel *contactDebt;
+
 
 @end

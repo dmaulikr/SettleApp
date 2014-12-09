@@ -34,10 +34,11 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
 @end
 
 @implementation ViewController
-//@synthesize data;
-//@synthesize arrayLogin;
 @synthesize userNameTextField, passwordTextField, data, arrayLogin, totalDebts;
 
+-(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return @"Ta bort";
+}
 
 - (void)viewDidLoad
 {
@@ -78,7 +79,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     self.passwordTextField.rightView = hideShow;
     self.passwordTextField.rightViewMode = UITextFieldViewModeAlways;
     [hideShow addTarget:self action:@selector(hideShow:) forControlEvents:UIControlEventTouchUpInside];
-
+    
     // Slide to delete function
     self.tableView.allowsMultipleSelectionDuringEditing = NO;
     
@@ -98,16 +99,29 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     return YES;
 }
 
-// Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        //add code here for when you hit delete
         
+        Loan *contacts = [data objectAtIndex:indexPath.row];
+        std::string usernamestd ([contacts.username UTF8String]);
+        if ([contacts.amount doubleValue] < 0 )
+            self.SelfPtr->change_debt(usernamestd, std::abs([contacts.amount doubleValue]));
+        
+        else if ([contacts.amount doubleValue] > 0) {
+            double d = 0-[contacts.amount doubleValue];
+            self.SelfPtr->change_debt(usernamestd, d);
+        }
+        [self updateDatabase];
+        self.SelfPtr->deleteContact(usernamestd); // deleting contact after settle up
         
     }
+    [self updateDatabase];
+    [self uglyReload];
+    [self.data removeObjectAtIndex:indexPath.row];
+    
+    [tableView reloadData];
 }
-
-
 
 - (void)hideShow:(id)sender
 {
@@ -138,10 +152,11 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
         [textField resignFirstResponder];
         [self registerUser:0]; // why 0?
     }
-    if (textField == self.debtDebt) {
-        [textField resignFirstResponder];
-        [self performSegueWithIdentifier:@"login" sender:self];
-    }
+    
+    /*if (textField == self.debtDebt) {
+     //[textField resignFirstResponder];
+     [self performSegueWithIdentifier:@"login" sender:self];
+     }*/
     
     
     
@@ -157,6 +172,39 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     }
     return NO; // We do not want UITextField to insert line-breaks.
     
+}
+
+- (void) updateDatabase {
+    Self _self = *self.SelfPtr; // set self
+    std::shared_ptr<vector<shared_ptr<User> > > debtUpd = _self.get_debts();
+    NSString *userns = [NSString stringWithCString:_self.username().c_str()
+                                          encoding:NSUTF8StringEncoding];
+    
+    
+    NSString *selfdebt = [NSString stringWithCString:_self.debts_to_str().c_str()
+                                            encoding:NSUTF8StringEncoding];
+    
+    
+    NSString *strURL = [NSString stringWithFormat:@"http://demo.lundgrendesign.se/settleapp/db.php?debtUsername=%@&debtStr=%@", userns, selfdebt];
+    [NSData dataWithContentsOfURL:[NSURL URLWithString:strURL]];
+    
+    NSLog(@"Vi uppdaterar oss själva (SELF) :P %@ STRURL: %@", selfdebt, strURL);
+    
+    for (auto & u : *debtUpd) {
+        std::shared_ptr<Contact> upd = std::dynamic_pointer_cast<Contact>(u);
+        if (upd) {
+            NSString *usernamens = [NSString stringWithCString:upd->username().c_str()
+                                                      encoding:NSUTF8StringEncoding];
+            NSString *debtns = [NSString stringWithCString:upd->debts_to_str().c_str()
+                                                  encoding:NSUTF8StringEncoding];
+            
+            NSLog(@"Uppdatera vän: %@", debtns);
+            NSString *strURL2 = [NSString stringWithFormat:@"http://demo.lundgrendesign.se/settleapp/db.php?debtUsername=%@&debtStr=%@", usernamens, debtns];
+            [NSData dataWithContentsOfURL:[NSURL URLWithString:strURL2]];
+    
+        }
+    }
+    _self.refresh();
 }
 
 - (void) uglyReload {
@@ -190,7 +238,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     // As this block of code is run in a background thread, we need to ensure the GUI
     // update is executed in the main thread
     [self performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
-
+    
 }
 
 - (void) fillArray
@@ -202,18 +250,19 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
         
         
         if (fillVector->size() != 0) {
-            NSString *name, *surname;
+            NSString *username, *name, *surname;
             NSNumber *debt;
             
             for (auto & cont : *fillVector) {
                 std::shared_ptr<Contact> cnt = std::dynamic_pointer_cast<Contact>(cont);
-                 Loan *contacts = [[Loan alloc] init];
+                Loan *contacts = [[Loan alloc] init];
                 if (cnt) {
-                   
+                    username = [NSString stringWithUTF8String:cnt->username().c_str()];
                     name = [NSString stringWithUTF8String:cnt->name().c_str()];
                     surname = [NSString stringWithUTF8String:cnt->surname().c_str()];;
                     debt = [NSNumber numberWithDouble:cnt->debt()];
                     NSString *fullName = [NSString stringWithFormat:@"%@ %@", name, surname];
+                    contacts.username = username;
                     contacts.fullname = fullName;
                     contacts.amount = debt;
                     
@@ -223,13 +272,15 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
                 
                 std::shared_ptr<Not_Complete> nc = std::dynamic_pointer_cast<Not_Complete>(cont);
                 if (nc) {
+                    username = [NSString stringWithUTF8String:nc->username().c_str()];
                     name = [NSString stringWithUTF8String:nc->name().c_str()];
                     surname = [NSString stringWithUTF8String:nc->surname().c_str()];;
                     debt = [NSNumber numberWithDouble:nc->debt()];
                     NSString *fullName = [NSString stringWithFormat:@"%@ %@", name, surname];
+                    contacts.username = username;
                     contacts.fullname = fullName;
                     contacts.amount = debt;
-                   
+                    
                     [tableArray addObject: contacts];
                 }
             }
@@ -270,9 +321,9 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
         
         
         [self fillArray];
-    
-        }else {
-
+        
+    }else {
+        
         return;
     }
     
@@ -302,7 +353,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (data) {
+    if ([data count] > 0) {
         
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         return 1;
@@ -312,9 +363,9 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
         // Display a message when the table is empty
         UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
         
-        messageLabel.text = @"No data is currently available. Please pull down to refresh.";
-        messageLabel.textColor = [UIColor blackColor];
-        messageLabel.numberOfLines = 0;
+        messageLabel.text = @"Lägg till en skuld genom plusset uppe till höger. Dra ner för att uppdatera listan.";
+        messageLabel.textColor = [UIColor grayColor];
+        messageLabel.numberOfLines = 10;
         messageLabel.textAlignment = NSTextAlignmentCenter;
         messageLabel.font = [UIFont fontWithName:@"Palatino-Italic" size:20];
         [messageLabel sizeToFit];
@@ -334,6 +385,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     return [data count];
 }
 
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Retrieve cell
@@ -352,7 +404,6 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     else if ([contacts.amount doubleValue] < 0)
         myCell.cellTotal.textColor = [UIColor colorWithRed:(231.0/255.0) green:(79.0/255.0) blue:(43.0/255.0) alpha:1];
     else myCell.cellTotal.textColor = [UIColor grayColor];
-    
     
     //myCell.textLabel.text = [data objectAtIndex:indexPath.row];
     
@@ -408,14 +459,12 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
         std::shared_ptr<Not_Complete> nc = std::dynamic_pointer_cast<Not_Complete>(debt);
         
         if (nc) {
-                if (nc->username() == usernamestd) {
-                    NSLog(@"Användare finns: ");
+            if (nc->username() == usernamestd) {
+                NSLog(@"Användare finns: ");
                 _self.change_debt(usernamestd,userDebtstd);
                 existing = true;
             }
         }
-
-        
         
     }
     
@@ -425,15 +474,15 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
         NSString *strResult = [[NSString alloc] initWithData:dataURL encoding:NSUTF8StringEncoding];
         std::string strResultstd ([strResult UTF8String]);
         
-       
+        
         
         if (strResultstd == "") { // User doesn't exist
-             NSLog(@"Hur ser strResultstd ut: %@", _debtUsername.text);
+            NSLog(@"Hur ser strResultstd ut: %@", _debtUsername.text);
             std::stringstream ss (usernamestd);
             std::string namenc;
             std::string surnamenc;
             ss >> namenc >> surnamenc;
-            shared_ptr<Not_Complete> noCnt = std::make_shared<Not_Complete> (namenc, surnamenc, 0);
+            shared_ptr<Not_Complete> noCnt = std::make_shared<Not_Complete> (usernamestd, namenc, surnamenc, 0);
             if(!noCnt){
                 NSLog(@"Här är den satt");
             }
@@ -552,13 +601,13 @@ std::shared_ptr<Self> string_to_self(const std::string info){
         NSLog(@"SS.PEEK :%d ", (char)ss.peek());
         ss >> std::ws;
         if (std::isalpha((char)ss.peek())) {
-           
+            
             std::string namenc;
             std::string surnamenc = "";
             std::getline(ss,namenc,',');
-           //if(ss.peek() == ',')
-               ss >> std::ws;
-              NSLog(@"SS.PEEK :%d ", (char)ss.peek());
+            //if(ss.peek() == ',')
+            ss >> std::ws;
+            NSLog(@"SS.PEEK :%d ", (char)ss.peek());
             while(true){
                 
                 ss>>c;
@@ -569,18 +618,18 @@ std::shared_ptr<Self> string_to_self(const std::string info){
                 }
                 
             }
-                
-                
+            
+            std::string usernamenc = namenc + " " + surnamenc;
             
             //std::getline(ss,surname,',');
-             
+            
             NSString *surnameNS = [NSString stringWithCString:surnamenc.c_str()
-                                                                         encoding:NSUTF8StringEncoding];
+                                                     encoding:NSUTF8StringEncoding];
             NSLog(@"surnamme: %@", surnameNS);
             if(ss.peek() == ',')
-                ss >> c; 
+                ss >> c;
             ss >> contDebt >> c;
-            std::shared_ptr<Not_Complete> nc = make_shared<Not_Complete>(namenc, surnamenc, contDebt);
+            std::shared_ptr<Not_Complete> nc = make_shared<Not_Complete>(usernamenc, namenc, surnamenc, contDebt);
             _self->push_back(nc);
             
         }else{
@@ -652,9 +701,9 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
                         }
                         
                     }
-                   
+                    
                     if(ss.peek() == ',')
-                        ss >> c; 
+                        ss >> c;
                     ss >> contDebt >> c;
                 }
             }else{

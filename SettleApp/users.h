@@ -6,6 +6,8 @@
 #include <cmath>
 #include <iostream>
 #include <sstream>
+#include <algorithm>
+#include <iterator>
 using namespace std;
 
 //Måste definera SQL_Control eftersom att de beror på varandra
@@ -49,13 +51,22 @@ protected:
     vector<shared_ptr<User> > debts;
 };
 
+bool operator == (const User & left, const User & right) {
+    return left.username() == right.username();
+};
 
 void User::insert_end(vector<shared_ptr<User> >  const & new_debts){
     debts.insert(debts.end(), new_debts.begin(), new_debts.end());
+    std::sort(debts.begin(), debts.end(), [](const shared_ptr<User> & left, const shared_ptr<User> & right) -> bool {
+        return left->name() < right->name();
+    });
 }
 
 void User::push_back(shared_ptr<User> const & user){
     debts.push_back(user->clone());
+    std::sort(debts.begin(), debts.end(), [](const shared_ptr<User> & left, const shared_ptr<User> & right) -> bool {
+        return left->name() < right->name();
+    });
 }
 
 shared_ptr<vector<shared_ptr<User> > >User::get_debts(){
@@ -97,8 +108,8 @@ class Not_Complete: public User, public
 std::enable_shared_from_this<Not_Complete>{
 public:
     Not_Complete() = default;
-    Not_Complete(const string & _name, const string & _surname, const double &
-                 _debt):User(_name, _name, _surname, -1), debt_{_debt}{}
+    Not_Complete(const string & _username, const string & _name, const string & _surname, const double &
+                 _debt):User(_username, _name, _surname, -1), debt_{_debt}{}
     ~Not_Complete()= default;
     
     virtual bool change_debt(const string & str, const double & _debt) final;
@@ -126,7 +137,7 @@ shared_ptr<User> Not_Complete::login(const string & _username,const string & pas
      användarnamnet och dess lösenord. Om de båda stämmer överens med databasen returneras
      en ”Self” från ”SQL_control”, annars returneras en ”Not_complete”.
      */
-    return make_shared<Not_Complete>("notC", "notC",-1);
+    return make_shared<Not_Complete>("notC" ,"notC", "notC",-1);
     
 }
 shared_ptr<User> Not_Complete::create(const string & _username, const string & _name, const
@@ -136,7 +147,7 @@ shared_ptr<User> Not_Complete::create(const string & _username, const string & _
      användarnamnet eller email-adressen inte redan används i databasen kommer ”SQL_control” bes
      att skapa en ny användare och en ”Self” returneras. Annars returneras en ”Not_complete”.
      */
-    return make_shared<Not_Complete>("notC", "notC",-1);
+    return make_shared<Not_Complete>("notC", "notC", "notC",-1);
     
 }
 
@@ -214,6 +225,7 @@ public:
     
     string email() const {return email_;}
     double total() const {return total_debt;}
+    void deleteContact(const std::string &);
     
     bool refresh();
     bool update();
@@ -230,6 +242,21 @@ private:
     vector<shared_ptr<User> > update_list;
     //SQL_Control sql;
 };
+
+void Self::deleteContact(const std::string & user){
+    for(auto & c : debts) {
+        std::shared_ptr<Contact> cnt = std::dynamic_pointer_cast<Contact>(c);
+        std::shared_ptr<Not_Complete> nc = std::dynamic_pointer_cast<Not_Complete>(c);
+        if (cnt && user == cnt->username()) {
+            if (cnt->debt() == 0)
+            debts.erase(std::find(debts.begin(), debts.end(), cnt));
+        }
+        if (nc && user == nc->username()) {
+            if (nc->debt() == 0)
+                debts.erase(std::find(debts.begin(), debts.end(), nc));
+        }
+    }
+}
 
 shared_ptr<User> Self::clone(){
     return this->shared_from_this();
