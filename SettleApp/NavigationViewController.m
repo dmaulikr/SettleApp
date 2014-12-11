@@ -54,7 +54,6 @@
     // Retrieve cell
     NSString *cellIdentifier = [menu objectAtIndex:indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: cellIdentifier forIndexPath:indexPath];
-     NSLog(@"tableViwe lololo");
     
     if (cell == nil){
         cell = [[UITableViewCell alloc]initWithStyle: UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];

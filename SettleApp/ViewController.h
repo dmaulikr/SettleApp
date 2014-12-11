@@ -7,14 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import "HomeModel.h"
 
-
-
-@interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
-// Main View
-    //IBOutlet UILabel *totalDebts;
-}
+@interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *data;
 
