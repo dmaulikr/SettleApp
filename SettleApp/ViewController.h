@@ -54,5 +54,9 @@
 @property (strong, nonatomic) IBOutlet UILabel *contactName;
 @property (strong, nonatomic) IBOutlet UILabel *contactDebt;
 
+// Main window
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *menuButton;
+//@property (weak,nonatomic) IBOutlet UIBarButtonItem *barButton;
+
 
 @end

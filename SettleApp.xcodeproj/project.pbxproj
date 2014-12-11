@@ -12,6 +12,8 @@
 		335F56FB19CB667D00E90B89 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335F56F919CB667D00E90B89 /* Main_iPhone.storyboard */; };
 		33622E1019CAE161006AA3AA /* login-page-bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 33622E0F19CAE161006AA3AA /* login-page-bg.jpg */; };
 		33622E1419CB420E006AA3AA /* SettleApp-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 33622E1319CB420E006AA3AA /* SettleApp-logo.png */; };
+		338E5F491A37D915002494EC /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 338E5F481A37D915002494EC /* SWRevealViewController.m */; };
+		338E5F4C1A37DBF0002494EC /* NavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 338E5F4A1A37DBF0002494EC /* NavigationViewController.m */; };
 		339919BD19BE793400E0DC65 /* SettleApp-1024px.png in Resources */ = {isa = PBXBuildFile; fileRef = 339919BC19BE793400E0DC65 /* SettleApp-1024px.png */; };
 		33B4C96619BE386F0000E64F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33B4C96519BE386F0000E64F /* Foundation.framework */; };
 		33B4C96819BE386F0000E64F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33B4C96719BE386F0000E64F /* CoreGraphics.framework */; };
@@ -47,6 +49,10 @@
 		335F56FA19CB667D00E90B89 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		33622E0F19CAE161006AA3AA /* login-page-bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "login-page-bg.jpg"; sourceTree = "<group>"; };
 		33622E1319CB420E006AA3AA /* SettleApp-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SettleApp-logo.png"; sourceTree = "<group>"; };
+		338E5F471A37D915002494EC /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
+		338E5F481A37D915002494EC /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
+		338E5F4A1A37DBF0002494EC /* NavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationViewController.m; sourceTree = "<group>"; };
+		338E5F4B1A37DBF0002494EC /* NavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationViewController.h; sourceTree = "<group>"; };
 		339919BC19BE793400E0DC65 /* SettleApp-1024px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SettleApp-1024px.png"; path = "Filer/SettleApp-1024px.png"; sourceTree = "<group>"; };
 		33B4C96219BE386F0000E64F /* SettleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SettleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33B4C96519BE386F0000E64F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -94,6 +100,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		338E5F461A37D915002494EC /* SlideOutMenuFiles */ = {
+			isa = PBXGroup;
+			children = (
+				338E5F471A37D915002494EC /* SWRevealViewController.h */,
+				338E5F481A37D915002494EC /* SWRevealViewController.m */,
+			);
+			path = SlideOutMenuFiles;
+			sourceTree = "<group>";
+		};
 		33B4C95919BE386F0000E64F = {
 			isa = PBXGroup;
 			children = (
@@ -136,6 +151,8 @@
 				335F56F919CB667D00E90B89 /* Main_iPhone.storyboard */,
 				33B4C97D19BE386F0000E64F /* ViewController.h */,
 				33B4C97E19BE386F0000E64F /* ViewController.m */,
+				338E5F4A1A37DBF0002494EC /* NavigationViewController.m */,
+				338E5F4B1A37DBF0002494EC /* NavigationViewController.h */,
 				33B4C98019BE386F0000E64F /* Images.xcassets */,
 				33B4C96C19BE386F0000E64F /* Supporting Files */,
 				333722241A363519009CF359 /* Loan.h */,
@@ -150,6 +167,7 @@
 		33B4C96C19BE386F0000E64F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				338E5F461A37D915002494EC /* SlideOutMenuFiles */,
 				33B4C96D19BE386F0000E64F /* SettleApp-Info.plist */,
 				33B4C96E19BE386F0000E64F /* InfoPlist.strings */,
 				33B4C97119BE386F0000E64F /* main.m */,
@@ -282,9 +300,11 @@
 			files = (
 				333722261A363519009CF359 /* Loan.m in Sources */,
 				33B4C97F19BE386F0000E64F /* ViewController.m in Sources */,
+				338E5F4C1A37DBF0002494EC /* NavigationViewController.m in Sources */,
 				33B4C97619BE386F0000E64F /* AppDelegate.m in Sources */,
 				33B4C97219BE386F0000E64F /* main.m in Sources */,
 				333722231A363099009CF359 /* CustomTableCell.m in Sources */,
+				338E5F491A37D915002494EC /* SWRevealViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

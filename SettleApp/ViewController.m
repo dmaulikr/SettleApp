@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "CustomTableCell.h"
 #import "Loan.h"
+#import "SWRevealViewController.h"
 
 #ifndef USER_CLASS
 #import "users.h"
@@ -22,21 +23,22 @@
 #endif
 
 static NSString *usernameSelf;
+static NSString *contactNametxt, *contactDebttxt;
 shared_ptr<Contact> string_to_contact(const std::string info, const double debt, unsigned char depth = 0);
-
 @interface ViewController ()
 {
     NSArray *_feedItems;
 }
-@property (nonatomic) NSString *usernameSelf;
+//@property (nonatomic) NSString *usernameSelf;
 @property (nonatomic) std::shared_ptr<Self> SelfPtr;
 @property (nonatomic) UIRefreshControl *refreshControl;
+
 @end
 
 @implementation ViewController
-@synthesize userNameTextField, passwordTextField, data, arrayLogin, totalDebts;
+@synthesize userNameTextField, passwordTextField, data, arrayLogin, totalDebts, contactName;
 
--(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
     return @"Ta bort";
 }
 
@@ -45,7 +47,21 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     [super viewDidLoad];
     
     //Instantiate NSMutableArray
+    NSLog(@"initWith FeedItems");
+    
+    _feedItems = [[NSArray alloc] init];
     data = [[NSMutableArray alloc] initWithArray:_feedItems];
+    
+    self.contactName.text = contactNametxt;
+    self.contactDebt.text = contactDebttxt;
+    
+    
+    // Menu button
+    _menuButton.target = self.revealViewController;
+    _menuButton.action = @selector(revealToggle:);
+   if (self.revealViewController) // Viktig if för swipe
+    [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+    
     
     // Initialize the refresh control.
     self.refreshControl = [[UIRefreshControl alloc] init];
@@ -54,7 +70,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     [self.refreshControl addTarget:self action:@selector(uglyReload) forControlEvents:UIControlEventValueChanged];
     [_tableView addSubview:self.refreshControl];
     
-    _feedItems = [[NSArray alloc] init];
+    
     
     [self createSelf];
     
@@ -83,6 +99,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     // Slide to delete function
     self.tableView.allowsMultipleSelectionDuringEditing = NO;
     
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -90,6 +107,19 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+/*
+#pragma mark - SWRevealViewControllerDelegate
+
+- (BOOL)revealControllerPanGestureShouldBegin:(SWRevealViewController *)revealController
+{
+    float velocity = [revealController.panGestureRecognizer velocityInView:self.view].x;
+    if (velocity < 0 && self.revealViewController.frontViewPosition == FrontViewPositionLeft)
+        return NO;
+    else
+        return YES;
+}
+*/
 
 // Override to support conditional editing of the table view.
 // This only needs to be implemented if you are going to be returning NO
@@ -99,9 +129,19 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     return YES;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    Loan *contacts = [data objectAtIndex:indexPath.row];
+    contactNametxt = contacts.fullname;
+    contactDebttxt = [NSString stringWithFormat:@"%@kr", [contacts.amount stringValue]];
+}
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        //[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
+        
         
         Loan *contacts = [data objectAtIndex:indexPath.row];
         std::string usernamestd ([contacts.username UTF8String]);
@@ -117,10 +157,11 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
         
     }
     [self updateDatabase];
+    [data removeObjectAtIndex:indexPath.row];
+    [self fillArray];
     [self uglyReload];
-    [self.data removeObjectAtIndex:indexPath.row];
-    
     [tableView reloadData];
+    
 }
 
 - (void)hideShow:(id)sender
@@ -146,11 +187,11 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     
     if (textField == self.passwordTextField) {
         [textField resignFirstResponder];
-        [self loginAction:0]; // why 0?
+        [self loginAction:0];
     }
     if (textField == self.txtConfirmpassword) {
         [textField resignFirstResponder];
-        [self registerUser:0]; // why 0?
+        [self registerUser:0];
     }
     
     /*if (textField == self.debtDebt) {
@@ -201,7 +242,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
             NSLog(@"Uppdatera vän: %@", debtns);
             NSString *strURL2 = [NSString stringWithFormat:@"http://demo.lundgrendesign.se/settleapp/db.php?debtUsername=%@&debtStr=%@", usernamens, debtns];
             [NSData dataWithContentsOfURL:[NSURL URLWithString:strURL2]];
-    
+            
         }
     }
     _self.refresh();
@@ -235,6 +276,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     
     
     [self fillArray];
+
     // As this block of code is run in a background thread, we need to ensure the GUI
     // update is executed in the main thread
     [self performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
@@ -336,7 +378,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     
     // End the refreshing
     if (self.refreshControl) {
-        
+       /*
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"MMM d, HH:mm"];
         NSString *title = [NSString stringWithFormat:@"Senast uppdaterad: %@", [formatter stringFromDate:[NSDate date]]];
@@ -344,7 +386,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
                                                                     forKey:NSForegroundColorAttributeName];
         NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attrsDictionary];
         self.refreshControl.attributedTitle = attributedTitle;
-        
+        */
         [self.refreshControl endRefreshing];
     }
 }
@@ -395,7 +437,9 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     if (myCell == nil){
         myCell = [[CustomTableCell alloc]initWithStyle: UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
+    
     Loan *contacts = [data objectAtIndex:indexPath.row];
+        
     myCell.cellName.text = contacts.fullname;
     myCell.cellTotal.text = [NSString stringWithFormat:@"%@kr", [contacts.amount stringValue]];
     
@@ -473,8 +517,6 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
         NSData *dataURL = [NSData dataWithContentsOfURL:[NSURL URLWithString:strURL]];
         NSString *strResult = [[NSString alloc] initWithData:dataURL encoding:NSUTF8StringEncoding];
         std::string strResultstd ([strResult UTF8String]);
-        
-        
         
         if (strResultstd == "") { // User doesn't exist
             NSLog(@"Hur ser strResultstd ut: %@", _debtUsername.text);
@@ -662,10 +704,10 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     ss >> username >> name >> surname >> Id;
     
     
-    NSString *usrCont  = [NSString stringWithCString:surname.c_str()
-                                            encoding:NSUTF8StringEncoding];
+    // NSString *usrCont  = [NSString stringWithCString:surname.c_str()
+    //  encoding:NSUTF8StringEncoding];
     
-    NSLog(@"USERNAME CONTACT: %@", usrCont);
+    //NSLog(@"USERNAME CONTACT: %@", usrCont);
     
     std::shared_ptr<Contact> cont = make_shared<Contact>(username,name,surname,Id,debt);
     if (depth < 3) {
@@ -699,7 +741,6 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
                         }else{
                             break;
                         }
-                        
                     }
                     
                     if(ss.peek() == ',')
