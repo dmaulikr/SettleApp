@@ -21,9 +21,6 @@
 #include <math.h>
 #include <cctype>
 #endif
-static NSString *usernameSelf;
-static NSString *contactNametxt, *contactDebttxt;
-static std::shared_ptr<Self> SelfPtr;
 
 shared_ptr<Contact> string_to_contact(const std::string info, const double debt, unsigned char depth = 0);
 @interface ViewController ()
@@ -32,11 +29,14 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
     
 }
 
-//@property (nonatomic) NSString *usernameSelf;
 @property (nonatomic) std::shared_ptr<Self> SelfPtr;
 @property (nonatomic) UIRefreshControl *refreshControl;
 
 @end
+
+static NSString *usernameSelf;
+static NSString *contactNametxt, *contactDebttxt;
+static std::shared_ptr<Self> SelfPtr;
 
 @implementation ViewController
 @synthesize userNameTextField, passwordTextField, data, arrayLogin, totalDebts, contactName;
@@ -279,6 +279,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
 
 - (void) fillArray
 {
+    NSLog(@"fillArray");
     std::shared_ptr<vector<shared_ptr<User> > > fillVector = self.SelfPtr->get_debts();
     NSMutableArray *tableArray = [[NSMutableArray alloc] init];
     
@@ -621,7 +622,7 @@ std::shared_ptr<Self> string_to_self(const std::string info){
     std::shared_ptr<Self> _self = make_shared<Self>(username,name,surname,Id,email);
     
     for(int i{}; i < nrContacts; i++) {
-        NSLog(@"string_to_self for");
+        //NSLog(@"string_to_self for");
         int contId {};
         double contDebt {};
         char c;
@@ -697,7 +698,7 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
                 nrContacts++;
         }
         for (int i{}; i<nrContacts; i++) {
-            NSLog(@"string_to_contact");
+            //NSLog(@"string_to_contact");
             int contId {};
             double contDebt {};
             char c;
@@ -713,7 +714,6 @@ shared_ptr<Contact> string_to_contact(const std::string info, const double debt,
                     std::getline(ss,namenc,',');
                     //if(ss.peek() == ',')
                     ss >> std::ws;
-                   // NSLog(@"SS.PEEK :%d ", (char)ss.peek());
                     while(true){
                         
                         ss>>c;

@@ -27,8 +27,6 @@
 // create ibaction for insert button:
 - (IBAction)registerUser:(id)sender;
 
-
-
 // Login
 - (IBAction)loginAction:(id)sender;
 @property (nonatomic, retain) NSArray *arrayLogin;
