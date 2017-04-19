@@ -1,4 +1,9 @@
+.DS_Store
+*.swp
+*~.nib
 
-Mål v45-48.odt
+build/
 
-Mål v45-48.odt
+*.pbxuser
+*.perspective
+*.perspectivev3
